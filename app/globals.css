@@ -1,0 +1,184 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --ink: #101416;
+  --ink-2: #1a2021;
+  --cream: #f7f1e7;
+  --cream-2: #ead8b9;
+  --teal: #517871;
+  --gold: #c9a66b;
+  --muted: #6b6560;
+  --line: #d9d2c5;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply bg-cream text-ink font-sans antialiased;
+}
+
+::selection {
+  background: rgba(81, 120, 113, 0.25);
+}
+
+@layer components {
+  .container-site {
+    @apply mx-auto w-full max-w-site px-5 md:px-8;
+  }
+
+  .btn-primary {
+    @apply relative inline-flex items-center justify-center gap-2 overflow-hidden bg-teal px-6 py-3 text-sm font-semibold uppercase tracking-[0.12em] text-white transition duration-300 hover:bg-teal-dark;
+  }
+
+  .btn-secondary {
+    @apply relative inline-flex items-center justify-center gap-2 overflow-hidden border border-white/80 bg-white/95 px-6 py-3 text-sm font-semibold uppercase tracking-[0.12em] text-ink transition duration-300 hover:bg-white;
+  }
+
+  .btn-gold {
+    @apply relative inline-flex items-center justify-center gap-2 overflow-hidden bg-gold px-6 py-3 text-sm font-semibold uppercase tracking-[0.12em] text-ink transition duration-300 hover:bg-gold-dark hover:text-white;
+  }
+
+  .btn-outline {
+    @apply relative inline-flex items-center justify-center gap-2 overflow-hidden border border-ink/20 px-6 py-3 text-sm font-semibold uppercase tracking-[0.12em] text-ink transition duration-300 hover:border-teal hover:text-teal;
+  }
+
+  .btn-shine::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    transform: translateX(-120%);
+    background: linear-gradient(
+      120deg,
+      transparent 20%,
+      rgba(255, 255, 255, 0.35) 50%,
+      transparent 80%
+    );
+    transition: transform 0.7s ease;
+  }
+
+  .btn-shine:hover::after {
+    transform: translateX(120%);
+  }
+
+  .section-label {
+    @apply text-xs font-semibold uppercase tracking-[0.22em] text-gold;
+  }
+
+  .heading-display {
+    @apply font-display text-3xl leading-tight text-ink md:text-5xl;
+  }
+
+  .prose-muted {
+    @apply text-base leading-relaxed text-muted md:text-lg;
+  }
+
+  /* 3D flip cards */
+  .flip-scene {
+    perspective: 1400px;
+  }
+
+  .flip-card {
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .flip-card.is-flipped {
+    transform: rotateY(180deg);
+  }
+
+  .flip-face {
+    @apply absolute inset-0;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    border-radius: 2px;
+  }
+
+  .flip-face-back {
+    transform: rotateY(180deg);
+  }
+
+  .gold-shimmer {
+    background: linear-gradient(
+      110deg,
+      #c9a66b 0%,
+      #f0dfb4 35%,
+      #c9a66b 55%,
+      #a8864f 100%
+    );
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: shimmerText 4s linear infinite;
+  }
+
+  .process-card {
+    @apply relative h-full overflow-hidden border border-line bg-cream/80 p-6 transition duration-500;
+  }
+
+  .process-card:hover {
+    @apply -translate-y-2 border-gold/50 bg-white shadow-[0_24px_50px_-28px_rgba(81,120,113,0.4)];
+  }
+
+  .process-card::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 3px;
+    width: 0;
+    background: linear-gradient(90deg, #517871, #c9a66b);
+    transition: width 0.45s ease;
+  }
+
+  .process-card:hover::before {
+    width: 100%;
+  }
+}
+
+@keyframes shimmerText {
+  to {
+    background-position: 200% center;
+  }
+}
+
+@keyframes scrollLine {
+  0% {
+    transform: scaleY(0);
+    transform-origin: top;
+    opacity: 0;
+  }
+  40% {
+    transform: scaleY(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scaleY(1);
+    transform-origin: bottom;
+    opacity: 0;
+  }
+}
+
+@keyframes floatSoft {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}

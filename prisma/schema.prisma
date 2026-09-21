@@ -1,0 +1,103 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum MediaType {
+  IMAGE
+  VIDEO
+}
+
+enum EnquiryStatus {
+  PENDING
+  CONTACTED
+}
+
+model AdminUser {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model Service {
+  id          String     @id @default(cuid())
+  slug        String     @unique
+  title       String
+  shortDesc   String
+  longDesc    String
+  imageUrl    String
+  sortOrder   Int        @default(0)
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  projects    Project[]
+  enquiries   Enquiry[]
+}
+
+model Project {
+  id          String         @id @default(cuid())
+  title       String
+  description String
+  featured    Boolean        @default(false)
+  sortOrder   Int            @default(0)
+  categoryId  String
+  category    Service        @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  media       ProjectMedia[]
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+}
+
+model ProjectMedia {
+  id        String    @id @default(cuid())
+  url       String
+  type      MediaType @default(IMAGE)
+  alt       String    @default("")
+  sortOrder Int       @default(0)
+  projectId String
+  project   Project   @relation(fields: [projectId], references: [id], onDelete: Cascade)
+}
+
+model Testimonial {
+  id        String   @id @default(cuid())
+  name      String
+  quote     String
+  photoUrl  String?
+  published Boolean  @default(true)
+  sortOrder Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Enquiry {
+  id        String        @id @default(cuid())
+  name      String
+  phone     String
+  email     String
+  message   String
+  status    EnquiryStatus @default(PENDING)
+  serviceId String?
+  service   Service?      @relation(fields: [serviceId], references: [id], onDelete: SetNull)
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+}
+
+model SiteSettings {
+  id                 String   @id @default("main")
+  businessName       String   @default("Refine & Rare")
+  tagline            String   @default("Exquisite Designs for Exceptional Living")
+  description        String
+  email              String
+  phone              String
+  whatsapp           String
+  instagram          String
+  city               String   @default("Bengaluru")
+  address            String   @default("Bengaluru, Karnataka, India")
+  hoursJson          String
+  whatsappMessage    String   @default("Hello Refine & Rare, I'd like to enquire about your interior design services.")
+  updatedAt          DateTime @updatedAt
+}

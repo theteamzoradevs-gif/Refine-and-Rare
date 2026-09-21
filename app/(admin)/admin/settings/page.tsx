@@ -1,0 +1,89 @@
+import { AdminShell } from "@/components/admin/AdminShell";
+import { saveSettings } from "@/app/actions/admin";
+import { getSettings } from "@/lib/data";
+import { parseHours } from "@/lib/constants";
+
+export default async function AdminSettingsPage() {
+  const settings = await getSettings();
+  const hours = parseHours(settings.hoursJson);
+
+  return (
+    <AdminShell title="Settings">
+      <form
+        action={saveSettings}
+        className="max-w-3xl space-y-4 border border-line bg-white p-6"
+      >
+        <Field name="businessName" label="Business name" defaultValue={settings.businessName} />
+        <Field name="tagline" label="Tagline" defaultValue={settings.tagline} />
+        <div>
+          <label className="mb-1 block text-xs font-semibold uppercase tracking-wider text-muted">
+            Brand description
+          </label>
+          <textarea
+            name="description"
+            rows={5}
+            defaultValue={settings.description}
+            className="w-full border border-line px-3 py-2 text-sm"
+          />
+        </div>
+        <div className="grid gap-4 md:grid-cols-2">
+          <Field name="email" label="Email" defaultValue={settings.email} />
+          <Field name="phone" label="Phone" defaultValue={settings.phone} />
+          <Field name="whatsapp" label="WhatsApp number (digits)" defaultValue={settings.whatsapp} />
+          <Field name="instagram" label="Instagram URL" defaultValue={settings.instagram} />
+          <Field name="city" label="City" defaultValue={settings.city} />
+          <Field name="address" label="Address" defaultValue={settings.address} />
+        </div>
+        <div>
+          <label className="mb-1 block text-xs font-semibold uppercase tracking-wider text-muted">
+            Default WhatsApp message
+          </label>
+          <textarea
+            name="whatsappMessage"
+            rows={2}
+            defaultValue={settings.whatsappMessage}
+            className="w-full border border-line px-3 py-2 text-sm"
+          />
+        </div>
+        <div className="grid gap-3 md:grid-cols-2">
+          {(["monday","tuesday","wednesday","thursday","friday","saturday","sunday"] as const).map(
+            (day) => (
+              <Field
+                key={day}
+                name={day}
+                label={`${day} hours`}
+                defaultValue={hours[day] || ""}
+              />
+            )
+          )}
+        </div>
+        <button type="submit" className="btn-primary">
+          Save settings
+        </button>
+      </form>
+    </AdminShell>
+  );
+}
+
+function Field({
+  name,
+  label,
+  defaultValue,
+}: {
+  name: string;
+  label: string;
+  defaultValue?: string;
+}) {
+  return (
+    <div>
+      <label className="mb-1 block text-xs font-semibold uppercase tracking-wider text-muted capitalize">
+        {label}
+      </label>
+      <input
+        name={name}
+        defaultValue={defaultValue}
+        className="w-full border border-line px-3 py-2 text-sm"
+      />
+    </div>
+  );
+}
