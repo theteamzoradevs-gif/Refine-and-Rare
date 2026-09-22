@@ -80,7 +80,7 @@ async function main() {
       email: "rajasharma9226@gmail.com",
       phone: "+91 9738964736",
       whatsapp: "919738964736",
-      instagram: "https://instagram.com/refineandrare",
+      instagram: "https://www.instagram.com/refineandrare",
       city: "Bengaluru",
       address: "Bengaluru, Karnataka, India",
       hoursJson: JSON.stringify(hours),

@@ -5,12 +5,10 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { NAV_LINKS } from "@/lib/constants";
 import { cn } from "@/lib/utils";
-import { HeaderSearch, type SearchItem } from "./HeaderSearch";
 
-export function Header({ searchItems = [] }: { searchItems?: SearchItem[] }) {
+export function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
-  const [mobileQ, setMobileQ] = useState("");
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -74,7 +72,6 @@ export function Header({ searchItems = [] }: { searchItems?: SearchItem[] }) {
         </nav>
 
         <div className="flex items-center gap-2 sm:gap-3">
-          <HeaderSearch items={searchItems} scrolled={scrolled} />
           <Link
             href="/contact"
             className={cn(
@@ -102,22 +99,6 @@ export function Header({ searchItems = [] }: { searchItems?: SearchItem[] }) {
       {open && (
         <div className="border-t border-line bg-cream xl:hidden">
           <div className="container-site space-y-3 py-4">
-            <form
-              action="/search"
-              className="flex gap-2"
-              onSubmit={() => setOpen(false)}
-            >
-              <input
-                name="q"
-                value={mobileQ}
-                onChange={(e) => setMobileQ(e.target.value)}
-                placeholder="Search projects & services"
-                className="min-w-0 flex-1 border border-line bg-white px-3 py-2 text-sm outline-none focus:border-teal"
-              />
-              <button type="submit" className="bg-teal px-3 text-xs font-semibold uppercase tracking-wider text-white">
-                Go
-              </button>
-            </form>
             <nav className="flex flex-col gap-1">
               {NAV_LINKS.map((link) => (
                 <Link

@@ -97,7 +97,7 @@ export async function saveProject(formData: FormData) {
     });
   }
 
-  revalidatePath("/gallery");
+  revalidatePath("/projects");
   revalidatePath("/");
   revalidatePath("/admin/projects");
   redirect("/admin/projects");

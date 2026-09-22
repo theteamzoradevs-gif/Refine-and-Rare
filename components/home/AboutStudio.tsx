@@ -38,7 +38,7 @@ export function AboutStudio({ description }: { description: string }) {
             <ButtonLink href="/about" variant="primary" className="btn-shine">
               Our Story
             </ButtonLink>
-            <ButtonLink href="/gallery" variant="outline" className="btn-shine">
+            <ButtonLink href="/projects" variant="outline" className="btn-shine">
               View Projects
             </ButtonLink>
           </div>

@@ -26,7 +26,7 @@ export function CtaBanner() {
             <ButtonLink href="/contact" variant="gold" className="btn-shine w-full justify-center sm:w-auto">
               Enquire Now
             </ButtonLink>
-            <ButtonLink href="/gallery" variant="secondary" className="btn-shine w-full justify-center sm:w-auto">
+            <ButtonLink href="/projects" variant="secondary" className="btn-shine w-full justify-center sm:w-auto">
               See Our Projects
             </ButtonLink>
           </div>

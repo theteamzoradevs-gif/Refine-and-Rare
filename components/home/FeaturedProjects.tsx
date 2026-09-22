@@ -29,7 +29,7 @@ export function FeaturedProjects({ projects }: { projects: Project[] }) {
               />
               <p className="mt-2 text-gold">Spaces shaped with quiet luxury.</p>
             </div>
-            <ButtonLink href="/gallery" variant="gold" className="btn-shine">
+            <ButtonLink href="/projects" variant="gold" className="btn-shine">
               View Full Gallery
             </ButtonLink>
           </div>

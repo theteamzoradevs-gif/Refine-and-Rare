@@ -77,7 +77,7 @@ export function Hero({ tagline, description }: Props) {
           <ButtonLink href="/contact" variant="gold" className="btn-shine w-full justify-center sm:w-auto">
             Get a Free Consultation
           </ButtonLink>
-          <ButtonLink href="/gallery" variant="secondary" className="btn-shine w-full justify-center sm:w-auto">
+          <ButtonLink href="/projects" variant="secondary" className="btn-shine w-full justify-center sm:w-auto">
             View Our Work
           </ButtonLink>
         </div>

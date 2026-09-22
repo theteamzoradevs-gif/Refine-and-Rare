@@ -124,7 +124,7 @@ export default async function SearchPage({
                   return (
                     <Link
                       key={p.id}
-                      href={`/gallery?category=${p.category.slug}`}
+                      href={`/projects?category=${p.category.slug}`}
                       className="group overflow-hidden border border-line bg-white transition hover:border-teal"
                     >
                       <div className="relative aspect-[4/3]">

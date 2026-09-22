@@ -28,7 +28,7 @@ export const staticSettings: SiteSettings = {
   email: "rajasharma9226@gmail.com",
   phone: "+91 9738964736",
   whatsapp: "919738964736",
-  instagram: "https://instagram.com/refineandrare",
+  instagram: "https://www.instagram.com/refineandrare",
   city: "Bengaluru",
   address: "Bengaluru, Karnataka, India",
   hoursJson: JSON.stringify(hours),
@@ -57,7 +57,7 @@ export const staticServices: Service[] = [
     shortDesc: "Elegant living rooms designed around comfort and character.",
     longDesc:
       "Elegant living rooms designed around comfort and character. Thoughtful layouts, layered textures, and statement details create inviting spaces for everyday living and entertaining.",
-    imageUrl: "/brand/gallery/project-1.jpg",
+    imageUrl: "/brand/services/LuxuryLivingSpaces.png",
     sortOrder: 2,
     createdAt: now,
     updatedAt: now,
@@ -82,7 +82,7 @@ export const staticServices: Service[] = [
     shortDesc: "Custom storage solutions designed for your lifestyle.",
     longDesc:
       "Custom wardrobe and storage solutions designed for your lifestyle. From walk-in systems to space-smart units, we balance aesthetics with organization so everything has its place.",
-    imageUrl: "/brand/services/renovation.jpg",
+    imageUrl: "/brand/services/Bespoke Wardrobes.png",
     sortOrder: 4,
     createdAt: now,
     updatedAt: now,
@@ -94,7 +94,7 @@ export const staticServices: Service[] = [
     shortDesc: "Calm, comfortable and sophisticated private spaces.",
     longDesc:
       "Calm, comfortable, and sophisticated private spaces. Soft palettes, tailored lighting, and carefully chosen finishes create bedrooms that feel restful and refined.",
-    imageUrl: "/brand/gallery/project-3.jpg",
+    imageUrl: "/brand/services/Bedrooms.png",
     sortOrder: 5,
     createdAt: now,
     updatedAt: now,
@@ -107,7 +107,7 @@ export const staticServices: Service[] = [
       "Statement elements that bring architectural character to your home.",
     longDesc:
       "Statement TV units and feature walls that bring architectural character to your home. Integrated storage, lighting, and material detail turn focal walls into lasting design moments.",
-    imageUrl: "/brand/gallery/project-4.jpg",
+    imageUrl: "/brand/services/TV Units & Feature Walls.png",
     sortOrder: 6,
     createdAt: now,
     updatedAt: now,
@@ -120,7 +120,7 @@ export const staticServices: Service[] = [
       "Layered lighting and ceiling design that enhance the entire space.",
     longDesc:
       "Layered lighting and ceiling design that enhance the entire space. From POP detailing to ambient, task, and accent lighting — we craft atmosphere with precision and polish.",
-    imageUrl: "/brand/services/pop-ceiling.jpg",
+    imageUrl: "/brand/services/Ceiling & Lighting.png",
     sortOrder: 7,
     createdAt: now,
     updatedAt: now,
@@ -174,7 +174,7 @@ export const staticProjects: StaticProject[] = [
     updatedAt: now,
     media: media("static-project-1", [
       {
-        url: "/brand/gallery/project-1.jpg",
+        url: "/brand/services/LuxuryLivingSpaces.png",
         type: "IMAGE",
         alt: "Contemporary living room with wood TV unit and warm lighting",
         sortOrder: 0,
@@ -194,7 +194,7 @@ export const staticProjects: StaticProject[] = [
     updatedAt: now,
     media: media("static-project-2", [
       {
-        url: "/brand/gallery/project-2.jpg",
+        url: "/brand/services/modular-kitchen.jpg",
         type: "IMAGE",
         alt: "Modern modular kitchen interior",
         sortOrder: 0,
@@ -214,7 +214,7 @@ export const staticProjects: StaticProject[] = [
     updatedAt: now,
     media: media("static-project-3", [
       {
-        url: "/brand/gallery/project-3.jpg",
+        url: "/brand/services/Bedrooms.png",
         type: "IMAGE",
         alt: "Quiet luxury bedroom interior",
         sortOrder: 0,
@@ -234,7 +234,7 @@ export const staticProjects: StaticProject[] = [
     updatedAt: now,
     media: media("static-project-4", [
       {
-        url: "/brand/gallery/project-4.jpg",
+        url: "/brand/services/interior-design.jpg",
         type: "IMAGE",
         alt: "Renovated home interior living space",
         sortOrder: 0,
@@ -260,7 +260,7 @@ export const staticProjects: StaticProject[] = [
     updatedAt: now,
     media: media("static-project-5", [
       {
-        url: "/brand/gallery/project-5.jpg",
+        url: "/brand/services/Ceiling & Lighting.png",
         type: "IMAGE",
         alt: "POP ceiling and lighting detail",
         sortOrder: 0,

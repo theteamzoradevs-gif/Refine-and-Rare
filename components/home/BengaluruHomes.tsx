@@ -14,7 +14,7 @@ export function BengaluruHomes() {
         <Reveal variant="left" className="lg:col-span-6">
           <div className="group relative aspect-[5/4] overflow-hidden border border-line">
             <Image
-              src="/brand/gallery/project-4.jpg"
+              src="/brand/services/interior-design.jpg"
               alt="Premium residential interiors in Bengaluru"
               fill
               className="object-cover transition duration-1000 ease-premium group-hover:scale-105"

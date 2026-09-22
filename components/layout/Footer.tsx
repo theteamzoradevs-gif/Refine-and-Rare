@@ -72,12 +72,12 @@ export async function Footer() {
             </li>
             <li>
               <a
-                href={settings.instagram}
+                href={settings.instagram || "https://www.instagram.com/refineandrare"}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="hover:text-gold"
               >
-                Instagram
+                Instagram — @refineandrare
               </a>
             </li>
             <li className="pt-1 text-cream/60">{settings.address}</li>

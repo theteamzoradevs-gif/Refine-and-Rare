@@ -15,12 +15,13 @@
 
 html {
   scroll-behavior: smooth;
-  overflow-x: hidden;
+  /* clip keeps sticky scroll-sections working; hidden breaks position:sticky */
+  overflow-x: clip;
 }
 
 body {
   @apply bg-cream text-ink font-sans antialiased;
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 ::selection {

@@ -43,7 +43,7 @@ export function TiltProjectCard({
   return (
     <Link
       ref={ref}
-      href="/gallery"
+      href="/projects"
       onMouseMove={onMove}
       onMouseLeave={onLeave}
       className={`group relative block overflow-hidden transition-transform duration-200 ease-out will-change-transform ${

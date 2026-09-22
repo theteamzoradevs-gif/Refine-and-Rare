@@ -66,6 +66,10 @@ function clamp(value: number, min: number, max: number) {
   return Math.min(max, Math.max(min, value));
 }
 
+const STEP_COUNT = PROCESS_STEPS.length;
+/** Viewport heights of scroll travel per step after the first */
+const VH_PER_STEP = 70;
+
 export function ProcessTimeline() {
   const sectionRef = useRef<HTMLElement>(null);
   const [progress, setProgress] = useState(0);
@@ -79,7 +83,12 @@ export function ProcessTimeline() {
     const update = () => {
       frame = 0;
       const rect = section.getBoundingClientRect();
-      const total = Math.max(section.offsetHeight - window.innerHeight, 1);
+      const total = section.offsetHeight - window.innerHeight;
+      if (total <= 0) {
+        setProgress(0);
+        return;
+      }
+      // 0 when section pins at top; 1 when last of the sticky range is done
       setProgress(clamp(-rect.top / total, 0, 1));
     };
 
@@ -98,12 +107,10 @@ export function ProcessTimeline() {
     };
   }, []);
 
-  const stepCount = PROCESS_STEPS.length;
   const activeIndex = Math.min(
-    stepCount - 1,
-    Math.floor(progress * (stepCount - 1) + 0.2)
+    STEP_COUNT - 1,
+    Math.round(progress * (STEP_COUNT - 1))
   );
-  const fillPercent = clamp(progress * 100, 0, 100);
 
   return (
     <>
@@ -149,9 +156,12 @@ export function ProcessTimeline() {
       {/* Desktop: scroll-driven horizontal timeline */}
       <section
         ref={sectionRef}
-        className="relative hidden h-[220vh] bg-ink lg:block"
+        className="relative hidden bg-ink lg:block"
+        style={{
+          height: `${100 + (STEP_COUNT - 1) * VH_PER_STEP}vh`,
+        }}
       >
-        <div className="sticky top-0 flex min-h-[100svh] items-center overflow-hidden py-16">
+        <div className="sticky top-0 flex h-[100svh] items-center overflow-hidden py-16">
           <div className="pointer-events-none absolute inset-0 opacity-40 [background:radial-gradient(circle_at_20%_30%,rgba(201,166,107,0.12),transparent_40%),radial-gradient(circle_at_80%_70%,rgba(81,120,113,0.16),transparent_45%)]" />
 
           <div className="container-site relative w-full">
@@ -166,15 +176,17 @@ export function ProcessTimeline() {
             <div className="relative mt-12 px-4">
               <div className="absolute left-[calc(100%/12)] right-[calc(100%/12)] top-[32px] h-px bg-white/15" />
               <div
-                className="absolute left-[calc(100%/12)] top-[32px] h-px bg-gold transition-[width] duration-100 ease-linear"
+                className="absolute left-[calc(100%/12)] top-[32px] h-px origin-left bg-gold will-change-transform"
                 style={{
-                  width: `calc((100% - 100%/6) * ${fillPercent / 100})`,
+                  width: "calc(100% - 100% / 6)",
+                  transform: `scaleX(${progress})`,
                 }}
               />
 
               <ol className="relative grid grid-cols-6">
                 {PROCESS_STEPS.map((item, i) => {
                   const active = i <= activeIndex;
+                  const current = i === activeIndex;
                   return (
                     <li
                       key={item.step}
@@ -182,10 +194,11 @@ export function ProcessTimeline() {
                     >
                       <div
                         className={cn(
-                          "relative z-10 flex h-16 w-16 items-center justify-center rounded-full border-[3px] border-ink transition-all duration-500",
+                          "relative z-10 flex h-16 w-16 items-center justify-center rounded-full border-[3px] border-ink transition-all duration-300",
                           active
-                            ? "scale-105 bg-gold text-ink shadow-[0_0_0_4px_rgba(201,166,107,0.22)]"
-                            : "bg-ink-2 text-gold/65 ring-1 ring-white/20"
+                            ? "bg-gold text-ink shadow-[0_0_0_4px_rgba(201,166,107,0.22)]"
+                            : "bg-ink-2 text-gold/65 ring-1 ring-white/20",
+                          current && "scale-110"
                         )}
                       >
                         <svg
@@ -198,7 +211,7 @@ export function ProcessTimeline() {
                       </div>
                       <p
                         className={cn(
-                          "mt-5 text-[10px] font-semibold uppercase tracking-[0.2em] transition-colors duration-500",
+                          "mt-5 text-[10px] font-semibold uppercase tracking-[0.2em] transition-colors duration-300",
                           active ? "text-gold" : "text-cream/35"
                         )}
                       >
@@ -206,7 +219,7 @@ export function ProcessTimeline() {
                       </p>
                       <h3
                         className={cn(
-                          "mt-2 font-display text-xl transition-colors duration-500",
+                          "mt-2 font-display text-xl transition-colors duration-300",
                           active ? "text-cream" : "text-cream/30"
                         )}
                       >
@@ -214,7 +227,7 @@ export function ProcessTimeline() {
                       </h3>
                       <p
                         className={cn(
-                          "mt-2 max-w-[10.5rem] text-sm leading-relaxed transition-colors duration-500",
+                          "mt-2 max-w-[10.5rem] text-sm leading-relaxed transition-colors duration-300",
                           active ? "text-cream/70" : "text-cream/25"
                         )}
                       >
