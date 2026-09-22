@@ -1,7 +1,9 @@
 "use server";
 
 import { z } from "zod";
+import { isDatabaseEnabled } from "@/lib/database";
 import { prisma } from "@/lib/prisma";
+import { getStaticServiceById } from "@/lib/staticContent";
 import { sendEnquiryEmail } from "@/lib/email";
 import { revalidatePath } from "next/cache";
 
@@ -86,22 +88,40 @@ async function persistEnquiry(data: {
   let serviceTitle: string | null = null;
 
   if (serviceId) {
-    const service = await prisma.service.findUnique({ where: { id: serviceId } });
-    if (!service) {
-      return { ok: false as const, error: "Selected service not found" };
+    if (isDatabaseEnabled()) {
+      const service = await prisma.service.findUnique({ where: { id: serviceId } });
+      if (!service) {
+        return { ok: false as const, error: "Selected service not found" };
+      }
+      serviceTitle = service.title;
+    } else {
+      const service = getStaticServiceById(serviceId);
+      if (!service) {
+        return { ok: false as const, error: "Selected service not found" };
+      }
+      serviceTitle = service.title;
     }
-    serviceTitle = service.title;
   }
 
-  await prisma.enquiry.create({
-    data: {
+  if (isDatabaseEnabled()) {
+    await prisma.enquiry.create({
+      data: {
+        name: data.name,
+        phone: data.phone,
+        email: data.email,
+        message: data.message,
+        serviceId,
+      },
+    });
+    revalidatePath("/admin/enquiries");
+  } else {
+    console.info("Database disabled — enquiry not stored:", {
       name: data.name,
       phone: data.phone,
       email: data.email,
-      message: data.message,
-      serviceId,
-    },
-  });
+      serviceTitle,
+    });
+  }
 
   try {
     await sendEnquiryEmail({
@@ -117,6 +137,5 @@ async function persistEnquiry(data: {
     console.error("Email send failed", err);
   }
 
-  revalidatePath("/admin/enquiries");
   return { ok: true as const };
 }

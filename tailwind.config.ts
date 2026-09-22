@@ -74,6 +74,17 @@ const config: Config = {
           from: { transform: "translateX(0)" },
           to: { transform: "translateX(-50%)" },
         },
+        timelineMarquee: {
+          from: { transform: "translateX(0)" },
+          to: { transform: "translateX(-50%)" },
+        },
+        fadeRise: {
+          "0%": { opacity: "0", transform: "translateY(28px)" },
+          "100%": { opacity: "1", transform: "translateY(0)" },
+        },
+      },
+      transitionTimingFunction: {
+        premium: "cubic-bezier(0.22, 1, 0.36, 1)",
       },
       animation: {
         "pulse-glow": "pulseGlow 2.2s ease-in-out infinite",
@@ -82,6 +93,9 @@ const config: Config = {
         "scroll-line": "scrollLine 2s ease-in-out infinite",
         "float-soft": "floatSoft 4s ease-in-out infinite",
         marquee: "marquee 28s linear infinite",
+        "marquee-reverse": "marquee 32s linear infinite reverse",
+        "timeline-marquee": "timelineMarquee 40s linear infinite",
+        "fade-rise": "fadeRise 0.9s cubic-bezier(0.22, 1, 0.36, 1) both",
       },
     },
   },

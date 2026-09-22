@@ -54,16 +54,7 @@ const services = [
     imageUrl: "/brand/services/painting-electrical.jpg",
     sortOrder: 4,
   },
-  {
-    slug: "pop-ceiling-turnkey",
-    title: "POP Ceiling & Turnkey Execution",
-    shortDesc:
-      "Creative POP ceilings and complete turnkey interior execution, end to end.",
-    longDesc:
-      "Creative POP ceiling designs and complete turnkey interior execution for hassle-free project delivery. From false ceilings and lighting integration to final finishing, we manage every stage with precision and professionalism — one team, one vision, from concept to handover.",
-    imageUrl: "/brand/services/pop-ceiling.jpg",
-    sortOrder: 5,
-  },
+  
 ];
 
 async function main() {
@@ -115,14 +106,65 @@ async function main() {
   }
 
   await prisma.testimonial.deleteMany();
-  await prisma.testimonial.create({
-    data: {
-      name: "Ankur Sharma",
-      quote:
-        "Refine & Rare completely transformed our home with a modern and elegant interior design. The team was professional, creative, and delivered everything on time with excellent finishing.",
-      published: true,
-      sortOrder: 1,
-    },
+  await prisma.testimonial.createMany({
+    data: [
+      {
+        name: "Ankur Sharma",
+        quote:
+          "Refine & Rare completely transformed our home with a modern and elegant interior design. The team was professional, creative, and delivered everything on time with excellent finishing.",
+        published: true,
+        sortOrder: 1,
+      },
+      {
+        name: "Priya Menon",
+        quote:
+          "Our modular kitchen feels effortless every day — smart storage, beautiful finishes, and a layout that finally works for how we cook.",
+        published: true,
+        sortOrder: 2,
+      },
+      {
+        name: "Rohit & Neha Kapoor",
+        quote:
+          "From the first consultation to handover, everything was clear and coordinated. The living room and wardrobes exceeded what we imagined.",
+        published: true,
+        sortOrder: 3,
+      },
+      {
+        name: "Sana Fernandes",
+        quote:
+          "Quiet luxury done right. The bedroom suite is calm, detailed, and perfectly tailored to our lifestyle in Bengaluru.",
+        published: true,
+        sortOrder: 4,
+      },
+      {
+        name: "Vikram Iyer",
+        quote:
+          "Turnkey execution without the usual stress. Materials, lighting, and finishing were handled with real attention to detail.",
+        published: true,
+        sortOrder: 5,
+      },
+      {
+        name: "Meera Desai",
+        quote:
+          "They listened carefully and designed around how we live — timeless, elegant, and wonderfully functional.",
+        published: true,
+        sortOrder: 6,
+      },
+      {
+        name: "Arjun Nair",
+        quote:
+          "The TV unit and feature wall became the centrepiece of our apartment. Clean lines, premium materials, and flawless installation.",
+        published: true,
+        sortOrder: 7,
+      },
+      {
+        name: "Kavya Reddy",
+        quote:
+          "We loved the 3D visualisation stage — it helped us refine every choice before execution. The final reveal felt exactly like the design.",
+        published: true,
+        sortOrder: 8,
+      },
+    ],
   });
 
   await prisma.projectMedia.deleteMany();

@@ -1,68 +1,148 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { Reveal } from "@/components/ui/Reveal";
 import { ButtonLink } from "@/components/ui/ButtonLink";
+import { cn } from "@/lib/utils";
 
 type Testimonial = {
+  id?: string;
   name: string;
   quote: string;
 };
+
+const ROLES: Record<string, string> = {
+  "Ankur Sharma": "Full Home Interiors · Bengaluru",
+  "Priya Menon": "Modular Kitchen · Bengaluru",
+  "Rohit & Neha Kapoor": "Living & Wardrobes · Bengaluru",
+  "Sana Fernandes": "Bedroom Suite · Bengaluru",
+  "Vikram Iyer": "Turnkey Residence · Bengaluru",
+  "Meera Desai": "Residential Interiors · Bengaluru",
+  "Arjun Nair": "Feature Wall & TV Unit · Bengaluru",
+  "Kavya Reddy": "Design to Reveal · Bengaluru",
+};
+
+function Stars() {
+  return (
+    <div className="flex gap-1" aria-label="5 star rating">
+      {Array.from({ length: 5 }).map((_, i) => (
+        <svg
+          key={i}
+          viewBox="0 0 20 20"
+          className="h-3.5 w-3.5 fill-gold text-gold"
+          aria-hidden
+        >
+          <path d="M10 1.5l2.35 4.76 5.25.76-3.8 3.7.9 5.22L10 13.77 5.3 15.94l.9-5.22-3.8-3.7 5.25-.76L10 1.5z" />
+        </svg>
+      ))}
+    </div>
+  );
+}
+
+function VoiceCard({
+  name,
+  quote,
+  className,
+}: {
+  name: string;
+  quote: string;
+  className?: string;
+}) {
+  return (
+    <article
+      className={cn(
+        "premium-card group w-[min(300px,85vw)] shrink-0 rounded-2xl p-5 sm:p-6 md:w-[340px] md:p-7",
+        className
+      )}
+    >
+      <span className="absolute left-0 top-0 h-1 w-0 bg-gold transition-all duration-500 group-hover:w-full" />
+      <div>
+        <p className="font-semibold text-ink">{name}</p>
+        <p className="mt-1 text-xs text-muted">
+          {ROLES[name] || "Client · Bengaluru"}
+        </p>
+      </div>
+      <p className="mt-5 text-sm leading-relaxed text-muted">“{quote}”</p>
+      <div className="mt-6">
+        <Stars />
+      </div>
+    </article>
+  );
+}
+
+function SlidingRow({
+  items,
+  reverse = false,
+}: {
+  items: Testimonial[];
+  reverse?: boolean;
+}) {
+  const loop = [...items, ...items];
+  return (
+    <div className="group overflow-hidden">
+      <div
+        className={cn(
+          "flex w-max gap-5 py-2 group-hover:[animation-play-state:paused]",
+          reverse ? "animate-marquee-reverse" : "animate-marquee"
+        )}
+      >
+        {loop.map((item, i) => (
+          <VoiceCard
+            key={`${item.name}-${i}`}
+            name={item.name}
+            quote={item.quote}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
 
 export function TestimonialHighlight({
   testimonials,
 }: {
   testimonials: Testimonial[];
 }) {
-  const [index, setIndex] = useState(0);
+  if (!testimonials.length) return null;
 
-  useEffect(() => {
-    if (testimonials.length < 2) return;
-    const id = setInterval(
-      () => setIndex((i) => (i + 1) % testimonials.length),
-      6000
-    );
-    return () => clearInterval(id);
-  }, [testimonials.length]);
-
-  const active = testimonials[index] || testimonials[0];
-  if (!active) return null;
+  const mid = Math.ceil(testimonials.length / 2);
+  const rowOne = testimonials.slice(0, mid);
+  const rowTwo = testimonials.slice(mid);
+  // Keep second row full enough for a smooth marquee
+  const bottomRow = rowTwo.length >= 2 ? rowTwo : [...testimonials].reverse();
 
   return (
-    <section className="relative overflow-hidden bg-cream py-20 md:py-28">
-      <div className="pointer-events-none absolute left-1/2 top-10 h-40 w-40 -translate-x-1/2 rounded-full bg-gold/15 blur-3xl" />
-      <div className="container-site relative max-w-4xl text-center">
-        <Reveal>
-          <p className="section-label">Client Voices</p>
-          <div key={active.name + index} className="animate-float-in">
-            <blockquote className="mt-8 font-display text-2xl leading-snug text-ink md:text-4xl">
-              “{active.quote}”
-            </blockquote>
-            <p className="mt-8 text-sm font-semibold uppercase tracking-[0.18em] text-teal">
-              — {active.name}
-            </p>
-          </div>
-          {testimonials.length > 1 && (
-            <div className="mt-8 flex justify-center gap-2">
-              {testimonials.map((_, i) => (
-                <button
-                  key={i}
-                  type="button"
-                  aria-label={`Show testimonial ${i + 1}`}
-                  onClick={() => setIndex(i)}
-                  className={`h-2.5 w-2.5 rounded-full transition ${
-                    i === index ? "scale-125 bg-gold" : "bg-line hover:bg-teal"
-                  }`}
-                />
-              ))}
-            </div>
-          )}
-          <div className="mt-10">
-            <ButtonLink href="/testimonials" variant="outline" className="btn-shine">
-              Read more stories
-            </ButtonLink>
-          </div>
+    <section className="relative overflow-hidden bg-cream py-12 md:py-16">
+      <div className="pointer-events-none absolute inset-0 opacity-70 [background:radial-gradient(circle_at_30%_20%,rgba(201,166,107,0.18),transparent_35%),radial-gradient(circle_at_70%_15%,rgba(81,120,113,0.14),transparent_40%),radial-gradient(circle_at_50%_80%,rgba(234,216,185,0.45),transparent_45%)]" />
+
+      <div className="container-site relative text-center">
+        <Reveal variant="blur">
+          <span className="inline-flex rounded-full border border-gold/40 bg-gold/10 px-4 py-1.5 text-[10px] font-semibold uppercase tracking-[0.2em] text-gold">
+            Client Voices
+          </span>
+          <h2 className="mt-5 font-display text-3xl leading-tight text-ink md:text-5xl">
+            What clients say about{" "}
+            <span className="gold-shimmer">Refine &amp; Rare</span>
+          </h2>
         </Reveal>
+      </div>
+
+      <div className="relative mt-8 space-y-5">
+        <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-10 bg-gradient-to-r from-cream to-transparent md:w-20" />
+        <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-10 bg-gradient-to-l from-cream to-transparent md:w-20" />
+
+        <SlidingRow items={rowOne} />
+        <SlidingRow items={bottomRow} reverse />
+      </div>
+
+      <div className="container-site relative mt-8 flex flex-col items-center gap-5">
+        <div className="flex items-center gap-2" aria-hidden>
+          <span className="h-1.5 w-8 rounded-full bg-gold" />
+          <span className="h-1.5 w-5 rounded-full bg-line" />
+          <span className="h-1.5 w-5 rounded-full bg-line" />
+        </div>
+        <ButtonLink href="/testimonials" variant="outline" className="btn-shine">
+          Read more stories
+        </ButtonLink>
       </div>
     </section>
   );

@@ -1,4 +1,4 @@
-import { PROCESS_STEPS, VALUE_PILLARS } from "@/lib/constants";
+import { DIFFERENCE_POINTS, PROCESS_STEPS } from "@/lib/constants";
 
 export type KnowledgeContext = {
   businessName: string;
@@ -76,9 +76,9 @@ export function answerSiteQuestion(raw: string, ctx: KnowledgeContext): Answer {
   }
 
   if (includesAny(q, ["why", "different", "special", "quality", "craft"])) {
-    const pillars = VALUE_PILLARS.map((p) => `• ${p.title}: ${p.body}`).join("\n");
+    const points = DIFFERENCE_POINTS.map((p) => `• ${p.title}: ${p.body}`).join("\n");
     return {
-      text: `What sets us apart:\n${pillars}`,
+      text: `The Refine & Rare difference:\n${points}`,
     };
   }
 
@@ -112,7 +112,12 @@ export function answerSiteQuestion(raw: string, ctx: KnowledgeContext): Answer {
   }
 
   if (includesAny(q, ["renovat", "remodel", "old house", "makeover"])) {
-    const s = ctx.services.find((x) => x.slug.includes("renovation"));
+    const s = ctx.services.find(
+      (x) =>
+        x.slug.includes("renovation") ||
+        x.slug.includes("full-home") ||
+        x.slug.includes("turnkey")
+    );
     return {
       text: s
         ? `${s.title}: ${s.longDesc}\n\nSay “enquire” and we'll plan your renovation consultation.`

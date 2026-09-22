@@ -1,11 +1,33 @@
 import { PrismaClient } from "@prisma/client";
+import { isDatabaseEnabled } from "./database";
 
-const globalForPrisma = globalThis as unknown as { prisma: PrismaClient };
+const globalForPrisma = globalThis as unknown as { prisma: PrismaClient | undefined };
 
-export const prisma =
-  globalForPrisma.prisma ||
-  new PrismaClient({
+function createPrismaClient() {
+  return new PrismaClient({
     log: process.env.NODE_ENV === "development" ? ["error", "warn"] : ["error"],
   });
+}
 
-if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = prisma;
+/**
+ * Prisma client — only constructed when the database is enabled.
+ * All schema / seed / admin code remains; set DATABASE_URL to turn it back on.
+ */
+export const prisma: PrismaClient = new Proxy({} as PrismaClient, {
+  get(_target, prop, receiver) {
+    if (!isDatabaseEnabled()) {
+      throw new Error(
+        "Database is disabled. Set DATABASE_URL (and DATABASE_ENABLED!=false) to enable Prisma."
+      );
+    }
+    if (!globalForPrisma.prisma) {
+      globalForPrisma.prisma = createPrismaClient();
+    }
+    const value = Reflect.get(globalForPrisma.prisma, prop, receiver);
+    return typeof value === "function" ? value.bind(globalForPrisma.prisma) : value;
+  },
+});
+
+if (process.env.NODE_ENV !== "production" && isDatabaseEnabled()) {
+  globalForPrisma.prisma = globalForPrisma.prisma || createPrismaClient();
+}

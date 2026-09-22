@@ -12,27 +12,28 @@ Premium luxury interior design website + admin CMS for **Refine & Rare** (Bengal
 
 ## Quick start
 
-1. Copy env and set your database URL:
+The public site runs **without a database** using static content (Prisma stays in the repo for later).
+
+1. Copy env (database URL optional for now):
 
 ```bash
 cp .env.example .env
 ```
 
-2. Install and set up the database:
+2. Install and run:
 
 ```bash
 npm install
-npm run db:setup
-```
-
-3. Run the site:
-
-```bash
 npm run dev
 ```
 
 - Public site: [http://localhost:3000](http://localhost:3000)
-- Admin: [http://localhost:3000/admin/login](http://localhost:3000/admin/login)
+
+### Enable the database later
+
+1. Set `DATABASE_URL` in `.env` (leave `DATABASE_ENABLED` unset or `true`)
+2. Run `npm run db:setup`
+3. Admin: [http://localhost:3000/admin/login](http://localhost:3000/admin/login)
 
 Default admin (from `.env`):
 
@@ -43,7 +44,8 @@ Default admin (from `.env`):
 
 | Variable | Purpose |
 |----------|---------|
-| `DATABASE_URL` | PostgreSQL connection string |
+| `DATABASE_URL` | PostgreSQL connection string — omit to run without DB |
+| `DATABASE_ENABLED` | Set `false` to force-disable even if `DATABASE_URL` is set |
 | `JWT_SECRET` | Admin session signing secret |
 | `ADMIN_EMAIL` / `ADMIN_PASSWORD` | Seeded admin credentials |
 | `RESEND_API_KEY` | Optional — enquiry email delivery |

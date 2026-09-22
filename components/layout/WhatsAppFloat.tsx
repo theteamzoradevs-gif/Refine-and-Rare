@@ -11,7 +11,7 @@ export function WhatsAppFloat({ whatsapp, message }: Props) {
       href={whatsappUrl(whatsapp, message)}
       target="_blank"
       rel="noopener noreferrer"
-      className="fixed bottom-6 right-6 z-40 flex h-12 w-12 items-center justify-center rounded-full bg-[#25D366] text-white shadow-md transition hover:bg-[#1ebe57]"
+      className="fixed bottom-5 right-4 z-40 flex h-12 w-12 items-center justify-center rounded-full bg-[#25D366] text-white shadow-md transition hover:bg-[#1ebe57] sm:bottom-6 sm:right-6"
       aria-label="Chat on WhatsApp"
       title="WhatsApp"
     >

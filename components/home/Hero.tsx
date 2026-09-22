@@ -37,45 +37,47 @@ export function Hero({ tagline, description }: Props) {
         </div>
       </div>
 
-      <div className="relative container-site flex min-h-[100svh] flex-col justify-end pb-20 pt-32 md:justify-center md:pb-24">
+      <div className="relative container-site flex min-h-[100svh] flex-col justify-end pb-28 pt-28 sm:pb-20 sm:pt-32 md:justify-center md:pb-24">
         <p
-          className={`mb-4 text-xs font-semibold uppercase tracking-[0.24em] text-gold transition duration-700 ${
+          className={`mb-3 text-[10px] font-semibold uppercase tracking-[0.24em] text-gold transition duration-700 sm:mb-4 sm:text-xs ${
             ready ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"
           }`}
         >
-          Luxury Interior Design · Bengaluru
+          Luxury Interior Design
         </p>
         <h1
-          className={`max-w-3xl font-display text-4xl leading-[1.1] text-white transition duration-1000 delay-100 md:text-6xl lg:text-7xl ${
+          className={`max-w-3xl font-display text-3xl leading-[1.12] text-white transition duration-1000 delay-100 sm:text-4xl md:text-6xl lg:text-7xl ${
             ready ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"
           }`}
         >
-          Inspired Spaces.{" "}
-          <em className="font-display not-italic text-gold">Elevated Living.</em>
+          Where Design{" "}
+          <em className="font-display not-italic">
+            <span className="gold-shimmer">Meets Distinction.</span>
+          </em>
         </h1>
         <p
-          className={`mt-2 max-w-xl font-display text-xl italic text-cream-2/90 transition duration-1000 delay-200 md:text-2xl ${
+          className={`mt-2 max-w-xl font-display text-lg italic text-cream-2/90 transition duration-1000 delay-200 sm:text-xl md:text-2xl ${
             ready ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"
           }`}
         >
           {tagline}
         </p>
         <p
-          className={`mt-5 max-w-xl text-base leading-relaxed text-white/80 transition duration-1000 delay-300 md:text-lg ${
+          className={`mt-4 max-w-xl text-sm leading-relaxed text-white/80 transition duration-1000 delay-300 sm:mt-5 sm:text-base md:text-lg ${
             ready ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"
           }`}
         >
           {description.slice(0, 180).trim()}…
         </p>
         <div
-          className={`mt-8 flex flex-wrap gap-3 transition duration-1000 delay-500 ${
+          className={`mt-6 flex w-full flex-col gap-3 transition duration-1000 delay-500 sm:mt-8 sm:w-auto sm:flex-row sm:flex-wrap ${
             ready ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"
           }`}
         >
-          <ButtonLink href="/contact" variant="gold" className="btn-shine">
+          <ButtonLink href="/contact" variant="gold" className="btn-shine w-full justify-center sm:w-auto">
             Get a Free Consultation
           </ButtonLink>
-          <ButtonLink href="/gallery" variant="secondary" className="btn-shine">
+          <ButtonLink href="/gallery" variant="secondary" className="btn-shine w-full justify-center sm:w-auto">
             View Our Work
           </ButtonLink>
         </div>

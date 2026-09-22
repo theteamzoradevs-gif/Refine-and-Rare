@@ -1,6 +1,6 @@
 "use client";
 
-import { VALUE_PILLARS } from "@/lib/constants";
+import { DIFFERENCE_POINTS } from "@/lib/constants";
 import { Reveal } from "@/components/ui/Reveal";
 import { TextReveal } from "@/components/ui/TextReveal";
 import { cn } from "@/lib/utils";
@@ -26,35 +26,28 @@ const accentStyles = {
   },
 } as const;
 
-export function ValuePillars() {
+export function WhyRefineRare() {
   return (
     <section className="section-grain relative overflow-hidden bg-cream py-12 md:py-16">
-      <div className="pointer-events-none absolute inset-0 opacity-50 [background:radial-gradient(circle_at_15%_20%,rgba(201,166,107,0.12),transparent_35%),radial-gradient(circle_at_85%_70%,rgba(81,120,113,0.1),transparent_40%)]" />
+      <div className="pointer-events-none absolute inset-0 opacity-50 [background:radial-gradient(circle_at_85%_20%,rgba(201,166,107,0.12),transparent_35%),radial-gradient(circle_at_10%_75%,rgba(81,120,113,0.1),transparent_40%)]" />
 
       <div className="container-site relative">
-        <Reveal>
-          <p className="section-label">Design Philosophy</p>
+        <Reveal variant="blur">
+          <p className="section-label">Why Refine & Rare</p>
           <TextReveal
-            text="Luxury Is in the Details."
+            text="The Refine & Rare Difference"
             className="mt-3 max-w-3xl font-display text-3xl leading-tight text-ink md:text-5xl"
           />
-          <div className="mt-5 max-w-2xl space-y-3 text-sm leading-relaxed text-muted md:text-base">
-            <p>We believe true luxury doesn’t need to be excessive.</p>
-            <p>
-              It is found in proportion, material, craftsmanship, lighting and
-              the thoughtful use of every inch of space.
-            </p>
-          </div>
         </Reveal>
 
-        <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-          {VALUE_PILLARS.map((pillar, i) => {
-            const accent = accentStyles[pillar.accent];
+        <div className="mt-8 grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-5">
+          {DIFFERENCE_POINTS.map((point, i) => {
+            const accent = accentStyles[point.accent];
             return (
-              <Reveal key={pillar.title} delay={i * 80} variant="up">
+              <Reveal key={point.title} delay={i * 70} variant="scale">
                 <article
                   className={cn(
-                    "premium-card group relative flex h-full flex-col p-6",
+                    "premium-card group relative flex h-full flex-col p-5 md:p-6",
                     accent.border
                   )}
                 >
@@ -66,7 +59,7 @@ export function ValuePillars() {
                   />
                   <p
                     className={cn(
-                      "font-display text-4xl transition duration-500 md:text-5xl",
+                      "font-display text-3xl md:text-4xl",
                       accent.number
                     )}
                   >
@@ -74,14 +67,14 @@ export function ValuePillars() {
                   </p>
                   <h3
                     className={cn(
-                      "mt-5 font-display text-2xl uppercase tracking-[0.06em] md:text-[1.65rem]",
+                      "mt-4 font-display text-lg uppercase tracking-[0.05em] md:text-xl",
                       accent.title
                     )}
                   >
-                    {pillar.title}
+                    {point.title}
                   </h3>
                   <p className="mt-3 flex-1 text-sm leading-relaxed text-muted">
-                    {pillar.body}
+                    {point.body}
                   </p>
                 </article>
               </Reveal>

@@ -5,14 +5,15 @@ import { Reveal } from "@/components/ui/Reveal";
 
 export function ProcessCards() {
   return (
-    <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+    <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
       {PROCESS_STEPS.map((step, i) => (
-        <Reveal key={step.step} delay={i * 90}>
-          <article className="process-card group cursor-default">
-            <p className="font-display text-3xl text-gold transition duration-500 group-hover:scale-110 group-hover:text-teal">
+        <Reveal key={step.step} delay={i * 80} variant="scale">
+          <article className="premium-card group relative h-full cursor-default p-6">
+            <span className="absolute left-0 top-0 h-1 w-0 bg-gradient-to-r from-teal to-gold transition-all duration-500 group-hover:w-full" />
+            <p className="font-display text-4xl text-gold transition duration-500 group-hover:scale-110 group-hover:text-teal">
               {step.step}
             </p>
-            <h3 className="mt-3 font-display text-2xl transition group-hover:text-teal">
+            <h3 className="mt-4 font-display text-2xl transition group-hover:text-teal">
               {step.title}
             </h3>
             <p className="mt-3 text-sm leading-relaxed text-muted">{step.body}</p>

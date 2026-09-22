@@ -1,6 +1,7 @@
 import { SignJWT, jwtVerify } from "jose";
 import { cookies } from "next/headers";
 import bcrypt from "bcryptjs";
+import { isDatabaseEnabled } from "./database";
 import { prisma } from "./prisma";
 
 const COOKIE_NAME = "rr_admin_session";
@@ -58,6 +59,7 @@ export async function getSession() {
 }
 
 export async function requireAdmin() {
+  if (!isDatabaseEnabled()) return null;
   const session = await getSession();
   if (!session) return null;
   const user = await prisma.adminUser.findUnique({

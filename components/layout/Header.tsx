@@ -28,20 +28,20 @@ export function Header({ searchItems = [] }: { searchItems?: SearchItem[] }) {
           : "bg-transparent"
       )}
     >
-      <div className="container-site flex h-20 items-center justify-between gap-3">
-        <Link href="/" className="relative z-10 flex shrink-0 items-center gap-3">
+      <div className="container-site flex h-16 items-center justify-between gap-2 sm:h-20 sm:gap-3">
+        <Link href="/" className="relative z-10 flex min-w-0 shrink items-center gap-2 sm:gap-3">
           <Image
             src="/brand/logo.png"
             alt="Refine & Rare"
             width={48}
             height={48}
-            className="h-11 w-11 object-contain"
+            className="h-9 w-9 shrink-0 object-contain sm:h-11 sm:w-11"
             priority
           />
-          <div className="leading-tight">
+          <div className="min-w-0 leading-tight">
             <div
               className={cn(
-                "font-display text-lg tracking-wide",
+                "truncate font-display text-base tracking-wide sm:text-lg",
                 scrolled ? "text-ink" : "text-white"
               )}
             >

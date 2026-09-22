@@ -2,6 +2,7 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { FloatingContact } from "@/components/layout/FloatingContact";
 import { LocalBusinessJsonLd } from "@/components/seo/LocalBusinessJsonLd";
+import { ScrollProgress } from "@/components/ui/ScrollProgress";
 import { getProjects, getServices } from "@/lib/data";
 
 export default async function SiteLayout({
@@ -32,6 +33,7 @@ export default async function SiteLayout({
   return (
     <>
       <LocalBusinessJsonLd />
+      <ScrollProgress />
       <Header searchItems={searchItems} />
       <main>{children}</main>
       <Footer />
