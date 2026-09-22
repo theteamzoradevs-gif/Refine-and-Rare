@@ -1,9 +1,14 @@
 import Link from "next/link";
 import { AdminShell } from "@/components/admin/AdminShell";
 import { deleteProject } from "@/app/actions/admin";
+import { isDatabaseEnabled } from "@/lib/database";
 import { prisma } from "@/lib/prisma";
 
+export const dynamic = "force-dynamic";
+
 export default async function AdminProjectsPage() {
+  if (!isDatabaseEnabled()) return null;
+
   const projects = await prisma.project.findMany({
     include: { category: true, media: true },
     orderBy: { sortOrder: "asc" },

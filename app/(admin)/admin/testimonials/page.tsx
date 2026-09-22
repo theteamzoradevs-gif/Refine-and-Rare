@@ -1,9 +1,14 @@
 import Link from "next/link";
 import { AdminShell } from "@/components/admin/AdminShell";
 import { deleteTestimonial } from "@/app/actions/admin";
+import { isDatabaseEnabled } from "@/lib/database";
 import { prisma } from "@/lib/prisma";
 
+export const dynamic = "force-dynamic";
+
 export default async function AdminTestimonialsPage() {
+  if (!isDatabaseEnabled()) return null;
+
   const testimonials = await prisma.testimonial.findMany({
     orderBy: { sortOrder: "asc" },
   });

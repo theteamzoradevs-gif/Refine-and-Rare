@@ -1,9 +1,14 @@
 import { AdminShell } from "@/components/admin/AdminShell";
 import { updateEnquiryStatus } from "@/app/actions/admin";
+import { isDatabaseEnabled } from "@/lib/database";
 import { prisma } from "@/lib/prisma";
 import { whatsappUrl, telUrl } from "@/lib/constants";
 
+export const dynamic = "force-dynamic";
+
 export default async function AdminEnquiriesPage() {
+  if (!isDatabaseEnabled()) return null;
+
   const enquiries = await prisma.enquiry.findMany({
     include: { service: true },
     orderBy: { createdAt: "desc" },

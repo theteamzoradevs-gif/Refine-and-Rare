@@ -3,6 +3,8 @@ import { saveSettings } from "@/app/actions/admin";
 import { getSettings } from "@/lib/data";
 import { parseHours } from "@/lib/constants";
 
+export const dynamic = "force-dynamic";
+
 export default async function AdminSettingsPage() {
   const settings = await getSettings();
   const hours = parseHours(settings.hoursJson);

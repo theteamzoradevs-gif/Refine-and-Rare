@@ -1,9 +1,14 @@
 import { AdminShell } from "@/components/admin/AdminShell";
 import { MediaUploader } from "@/components/admin/MediaUploader";
 import { saveProject } from "@/app/actions/admin";
+import { isDatabaseEnabled } from "@/lib/database";
 import { prisma } from "@/lib/prisma";
 
+export const dynamic = "force-dynamic";
+
 export default async function NewProjectPage() {
+  if (!isDatabaseEnabled()) return null;
+
   const services = await prisma.service.findMany({ orderBy: { sortOrder: "asc" } });
 
   return (

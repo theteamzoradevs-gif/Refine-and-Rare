@@ -1,5 +1,7 @@
 import { isDatabaseEnabled } from "@/lib/database";
 
+export const dynamic = "force-dynamic";
+
 export default function AdminRootLayout({
   children,
 }: {

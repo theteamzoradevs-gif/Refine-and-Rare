@@ -2,13 +2,18 @@ import { notFound } from "next/navigation";
 import { AdminShell } from "@/components/admin/AdminShell";
 import { MediaUploader } from "@/components/admin/MediaUploader";
 import { saveProject } from "@/app/actions/admin";
+import { isDatabaseEnabled } from "@/lib/database";
 import { prisma } from "@/lib/prisma";
+
+export const dynamic = "force-dynamic";
 
 export default async function EditProjectPage({
   params,
 }: {
   params: { id: string };
 }) {
+  if (!isDatabaseEnabled()) return null;
+
   const [project, services] = await Promise.all([
     prisma.project.findUnique({
       where: { id: params.id },

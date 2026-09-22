@@ -1,8 +1,13 @@
 import Link from "next/link";
 import { AdminShell } from "@/components/admin/AdminShell";
+import { isDatabaseEnabled } from "@/lib/database";
 import { prisma } from "@/lib/prisma";
 
+export const dynamic = "force-dynamic";
+
 export default async function AdminDashboardPage() {
+  if (!isDatabaseEnabled()) return null;
+
   const [pendingEnquiries, totalProjects, totalServices, totalTestimonials] =
     await Promise.all([
       prisma.enquiry.count({ where: { status: "PENDING" } }),

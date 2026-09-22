@@ -1,9 +1,14 @@
 import Link from "next/link";
 import { AdminShell } from "@/components/admin/AdminShell";
 import { deleteService } from "@/app/actions/admin";
+import { isDatabaseEnabled } from "@/lib/database";
 import { prisma } from "@/lib/prisma";
 
+export const dynamic = "force-dynamic";
+
 export default async function AdminServicesPage() {
+  if (!isDatabaseEnabled()) return null;
+
   const services = await prisma.service.findMany({ orderBy: { sortOrder: "asc" } });
 
   return (
