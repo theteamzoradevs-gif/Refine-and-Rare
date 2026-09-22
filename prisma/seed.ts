@@ -178,7 +178,7 @@ async function main() {
       description:
         "Warm wood cabinetry, layered lighting, and a calm neutral palette for everyday luxury living.",
       featured: true,
-      sortOrder: 1,
+      sortOrder: 2,
       categoryId: bySlug["interior-design"].id,
       media: [
         {
@@ -194,14 +194,20 @@ async function main() {
       description:
         "A premium modular kitchen focused on workflow, storage, and soft modern finishes.",
       featured: true,
-      sortOrder: 2,
+      sortOrder: 1,
       categoryId: bySlug["modular-kitchen"].id,
       media: [
+        {
+          url: "/brand/video/room2.mp4",
+          type: MediaType.VIDEO,
+          alt: "Modular kitchen walkthrough video",
+          sortOrder: 0,
+        },
         {
           url: "/brand/gallery/project-2.jpg",
           type: MediaType.IMAGE,
           alt: "Modern modular kitchen interior",
-          sortOrder: 0,
+          sortOrder: 1,
         },
       ],
     },
@@ -247,7 +253,7 @@ async function main() {
       title: "Ceiling & Lighting Detail",
       description:
         "Creative POP ceiling design with integrated lighting for depth and atmosphere.",
-      featured: false,
+      featured: true,
       sortOrder: 5,
       categoryId: bySlug["pop-ceiling-turnkey"].id,
       media: [

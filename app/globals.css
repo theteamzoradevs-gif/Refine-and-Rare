@@ -3,14 +3,18 @@
 @tailwind utilities;
 
 :root {
-  --ink: #101416;
-  --ink-2: #1a2021;
-  --cream: #f7f1e7;
-  --cream-2: #ead8b9;
-  --teal: #517871;
-  --gold: #c9a66b;
-  --muted: #6b6560;
-  --line: #d9d2c5;
+  /* Primary — Deep Forest Green */
+  --teal: #1b3a2f;
+  /* Secondary — Warm Ivory / Off-White */
+  --cream: #f5f0e6;
+  --cream-2: #e8dfd0;
+  /* Accent — Muted Champagne Gold */
+  --gold: #c5b28a;
+  /* Text — Charcoal / Deep Green */
+  --ink: #1c2421;
+  --ink-2: #24302c;
+  --muted: #5c6560;
+  --line: #ddd5c8;
 }
 
 html {
@@ -25,7 +29,7 @@ body {
 }
 
 ::selection {
-  background: rgba(81, 120, 113, 0.25);
+  background: rgba(27, 58, 47, 0.22);
 }
 
 @layer components {
@@ -33,7 +37,7 @@ body {
   .btn-secondary,
   .btn-gold,
   .btn-outline {
-    @apply text-center;
+    @apply rounded-xl text-center;
   }
 
   .container-site {
@@ -41,19 +45,19 @@ body {
   }
 
   .btn-primary {
-    @apply relative inline-flex items-center justify-center gap-2 overflow-hidden bg-teal px-6 py-3 text-sm font-semibold uppercase tracking-[0.12em] text-white transition duration-300 hover:bg-teal-dark;
+    @apply relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-xl bg-teal px-6 py-3 text-sm font-semibold uppercase tracking-[0.12em] text-white transition duration-300 hover:bg-teal-dark;
   }
 
   .btn-secondary {
-    @apply relative inline-flex items-center justify-center gap-2 overflow-hidden border border-white/80 bg-white/95 px-6 py-3 text-sm font-semibold uppercase tracking-[0.12em] text-ink transition duration-300 hover:bg-white;
+    @apply relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-xl border border-white/80 bg-white/95 px-6 py-3 text-sm font-semibold uppercase tracking-[0.12em] text-ink transition duration-300 hover:bg-white;
   }
 
   .btn-gold {
-    @apply relative inline-flex items-center justify-center gap-2 overflow-hidden bg-gold px-6 py-3 text-sm font-semibold uppercase tracking-[0.12em] text-ink transition duration-300 hover:bg-gold-dark hover:text-white;
+    @apply relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-xl bg-gold px-6 py-3 text-sm font-semibold uppercase tracking-[0.12em] text-ink transition duration-300 hover:bg-gold-dark hover:text-white;
   }
 
   .btn-outline {
-    @apply relative inline-flex items-center justify-center gap-2 overflow-hidden border border-ink/20 px-6 py-3 text-sm font-semibold uppercase tracking-[0.12em] text-ink transition duration-300 hover:border-teal hover:text-teal;
+    @apply relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-xl border border-ink/20 px-6 py-3 text-sm font-semibold uppercase tracking-[0.12em] text-ink transition duration-300 hover:border-teal hover:text-teal;
   }
 
   .btn-shine::after {
@@ -115,10 +119,10 @@ body {
   .gold-shimmer {
     background: linear-gradient(
       110deg,
-      #c9a66b 0%,
-      #f0dfb4 35%,
-      #c9a66b 55%,
-      #a8864f 100%
+      #c5b28a 0%,
+      #e8dcc0 35%,
+      #c5b28a 55%,
+      #a89468 100%
     );
     background-size: 200% auto;
     -webkit-background-clip: text;
@@ -128,13 +132,13 @@ body {
   }
 
   .premium-card {
-    @apply relative overflow-hidden border border-line bg-white transition duration-500;
-    box-shadow: 0 0 0 rgba(16, 20, 22, 0);
+    @apply relative overflow-hidden rounded-2xl border border-line bg-white transition duration-500;
+    box-shadow: 0 0 0 rgba(28, 36, 33, 0);
   }
 
   .premium-card:hover {
     @apply -translate-y-1.5 border-gold/40;
-    box-shadow: 0 28px 50px -30px rgba(16, 20, 22, 0.35);
+    box-shadow: 0 28px 50px -30px rgba(28, 36, 33, 0.32);
   }
 
   .premium-card::after {
@@ -171,7 +175,7 @@ body {
   }
 
   .text-gradient-luxury {
-    background: linear-gradient(120deg, #101416 0%, #517871 45%, #c9a66b 100%);
+    background: linear-gradient(120deg, #1c2421 0%, #1b3a2f 45%, #c5b28a 100%);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
@@ -196,7 +200,7 @@ body {
   }
 
   .process-card:hover {
-    @apply -translate-y-2 border-gold/50 bg-white shadow-[0_24px_50px_-28px_rgba(81,120,113,0.4)];
+    @apply -translate-y-2 border-gold/50 bg-white shadow-[0_24px_50px_-28px_rgba(27,58,47,0.35)];
   }
 
   .process-card::before {
@@ -206,7 +210,7 @@ body {
     top: 0;
     height: 3px;
     width: 0;
-    background: linear-gradient(90deg, #517871, #c9a66b);
+    background: linear-gradient(90deg, #1b3a2f, #c5b28a);
     transition: width 0.45s ease;
   }
 

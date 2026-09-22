@@ -1,6 +1,7 @@
 import { cache } from "react";
 import { isDatabaseEnabled } from "./database";
 import { prisma } from "./prisma";
+import { getProjectSlug } from "./projectSlug";
 import {
   getStaticServiceBySlug,
   staticProjects,
@@ -8,6 +9,8 @@ import {
   staticSettings,
   staticTestimonials,
 } from "./staticContent";
+
+export { getProjectSlug } from "./projectSlug";
 
 export const getSettings = cache(async () => {
   if (!isDatabaseEnabled()) return staticSettings;
@@ -31,7 +34,10 @@ export const getServiceBySlug = cache(async (slug: string) => {
 
 export const getFeaturedProjects = cache(async (take = 4) => {
   if (!isDatabaseEnabled()) {
-    return staticProjects.filter((p) => p.featured).slice(0, take);
+    return staticProjects
+      .filter((p) => p.featured)
+      .sort((a, b) => a.sortOrder - b.sortOrder)
+      .slice(0, take);
   }
   return prisma.project.findMany({
     where: { featured: true },
@@ -53,6 +59,13 @@ export const getProjects = cache(async (categorySlug?: string) => {
     include: { media: { orderBy: { sortOrder: "asc" } }, category: true },
     orderBy: { sortOrder: "asc" },
   });
+});
+
+export const getProjectBySlug = cache(async (slug: string) => {
+  const projects = await getProjects();
+  return (
+    projects.find((p) => getProjectSlug(p) === slug || p.id === slug) || null
+  );
 });
 
 export const getPublishedTestimonials = cache(async () => {

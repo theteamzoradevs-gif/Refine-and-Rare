@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { Reveal } from "@/components/ui/Reveal";
 import { TextReveal } from "@/components/ui/TextReveal";
 import { ButtonLink } from "@/components/ui/ButtonLink";
@@ -8,17 +7,19 @@ import { ButtonLink } from "@/components/ui/ButtonLink";
 export function BengaluruHomes() {
   return (
     <section className="section-grain relative overflow-hidden bg-cream py-12 md:py-16">
-      <div className="pointer-events-none absolute inset-0 opacity-50 [background:radial-gradient(circle_at_75%_25%,rgba(201,166,107,0.14),transparent_40%),radial-gradient(circle_at_15%_80%,rgba(81,120,113,0.1),transparent_40%)]" />
+      <div className="pointer-events-none absolute inset-0 opacity-50 [background:radial-gradient(circle_at_75%_25%,rgba(197,178,138,0.14),transparent_40%),radial-gradient(circle_at_15%_80%,rgba(27,58,47,0.1),transparent_40%)]" />
 
       <div className="container-site relative grid items-center gap-8 lg:grid-cols-12 lg:gap-10">
         <Reveal variant="left" className="lg:col-span-6">
-          <div className="group relative aspect-[5/4] overflow-hidden border border-line">
-            <Image
-              src="/brand/services/interior-design.jpg"
-              alt="Premium residential interiors in Bengaluru"
-              fill
-              className="object-cover transition duration-1000 ease-premium group-hover:scale-105"
-              sizes="(max-width:1024px) 100vw, 50vw"
+          <div className="group relative aspect-[5/4] overflow-hidden rounded-xl border border-line">
+            <video
+              src="/brand/video/room.mp4"
+              className="absolute inset-0 h-full w-full object-cover transition duration-1000 ease-premium group-hover:scale-105"
+              autoPlay
+              muted
+              loop
+              playsInline
+              aria-label="Premium residential interiors in Bengaluru"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-ink/55 to-transparent" />
             <p className="absolute bottom-5 left-5 text-[11px] font-semibold uppercase tracking-[0.18em] text-cream">

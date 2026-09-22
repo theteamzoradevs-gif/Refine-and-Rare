@@ -47,10 +47,13 @@ export default async function ServiceDetailPage({ params }: Props) {
         </div>
       </section>
       <section className="section-grain bg-cream py-12 md:py-16">
-        <div className="container-site grid gap-8 lg:grid-cols-[1.4fr_0.8fr]">
+        <div className="container-site grid gap-8 lg:grid-cols-[1.4fr_0.8fr] lg:gap-12">
           <Reveal variant="left">
-            <p className="prose-muted">{service.longDesc}</p>
-            <ul className="mt-8 space-y-3 text-sm text-muted">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-gold">
+              What you can expect
+            </p>
+            <p className="mt-4 prose-muted">{service.longDesc}</p>
+            <ul className="mt-8 grid gap-3 sm:grid-cols-2">
               {[
                 "Personalized consultation and space assessment",
                 "Material and finish guidance aligned to your lifestyle",
@@ -59,12 +62,14 @@ export default async function ServiceDetailPage({ params }: Props) {
               ].map((item, i) => (
                 <li
                   key={item}
-                  className="flex gap-3 border-b border-line/60 py-3 transition hover:border-gold/40 hover:text-ink"
+                  className="group flex gap-4 rounded-2xl border border-line bg-white p-4 transition duration-300 hover:-translate-y-0.5 hover:border-gold/45 hover:shadow-[0_18px_40px_-28px_rgba(28,36,33,0.35)] sm:p-5"
                 >
-                  <span className="font-display text-gold">
+                  <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-teal text-sm font-semibold tracking-wide text-cream transition group-hover:bg-gold group-hover:text-ink">
                     {String(i + 1).padStart(2, "0")}
                   </span>
-                  {item}
+                  <p className="pt-2 text-sm leading-relaxed text-muted transition group-hover:text-ink">
+                    {item}
+                  </p>
                 </li>
               ))}
             </ul>

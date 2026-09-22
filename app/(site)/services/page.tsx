@@ -17,7 +17,7 @@ export default async function ServicesPage() {
   return (
     <>
       <section className="relative overflow-hidden bg-ink pb-14 pt-32 text-cream">
-        <div className="pointer-events-none absolute inset-0 opacity-30 [background:radial-gradient(circle_at_70%_20%,rgba(201,166,107,0.18),transparent_40%)]" />
+        <div className="pointer-events-none absolute inset-0 opacity-30 [background:radial-gradient(circle_at_70%_20%,rgba(197,178,138,0.18),transparent_40%)]" />
         <div className="container-site relative">
           <Reveal variant="blur">
             <p className="section-label">Signature Services</p>

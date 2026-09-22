@@ -23,7 +23,7 @@ export default async function ProjectsPage({
   return (
     <>
       <section className="relative overflow-hidden bg-ink pb-12 pt-32 text-cream">
-        <div className="pointer-events-none absolute inset-0 opacity-30 [background:radial-gradient(circle_at_30%_40%,rgba(201,166,107,0.16),transparent_40%)]" />
+        <div className="pointer-events-none absolute inset-0 opacity-30 [background:radial-gradient(circle_at_30%_40%,rgba(197,178,138,0.16),transparent_40%)]" />
         <div className="container-site relative flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <Reveal variant="blur">
             <p className="section-label">Projects</p>

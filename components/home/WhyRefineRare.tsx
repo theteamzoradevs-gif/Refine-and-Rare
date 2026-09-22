@@ -29,7 +29,7 @@ const accentStyles = {
 export function WhyRefineRare() {
   return (
     <section className="section-grain relative overflow-hidden bg-cream py-12 md:py-16">
-      <div className="pointer-events-none absolute inset-0 opacity-50 [background:radial-gradient(circle_at_85%_20%,rgba(201,166,107,0.12),transparent_35%),radial-gradient(circle_at_10%_75%,rgba(81,120,113,0.1),transparent_40%)]" />
+      <div className="pointer-events-none absolute inset-0 opacity-50 [background:radial-gradient(circle_at_85%_20%,rgba(197,178,138,0.12),transparent_35%),radial-gradient(circle_at_10%_75%,rgba(27,58,47,0.1),transparent_40%)]" />
 
       <div className="container-site relative">
         <Reveal variant="blur">

@@ -25,7 +25,7 @@ export function PillarFlipCard({
         onClick={() => setFlipped((v) => !v)}
         aria-pressed={flipped}
       >
-        <div className="flip-face flex flex-col justify-between border border-teal/25 bg-cream/90 p-6 shadow-[0_18px_40px_-30px_rgba(16,20,22,0.45)] transition duration-500 hover:-translate-y-1 hover:border-gold/50 hover:shadow-[0_24px_50px_-28px_rgba(81,120,113,0.35)]">
+        <div className="flip-face flex flex-col justify-between border border-teal/25 bg-cream/90 p-6 shadow-[0_18px_40px_-30px_rgba(28,36,33,0.45)] transition duration-500 hover:-translate-y-1 hover:border-gold/50 hover:shadow-[0_24px_50px_-28px_rgba(27,58,47,0.35)]">
           <div>
             <p className="font-display text-5xl text-gold/60 transition group-hover:text-gold">
               0{index + 1}

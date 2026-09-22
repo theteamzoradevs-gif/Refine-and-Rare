@@ -21,7 +21,7 @@ export default async function HomePage() {
   const [settings, services, projects, testimonials] = await Promise.all([
     getSettings(),
     getServices(),
-    getFeaturedProjects(4),
+    getFeaturedProjects(6),
     getPublishedTestimonials(),
   ]);
 

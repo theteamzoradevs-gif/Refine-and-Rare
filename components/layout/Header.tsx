@@ -75,7 +75,7 @@ export function Header() {
           <Link
             href="/contact"
             className={cn(
-              "hidden items-center bg-gold px-4 py-2.5 text-xs font-semibold uppercase tracking-[0.14em] text-ink transition hover:bg-gold-dark hover:text-white lg:inline-flex"
+              "hidden items-center rounded-xl bg-gold px-4 py-2.5 text-xs font-semibold uppercase tracking-[0.14em] text-ink transition hover:bg-gold-dark hover:text-white lg:inline-flex"
             )}
           >
             Enquire Now
@@ -84,7 +84,7 @@ export function Header() {
             type="button"
             aria-label="Toggle menu"
             className={cn(
-              "inline-flex h-10 w-10 items-center justify-center border xl:hidden",
+              "inline-flex h-10 w-10 items-center justify-center rounded-xl border xl:hidden",
               scrolled
                 ? "border-ink/20 text-ink"
                 : "border-white/40 text-white"

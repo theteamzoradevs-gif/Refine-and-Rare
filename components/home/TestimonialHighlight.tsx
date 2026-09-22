@@ -112,7 +112,7 @@ export function TestimonialHighlight({
 
   return (
     <section className="relative overflow-hidden bg-cream py-12 md:py-16">
-      <div className="pointer-events-none absolute inset-0 opacity-70 [background:radial-gradient(circle_at_30%_20%,rgba(201,166,107,0.18),transparent_35%),radial-gradient(circle_at_70%_15%,rgba(81,120,113,0.14),transparent_40%),radial-gradient(circle_at_50%_80%,rgba(234,216,185,0.45),transparent_45%)]" />
+      <div className="pointer-events-none absolute inset-0 opacity-70 [background:radial-gradient(circle_at_30%_20%,rgba(197,178,138,0.18),transparent_35%),radial-gradient(circle_at_70%_15%,rgba(27,58,47,0.14),transparent_40%),radial-gradient(circle_at_50%_80%,rgba(234,216,185,0.45),transparent_45%)]" />
 
       <div className="container-site relative text-center">
         <Reveal variant="blur">

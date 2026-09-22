@@ -8,7 +8,7 @@ export const NAV_LINKS = [
   { href: "/about", label: "About" },
   { href: "/services", label: "Services" },
   { href: "/projects", label: "Projects" },
-  { href: "/testimonials", label: "Testimonials" },
+  { href: "/blogs", label: "Blogs" },
   { href: "/contact", label: "Contact" },
 ] as const;
 
@@ -157,3 +157,56 @@ export function parseHours(hoursJson: string): BusinessHours {
     return {};
   }
 }
+
+export function slugify(value: string) {
+  return value
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "");
+}
+
+export const BLOG_POSTS = [
+  {
+    slug: "timeless-living-room-ideas",
+    title: "Timeless Living Room Ideas for Bengaluru Homes",
+    excerpt:
+      "How layered lighting, calm materials, and smart storage create living rooms that feel refined for years.",
+    date: "2026-02-12",
+    category: "Living Spaces",
+    imageUrl: "/brand/services/LuxuryLivingSpaces.png",
+    body: [
+      "A timeless living room is less about following trends and more about creating balance — proportion, light, and materials that age gracefully.",
+      "In Bengaluru apartments and villas alike, we favour warm neutrals, thoughtful joinery, and lighting that shifts from day to evening without feeling staged.",
+      "Start with how you gather: seating depth, TV sightlines, and storage for everyday clutter. Then refine finishes so the room feels personal, not showroom-perfect.",
+    ],
+  },
+  {
+    slug: "modular-kitchen-planning-guide",
+    title: "A Practical Guide to Planning Your Modular Kitchen",
+    excerpt:
+      "Workflow, storage zones, and finishes that make a kitchen both beautiful and effortless to use every day.",
+    date: "2026-01-28",
+    category: "Kitchens",
+    imageUrl: "/brand/services/modular-kitchen.jpg",
+    body: [
+      "Great kitchens begin with how you cook — not just how a catalogue looks. We map prep, cook, and clean zones before choosing finishes.",
+      "Soft-close hardware, durable surfaces, and tall storage keep the room calm. Lighting under cabinets and over the island does as much as the countertops.",
+      "Whether you prefer a quiet matte look or a richer wood tone, the goal is the same: a kitchen that supports real life and still feels premium.",
+    ],
+  },
+  {
+    slug: "renovation-without-chaos",
+    title: "Renovation Without Chaos: What to Expect",
+    excerpt:
+      "A clear look at sequencing, site coordination, and the decisions that keep a remodel on track.",
+    date: "2025-12-10",
+    category: "Renovation",
+    imageUrl: "/brand/services/renovation.jpg",
+    body: [
+      "Renovation feels overwhelming when decisions arrive out of order. We reverse that — design first, then materials, then a sequenced site plan.",
+      "Quality checks at each stage protect finishes and timelines. You always know what is happening next.",
+      "The result is a home that feels newly considered, without the stress of a fragmented build.",
+    ],
+  },
+] as const;

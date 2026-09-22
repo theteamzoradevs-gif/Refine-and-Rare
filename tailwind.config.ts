@@ -8,26 +8,30 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
+        // Text / dark surfaces — Charcoal with deep-green undertone
         ink: {
-          DEFAULT: "#101416",
-          2: "#1a2021",
+          DEFAULT: "#1C2421",
+          2: "#24302C",
         },
+        // Secondary — Warm Ivory / Off-White
         cream: {
-          DEFAULT: "#f7f1e7",
-          2: "#ead8b9",
+          DEFAULT: "#F5F0E6",
+          2: "#E8DFD0",
         },
+        // Primary — Deep Forest Green
         teal: {
-          DEFAULT: "#517871",
-          dark: "#3d5c56",
-          light: "#6a948c",
+          DEFAULT: "#1B3A2F",
+          dark: "#122820",
+          light: "#2A5344",
         },
+        // Accent — Muted Champagne Gold
         gold: {
-          DEFAULT: "#c9a66b",
-          dark: "#a8864f",
-          light: "#dbbf8f",
+          DEFAULT: "#C5B28A",
+          dark: "#A89468",
+          light: "#D4C6A3",
         },
-        muted: "#6b6560",
-        line: "#d9d2c5",
+        muted: "#5C6560",
+        line: "#DDD5C8",
       },
       fontFamily: {
         display: ["var(--font-playfair)", "Georgia", "serif"],
@@ -38,18 +42,18 @@ const config: Config = {
       },
       backgroundImage: {
         "hero-overlay":
-          "linear-gradient(105deg, rgba(16,20,22,0.78) 0%, rgba(16,20,22,0.45) 55%, rgba(16,20,22,0.25) 100%)",
+          "linear-gradient(105deg, rgba(28,36,33,0.82) 0%, rgba(27,58,47,0.55) 55%, rgba(28,36,33,0.28) 100%)",
         "section-fade":
-          "linear-gradient(180deg, #f7f1e7 0%, #ead8b9 100%)",
+          "linear-gradient(180deg, #F5F0E6 0%, #E8DFD0 100%)",
       },
       keyframes: {
         pulseGlow: {
           "0%, 100%": {
-            boxShadow: "0 0 0 0 rgba(81, 120, 113, 0.55)",
+            boxShadow: "0 0 0 0 rgba(27, 58, 47, 0.5)",
             transform: "scale(1)",
           },
           "50%": {
-            boxShadow: "0 0 0 14px rgba(81, 120, 113, 0)",
+            boxShadow: "0 0 0 14px rgba(27, 58, 47, 0)",
             transform: "scale(1.04)",
           },
         },

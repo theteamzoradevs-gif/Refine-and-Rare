@@ -17,11 +17,11 @@ type Project = {
 export function FeaturedProjects({ projects }: { projects: Project[] }) {
   return (
     <section className="relative overflow-hidden bg-ink py-12 text-cream md:py-16">
-      <div className="pointer-events-none absolute inset-0 opacity-30 [background:radial-gradient(circle_at_70%_20%,rgba(201,166,107,0.18),transparent_40%)]" />
+      <div className="pointer-events-none absolute inset-0 opacity-30 [background:radial-gradient(circle_at_70%_20%,rgba(197,178,138,0.18),transparent_40%)]" />
       <div className="container-site relative">
         <Reveal variant="blur">
-          <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
-            <div>
+          <div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between sm:gap-8">
+            <div className="min-w-0 flex-1">
               <p className="section-label">Featured Projects</p>
               <TextReveal
                 text="Our collection of refined interiors."
@@ -29,8 +29,12 @@ export function FeaturedProjects({ projects }: { projects: Project[] }) {
               />
               <p className="mt-2 text-gold">Spaces shaped with quiet luxury.</p>
             </div>
-            <ButtonLink href="/projects" variant="gold" className="btn-shine">
-              View Full Gallery
+            <ButtonLink
+              href="/projects"
+              variant="gold"
+              className="btn-shine shrink-0 self-start sm:self-end"
+            >
+              View Projects
             </ButtonLink>
           </div>
         </Reveal>

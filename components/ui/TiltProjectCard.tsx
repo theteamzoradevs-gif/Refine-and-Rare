@@ -21,7 +21,7 @@ export function TiltProjectCard({
   large?: boolean;
 }) {
   const ref = useRef<HTMLAnchorElement>(null);
-  const cover = project.media.find((m) => m.type === "IMAGE");
+  const cover = project.media[0];
 
   function onMove(e: React.MouseEvent<HTMLAnchorElement>) {
     const el = ref.current;
@@ -37,7 +37,8 @@ export function TiltProjectCard({
   function onLeave() {
     const el = ref.current;
     if (!el) return;
-    el.style.transform = "perspective(900px) rotateX(0deg) rotateY(0deg) scale3d(1,1,1)";
+    el.style.transform =
+      "perspective(900px) rotateX(0deg) rotateY(0deg) scale3d(1,1,1)";
   }
 
   return (
@@ -52,7 +53,17 @@ export function TiltProjectCard({
           : "aspect-[4/5] md:aspect-auto md:h-full md:min-h-[280px]"
       }`}
     >
-      {cover ? (
+      {cover?.type === "VIDEO" ? (
+        <video
+          src={cover.url}
+          className="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-110"
+          autoPlay
+          muted
+          loop
+          playsInline
+          aria-label={cover.alt || project.title}
+        />
+      ) : cover?.type === "IMAGE" ? (
         <Image
           src={cover.url}
           alt={cover.alt || project.title}
@@ -64,7 +75,7 @@ export function TiltProjectCard({
         <div className="h-full w-full bg-ink-2" />
       )}
       <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/20 to-transparent opacity-80 transition duration-500 group-hover:opacity-95" />
-      <div className="absolute inset-0 opacity-0 transition duration-500 group-hover:opacity-100 [background:radial-gradient(600px_circle_at_var(--x,50%)_var(--y,50%),rgba(201,166,107,0.18),transparent_40%)]" />
+      <div className="absolute inset-0 opacity-0 transition duration-500 group-hover:opacity-100 [background:radial-gradient(600px_circle_at_var(--x,50%)_var(--y,50%),rgba(197,178,138,0.18),transparent_40%)]" />
       <div className="absolute bottom-0 translate-y-2 p-5 transition duration-500 group-hover:translate-y-0">
         <p className="text-[10px] uppercase tracking-[0.2em] text-gold">
           {project.category.title}

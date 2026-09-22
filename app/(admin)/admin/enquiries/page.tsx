@@ -72,7 +72,7 @@ export default async function AdminEnquiriesPage() {
                 type="submit"
                 name="status"
                 value="PENDING"
-                className="border border-line px-3 py-1.5 text-xs uppercase tracking-wider"
+                className="rounded-lg border border-line px-3 py-1.5 text-xs uppercase tracking-wider"
               >
                 Mark pending
               </button>
@@ -80,7 +80,7 @@ export default async function AdminEnquiriesPage() {
                 type="submit"
                 name="status"
                 value="CONTACTED"
-                className="border border-teal bg-teal px-3 py-1.5 text-xs uppercase tracking-wider text-white"
+                className="rounded-lg border border-teal bg-teal px-3 py-1.5 text-xs uppercase tracking-wider text-white"
               >
                 Mark contacted
               </button>

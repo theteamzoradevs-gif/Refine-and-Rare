@@ -124,7 +124,7 @@ export function GalleryClient({
                       variant="primary"
                       className="btn-shine w-full justify-center sm:w-auto"
                     >
-                      Enquire
+                      Get Similar Look
                     </ButtonLink>
                   </div>
                 </div>
@@ -168,7 +168,7 @@ function FilterChip({
       type="button"
       onClick={onClick}
       className={cn(
-        "px-4 py-2 text-xs font-semibold uppercase tracking-[0.12em] transition",
+        "rounded-xl px-4 py-2 text-xs font-semibold uppercase tracking-[0.12em] transition",
         active
           ? "bg-teal text-white"
           : "border border-line bg-white text-muted hover:border-teal hover:text-teal"
@@ -237,7 +237,7 @@ function Lightbox({
               <>
                 <button
                   type="button"
-                  className="border border-white/30 px-3 py-2 text-sm"
+                  className="rounded-xl border border-white/30 px-3 py-2 text-sm"
                   onClick={() =>
                     onIndexChange(
                       (index - 1 + project.media.length) % project.media.length
@@ -248,7 +248,7 @@ function Lightbox({
                 </button>
                 <button
                   type="button"
-                  className="border border-white/30 px-3 py-2 text-sm"
+                  className="rounded-xl border border-white/30 px-3 py-2 text-sm"
                   onClick={() =>
                     onIndexChange((index + 1) % project.media.length)
                   }
@@ -259,10 +259,10 @@ function Lightbox({
             )}
             <Link
               href={`/contact?service=${project.category.slug}`}
-              className="bg-gold px-4 py-2 text-sm font-semibold uppercase tracking-[0.12em] text-ink"
+              className="rounded-xl bg-gold px-4 py-2 text-sm font-semibold uppercase tracking-[0.12em] text-ink"
               onClick={onClose}
             >
-              Enquire
+              Get Similar Look
             </Link>
           </div>
         </div>

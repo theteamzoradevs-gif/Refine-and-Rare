@@ -252,9 +252,9 @@ export function ChatLauncher({
   }
 
   return (
-    <div className="fixed bottom-5 left-4 z-50 flex max-w-[min(100vw-5.5rem,23rem)] flex-col items-start gap-3 sm:bottom-6 sm:left-6">
+    <div className="fixed bottom-[5.75rem] right-4 z-50 flex max-w-[min(100vw-5.5rem,23rem)] flex-col items-end gap-3 sm:bottom-[6.25rem] sm:right-6">
       {open && !dismissed && (
-        <div className="flex h-[min(70vh,540px)] w-[min(100vw-2rem,23rem)] flex-col overflow-hidden rounded-2xl border border-line/80 bg-[#faf6ef] shadow-[0_28px_70px_-28px_rgba(16,20,22,0.55)] animate-float-in">
+        <div className="flex h-[min(70vh,540px)] w-[min(100vw-2rem,23rem)] flex-col overflow-hidden rounded-2xl border border-line/80 bg-[#faf6ef] shadow-[0_28px_70px_-28px_rgba(28,36,33,0.55)] animate-float-in">
           <div className="flex items-center justify-between border-b border-white/10 bg-ink px-4 py-3.5 text-cream">
             <div className="flex items-center gap-3">
               <span className="relative flex h-9 w-9 items-center justify-center rounded-full bg-teal text-sm font-semibold text-white">
@@ -360,7 +360,7 @@ export function ChatLauncher({
         <button
           type="button"
           onClick={reopen}
-          className="hidden max-w-[15.5rem] animate-float-in rounded-2xl rounded-bl-md border border-line/80 bg-white/95 px-3.5 py-2.5 text-left text-xs leading-snug text-ink shadow-lg sm:block"
+          className="hidden max-w-[15.5rem] animate-float-in rounded-2xl rounded-br-md border border-line/80 bg-white/95 px-3.5 py-2.5 text-left text-xs leading-snug text-ink shadow-lg sm:block"
         >
           <span className="font-medium text-teal">Ask Refine & Rare</span>
           <span className="mt-0.5 block text-muted">
@@ -372,7 +372,7 @@ export function ChatLauncher({
       <button
         type="button"
         onClick={() => (open ? closePanel() : reopen())}
-        className="relative flex h-14 w-14 items-center justify-center rounded-full bg-ink text-cream shadow-[0_14px_34px_-12px_rgba(16,20,22,0.65)] transition hover:bg-teal"
+        className="relative flex h-14 w-14 items-center justify-center rounded-full bg-ink text-cream shadow-[0_14px_34px_-12px_rgba(28,36,33,0.65)] transition hover:bg-teal"
         aria-expanded={open}
         aria-label="Open chat assistant"
       >

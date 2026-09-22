@@ -167,7 +167,7 @@ export const staticProjects: StaticProject[] = [
     description:
       "Warm wood cabinetry, layered lighting, and a calm neutral palette for everyday luxury living.",
     featured: true,
-    sortOrder: 1,
+    sortOrder: 2,
     categoryId: bySlug["luxury-living-spaces"].id,
     category: bySlug["luxury-living-spaces"],
     createdAt: now,
@@ -187,17 +187,23 @@ export const staticProjects: StaticProject[] = [
     description:
       "A premium modular kitchen focused on workflow, storage, and soft modern finishes.",
     featured: true,
-    sortOrder: 2,
+    sortOrder: 1,
     categoryId: bySlug["modular-kitchens"].id,
     category: bySlug["modular-kitchens"],
     createdAt: now,
     updatedAt: now,
     media: media("static-project-2", [
       {
+        url: "/brand/video/room2.mp4",
+        type: "VIDEO",
+        alt: "Modular kitchen walkthrough video",
+        sortOrder: 0,
+      },
+      {
         url: "/brand/services/modular-kitchen.jpg",
         type: "IMAGE",
         alt: "Modern modular kitchen interior",
-        sortOrder: 0,
+        sortOrder: 1,
       },
     ]),
   },
@@ -252,7 +258,7 @@ export const staticProjects: StaticProject[] = [
     title: "Ceiling & Lighting Detail",
     description:
       "Creative POP ceiling design with integrated lighting for depth and atmosphere.",
-    featured: false,
+    featured: true,
     sortOrder: 5,
     categoryId: bySlug["ceiling-lighting"].id,
     category: bySlug["ceiling-lighting"],
@@ -263,6 +269,26 @@ export const staticProjects: StaticProject[] = [
         url: "/brand/services/Ceiling & Lighting.png",
         type: "IMAGE",
         alt: "POP ceiling and lighting detail",
+        sortOrder: 0,
+      },
+    ]),
+  },
+  {
+    id: "static-project-6",
+    title: "Bespoke Wardrobe Suite",
+    description:
+      "Custom storage with clean lines, soft lighting, and finishes tailored to the room.",
+    featured: true,
+    sortOrder: 6,
+    categoryId: bySlug["bespoke-wardrobes"].id,
+    category: bySlug["bespoke-wardrobes"],
+    createdAt: now,
+    updatedAt: now,
+    media: media("static-project-6", [
+      {
+        url: "/brand/services/Bespoke Wardrobes.png",
+        type: "IMAGE",
+        alt: "Bespoke wardrobe interior",
         sortOrder: 0,
       },
     ]),

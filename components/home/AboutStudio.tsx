@@ -7,7 +7,7 @@ import { ButtonLink } from "@/components/ui/ButtonLink";
 export function AboutStudio({ description }: { description: string }) {
   return (
     <section className="section-grain relative overflow-hidden bg-cream py-12 md:py-16">
-      <div className="pointer-events-none absolute inset-0 opacity-60 [background:radial-gradient(circle_at_80%_15%,rgba(81,120,113,0.1),transparent_35%),radial-gradient(circle_at_10%_80%,rgba(201,166,107,0.12),transparent_40%)]" />
+      <div className="pointer-events-none absolute inset-0 opacity-60 [background:radial-gradient(circle_at_80%_15%,rgba(27,58,47,0.1),transparent_35%),radial-gradient(circle_at_10%_80%,rgba(197,178,138,0.12),transparent_40%)]" />
 
       <div className="container-site relative grid items-center gap-8 lg:grid-cols-12 lg:gap-10">
         <Reveal variant="left" className="lg:col-span-5">
