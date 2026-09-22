@@ -15,6 +15,10 @@ export function MaterialsFinishes() {
             text="Where Materials Become Design."
             className="mt-3 max-w-3xl font-display text-3xl leading-tight text-ink md:text-5xl"
           />
+
+
+
+          
           <p className="mt-5 max-w-xl text-sm leading-relaxed text-muted md:text-base">
             Every material has a role. Every finish has a purpose.
           </p>
