@@ -2,24 +2,25 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { BLOG_POSTS } from "@/lib/constants";
+import { getBlogBySlug, getPublishedBlogs } from "@/lib/data";
 import { Reveal } from "@/components/ui/Reveal";
 import { ButtonLink } from "@/components/ui/ButtonLink";
 
 type Props = { params: { slug: string } };
 
-export function generateStaticParams() {
-  return BLOG_POSTS.map((p) => ({ slug: p.slug }));
+export async function generateStaticParams() {
+  const posts = await getPublishedBlogs();
+  return posts.map((p) => ({ slug: p.slug }));
 }
 
-export function generateMetadata({ params }: Props): Metadata {
-  const post = BLOG_POSTS.find((p) => p.slug === params.slug);
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const post = await getBlogBySlug(params.slug);
   if (!post) return { title: "Blog" };
   return { title: post.title, description: post.excerpt };
 }
 
-export default function BlogDetailPage({ params }: Props) {
-  const post = BLOG_POSTS.find((p) => p.slug === params.slug);
+export default async function BlogDetailPage({ params }: Props) {
+  const post = await getBlogBySlug(params.slug);
   if (!post) notFound();
 
   return (

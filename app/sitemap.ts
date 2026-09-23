@@ -1,10 +1,12 @@
 import type { MetadataRoute } from "next";
-import { BLOG_POSTS } from "@/lib/constants";
-import { getServices } from "@/lib/data";
+import { getPublishedBlogs, getServices } from "@/lib/data";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const base = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
-  const services = await getServices();
+  const [services, blogs] = await Promise.all([
+    getServices(),
+    getPublishedBlogs(),
+  ]);
 
   const staticRoutes = [
     "",
@@ -27,9 +29,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.7,
   }));
 
-  const blogRoutes = BLOG_POSTS.map((p) => ({
+  const blogRoutes = blogs.map((p) => ({
     url: `${base}/blogs/${p.slug}`,
-    lastModified: new Date(p.date),
+    lastModified: p.publishedAt,
     changeFrequency: "monthly" as const,
     priority: 0.6,
   }));

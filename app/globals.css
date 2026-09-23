@@ -217,6 +217,84 @@ body {
   .process-card:hover::before {
     width: 100%;
   }
+
+  /* —— Admin CMS —— */
+  .admin-scope {
+    --admin-radius: 1.25rem;
+  }
+
+  .admin-panel {
+    @apply rounded-2xl border border-line/70 bg-white/95 p-6 shadow-[0_18px_50px_-32px_rgba(28,36,33,0.45)] backdrop-blur-sm md:p-8;
+  }
+
+  .admin-card {
+    @apply rounded-2xl border border-line/70 bg-white/95 p-5 shadow-[0_14px_40px_-30px_rgba(28,36,33,0.4)] transition duration-300 hover:-translate-y-0.5 hover:border-gold/40 hover:shadow-[0_22px_50px_-28px_rgba(27,58,47,0.28)];
+  }
+
+  .admin-stat {
+    @apply relative overflow-hidden rounded-2xl border border-line/60 bg-gradient-to-br from-white via-white to-cream-2/40 p-6 shadow-[0_14px_40px_-28px_rgba(28,36,33,0.35)] transition duration-300 hover:-translate-y-1 hover:border-gold/50;
+  }
+
+  .admin-stat::before {
+    content: "";
+    position: absolute;
+    inset: auto -20% -40% auto;
+    height: 7rem;
+    width: 7rem;
+    border-radius: 9999px;
+    background: radial-gradient(circle, rgba(197, 178, 138, 0.28), transparent 70%);
+    pointer-events: none;
+  }
+
+  .admin-label {
+    @apply mb-1.5 block text-[11px] font-semibold uppercase tracking-[0.14em] text-muted;
+  }
+
+  .admin-input {
+    @apply w-full rounded-xl border border-line/90 bg-white px-3.5 py-2.5 text-sm text-ink outline-none transition duration-200 placeholder:text-muted/50 focus:border-teal/50 focus:ring-4 focus:ring-teal/10;
+  }
+
+  .admin-scope input:not([type="checkbox"]):not([type="file"]):not([type="hidden"]):not([type="radio"]),
+  .admin-scope select,
+  .admin-scope textarea {
+    @apply rounded-xl border border-line/90 bg-white px-3.5 py-2.5 text-sm text-ink outline-none transition duration-200 placeholder:text-muted/50 focus:border-teal/50 focus:ring-4 focus:ring-teal/10;
+  }
+
+  .admin-scope input[type="checkbox"] {
+    @apply h-4 w-4 rounded border-line text-teal accent-teal;
+  }
+
+  .admin-scope input[type="file"] {
+    @apply block w-full rounded-xl border border-dashed border-line bg-cream/50 px-3 py-3 text-sm file:mr-3 file:rounded-lg file:border-0 file:bg-teal file:px-3 file:py-1.5 file:text-xs file:font-semibold file:uppercase file:tracking-wider file:text-white;
+  }
+
+  .admin-table-wrap {
+    @apply overflow-hidden rounded-2xl border border-line/70 bg-white/95 shadow-[0_14px_40px_-30px_rgba(28,36,33,0.4)];
+  }
+
+  .admin-badge {
+    @apply inline-flex items-center rounded-full px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.14em];
+  }
+
+  .admin-badge-gold {
+    @apply inline-flex items-center rounded-full bg-gold/20 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-gold-dark;
+  }
+
+  .admin-badge-teal {
+    @apply inline-flex items-center rounded-full bg-teal/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-teal;
+  }
+
+  .admin-link {
+    @apply rounded-lg px-2 py-1 text-sm font-medium text-teal transition hover:bg-teal/5;
+  }
+
+  .admin-danger {
+    @apply rounded-lg px-2 py-1 text-sm font-medium text-red-700/90 transition hover:bg-red-50;
+  }
+
+  .admin-option-box {
+    @apply rounded-2xl border border-line/70 bg-gradient-to-br from-cream/80 to-white p-4;
+  }
 }
 
 @keyframes shimmerText {

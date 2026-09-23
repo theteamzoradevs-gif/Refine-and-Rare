@@ -15,30 +15,32 @@ export default async function AdminEnquiriesPage() {
   });
 
   return (
-    <AdminShell title="Enquiries">
+    <AdminShell
+      title="Enquiries"
+      description="Leads from the website forms and chat assistant."
+    >
       <div className="space-y-4">
         {enquiries.length === 0 && (
-          <p className="text-sm text-muted">No enquiries yet.</p>
+          <div className="admin-panel text-sm text-muted">No enquiries yet.</div>
         )}
         {enquiries.map((enquiry) => (
-          <article
-            key={enquiry.id}
-            className="border border-line bg-white p-5"
-          >
+          <article key={enquiry.id} className="admin-card">
             <div className="flex flex-wrap items-start justify-between gap-3">
               <div>
-                <h2 className="font-display text-xl">{enquiry.name}</h2>
-                <p className="mt-1 text-xs uppercase tracking-wider text-muted">
+                <h2 className="font-display text-2xl text-ink">
+                  {enquiry.name}
+                </h2>
+                <p className="mt-1 text-[11px] uppercase tracking-[0.14em] text-muted">
                   {new Date(enquiry.createdAt).toLocaleString("en-IN")} ·{" "}
                   {enquiry.service?.title || "General"}
                 </p>
               </div>
               <span
-                className={`px-3 py-1 text-xs font-semibold uppercase tracking-wider ${
+                className={
                   enquiry.status === "PENDING"
-                    ? "bg-gold/20 text-gold-dark"
-                    : "bg-teal/15 text-teal"
-                }`}
+                    ? "admin-badge-gold"
+                    : "admin-badge-teal"
+                }
               >
                 {enquiry.status}
               </span>
@@ -46,11 +48,8 @@ export default async function AdminEnquiriesPage() {
             <p className="mt-4 text-sm leading-relaxed text-muted">
               {enquiry.message}
             </p>
-            <div className="mt-4 flex flex-wrap gap-3 text-sm">
-              <a
-                href={telUrl(enquiry.phone)}
-                className="text-teal hover:underline"
-              >
+            <div className="mt-4 flex flex-wrap gap-2">
+              <a href={telUrl(enquiry.phone)} className="admin-link">
                 Call {enquiry.phone}
               </a>
               <a
@@ -60,24 +59,24 @@ export default async function AdminEnquiriesPage() {
                 )}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-teal hover:underline"
+                className="admin-link"
               >
                 WhatsApp
               </a>
-              <a
-                href={`mailto:${enquiry.email}`}
-                className="text-teal hover:underline"
-              >
+              <a href={`mailto:${enquiry.email}`} className="admin-link">
                 {enquiry.email}
               </a>
             </div>
-            <form action={updateEnquiryStatus} className="mt-4 flex flex-wrap gap-2">
+            <form
+              action={updateEnquiryStatus}
+              className="mt-5 flex flex-wrap gap-2"
+            >
               <input type="hidden" name="id" value={enquiry.id} />
               <button
                 type="submit"
                 name="status"
                 value="PENDING"
-                className="rounded-lg border border-line px-3 py-1.5 text-xs uppercase tracking-wider"
+                className="rounded-xl border border-line bg-cream/60 px-3.5 py-2 text-[11px] font-semibold uppercase tracking-[0.12em] text-ink transition hover:border-gold"
               >
                 Mark pending
               </button>
@@ -85,7 +84,7 @@ export default async function AdminEnquiriesPage() {
                 type="submit"
                 name="status"
                 value="CONTACTED"
-                className="rounded-lg border border-teal bg-teal px-3 py-1.5 text-xs uppercase tracking-wider text-white"
+                className="rounded-xl bg-teal px-3.5 py-2 text-[11px] font-semibold uppercase tracking-[0.12em] text-white transition hover:bg-teal-dark"
               >
                 Mark contacted
               </button>

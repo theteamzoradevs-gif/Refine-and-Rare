@@ -14,35 +14,46 @@ export default async function AdminTestimonialsPage() {
   });
 
   return (
-    <AdminShell title="Testimonials">
+    <AdminShell
+      title="Testimonials"
+      description="Client voices shown across the site."
+    >
       <div className="mb-6 flex justify-end">
         <Link href="/admin/testimonials/new" className="btn-primary">
           Add testimonial
         </Link>
       </div>
-      <div className="space-y-3">
+      <div className="grid gap-3">
         {testimonials.map((t) => (
           <div
             key={t.id}
-            className="border border-line bg-white p-4 md:flex md:items-start md:justify-between md:gap-6"
+            className="admin-card flex flex-col gap-4 md:flex-row md:items-start md:justify-between"
           >
-            <div>
-              <p className="font-medium">{t.name}</p>
-              <p className="mt-2 text-sm text-muted line-clamp-3">“{t.quote}”</p>
-              <p className="mt-2 text-xs uppercase tracking-wider text-teal">
-                {t.published ? "Published" : "Hidden"}
+            <div className="min-w-0">
+              <div className="flex items-center gap-2">
+                <p className="font-display text-xl text-ink">{t.name}</p>
+                <span
+                  className={
+                    t.published ? "admin-badge-teal" : "admin-badge-gold"
+                  }
+                >
+                  {t.published ? "Published" : "Hidden"}
+                </span>
+              </div>
+              <p className="mt-2 text-sm leading-relaxed text-muted line-clamp-3">
+                “{t.quote}”
               </p>
             </div>
-            <div className="mt-3 flex gap-3 md:mt-0">
+            <div className="flex shrink-0 items-center gap-1">
               <Link
                 href={`/admin/testimonials/${t.id}`}
-                className="text-sm text-teal hover:underline"
+                className="admin-link"
               >
                 Edit
               </Link>
               <form action={deleteTestimonial}>
                 <input type="hidden" name="id" value={t.id} />
-                <button type="submit" className="text-sm text-red-700 hover:underline">
+                <button type="submit" className="admin-danger">
                   Delete
                 </button>
               </form>

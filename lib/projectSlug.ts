@@ -6,6 +6,10 @@ export function slugify(value: string) {
     .replace(/(^-|-$)/g, "");
 }
 
-export function getProjectSlug(project: { id: string; title: string }) {
-  return slugify(project.title) || project.id;
+export function getProjectSlug(project: {
+  id: string;
+  title: string;
+  slug?: string | null;
+}) {
+  return project.slug || slugify(project.title) || project.id;
 }

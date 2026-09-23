@@ -4,6 +4,14 @@ import { useState } from "react";
 
 type MediaItem = { url: string; type: "IMAGE" | "VIDEO"; alt: string };
 
+function isLikelyVideo(url: string) {
+  return /\.(mp4|webm|mov|m4v)(\?|$)/i.test(url);
+}
+
+function normalizeUrl(raw: string) {
+  return raw.trim();
+}
+
 export function MediaUploader({
   name = "mediaJson",
   initial = [],
@@ -14,6 +22,9 @@ export function MediaUploader({
   const [items, setItems] = useState<MediaItem[]>(initial);
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [linkUrl, setLinkUrl] = useState("");
+  const [linkType, setLinkType] = useState<"IMAGE" | "VIDEO" | "AUTO">("AUTO");
+  const [linkAlt, setLinkAlt] = useState("");
 
   async function onUpload(files: FileList | null) {
     if (!files?.length) return;
@@ -41,30 +52,105 @@ export function MediaUploader({
     }
   }
 
+  function addFromLink() {
+    const url = normalizeUrl(linkUrl);
+    if (!url) {
+      setError("Paste an image or video URL first.");
+      return;
+    }
+    if (!/^https?:\/\//i.test(url) && !url.startsWith("/")) {
+      setError("URL must start with https:// or /");
+      return;
+    }
+
+    const type =
+      linkType === "AUTO"
+        ? isLikelyVideo(url)
+          ? "VIDEO"
+          : "IMAGE"
+        : linkType;
+
+    setItems([
+      ...items,
+      {
+        url,
+        type,
+        alt: linkAlt.trim() || "Project media",
+      },
+    ]);
+    setLinkUrl("");
+    setLinkAlt("");
+    setLinkType("AUTO");
+    setError(null);
+  }
+
   return (
-    <div className="space-y-3">
+    <div className="space-y-4">
       <input type="hidden" name={name} value={JSON.stringify(items)} />
-      <label className="block text-xs font-semibold uppercase tracking-wider text-muted">
-        Project media
-      </label>
-      <input
-        type="file"
-        accept="image/*,video/*"
-        multiple
-        onChange={(e) => onUpload(e.target.files)}
-        className="block w-full text-sm"
-      />
-      {uploading && <p className="text-sm text-muted">Uploading...</p>}
+      <label className="admin-label">Project media</label>
+
+      <div className="grid gap-4 md:grid-cols-2">
+        <div className="admin-option-box space-y-2">
+          <p className="text-xs font-semibold uppercase tracking-wider text-ink">
+            Option 1 — Upload file
+          </p>
+          <input
+            type="file"
+            accept="image/*,video/*"
+            multiple
+            onChange={(e) => onUpload(e.target.files)}
+          />
+          {uploading && <p className="text-sm text-muted">Uploading...</p>}
+        </div>
+
+        <div className="admin-option-box space-y-2">
+          <p className="text-xs font-semibold uppercase tracking-wider text-ink">
+            Option 2 — Paste online link
+          </p>
+          <input
+            type="url"
+            value={linkUrl}
+            onChange={(e) => setLinkUrl(e.target.value)}
+            placeholder="https://example.com/photo.jpg"
+          />
+          <div className="flex flex-wrap gap-2">
+            <select
+              value={linkType}
+              onChange={(e) =>
+                setLinkType(e.target.value as "IMAGE" | "VIDEO" | "AUTO")
+              }
+            >
+              <option value="AUTO">Auto type</option>
+              <option value="IMAGE">Image</option>
+              <option value="VIDEO">Video</option>
+            </select>
+            <input
+              className="min-w-[8rem] flex-1"
+              value={linkAlt}
+              onChange={(e) => setLinkAlt(e.target.value)}
+              placeholder="Alt text (optional)"
+            />
+            <button
+              type="button"
+              onClick={addFromLink}
+              className="rounded-xl border border-ink/20 px-3 py-2 text-[11px] font-semibold uppercase tracking-wider text-ink transition hover:border-teal hover:text-teal"
+            >
+              Add link
+            </button>
+          </div>
+        </div>
+      </div>
+
       {error && <p className="text-sm text-red-700">{error}</p>}
+
       <ul className="space-y-2">
         {items.map((item, index) => (
           <li
             key={`${item.url}-${index}`}
-            className="flex flex-col gap-2 border border-line bg-white p-3 md:flex-row md:items-center"
+            className="flex flex-col gap-2 rounded-2xl border border-line/70 bg-white p-3 md:flex-row md:items-center"
           >
             <div className="min-w-0 flex-1 truncate text-xs">{item.url}</div>
             <select
-              className="border border-line px-2 py-1 text-xs"
               value={item.type}
               onChange={(e) => {
                 const copy = [...items];
@@ -79,7 +165,7 @@ export function MediaUploader({
               <option value="VIDEO">Video</option>
             </select>
             <input
-              className="flex-1 border border-line px-2 py-1 text-xs"
+              className="flex-1"
               value={item.alt}
               placeholder="Alt text"
               onChange={(e) => {
@@ -90,7 +176,7 @@ export function MediaUploader({
             />
             <button
               type="button"
-              className="text-xs text-red-700"
+              className="admin-danger"
               onClick={() => setItems(items.filter((_, i) => i !== index))}
             >
               Remove
@@ -106,43 +192,75 @@ export function SingleUploadField({
   name,
   label,
   initial = "",
+  accept = "image/*",
 }: {
   name: string;
   label: string;
   initial?: string;
+  accept?: string;
 }) {
   const [url, setUrl] = useState(initial);
   const [uploading, setUploading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   async function onUpload(file: File | null) {
     if (!file) return;
     setUploading(true);
-    const body = new FormData();
-    body.append("file", file);
-    const res = await fetch("/api/upload", { method: "POST", body });
-    const data = await res.json();
-    setUploading(false);
-    if (res.ok) setUrl(data.url);
+    setError(null);
+    try {
+      const body = new FormData();
+      body.append("file", file);
+      const res = await fetch("/api/upload", { method: "POST", body });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Upload failed");
+      setUrl(data.url);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Upload failed");
+    } finally {
+      setUploading(false);
+    }
   }
 
   return (
-    <div className="space-y-2">
-      <label className="block text-xs font-semibold uppercase tracking-wider text-muted">
-        {label}
-      </label>
+    <div className="space-y-3">
+      <label className="admin-label">{label}</label>
       <input type="hidden" name={name} value={url} />
-      <input
-        value={url}
-        onChange={(e) => setUrl(e.target.value)}
-        className="w-full border border-line px-3 py-2 text-sm"
-        placeholder="/brand/... or uploaded URL"
-      />
-      <input
-        type="file"
-        accept="image/*"
-        onChange={(e) => onUpload(e.target.files?.[0] || null)}
-      />
-      {uploading && <p className="text-xs text-muted">Uploading...</p>}
+
+      <div className="grid gap-4 md:grid-cols-2">
+        <div className="admin-option-box space-y-2">
+          <p className="text-xs font-semibold uppercase tracking-wider text-ink">
+            Option 1 — Upload file
+          </p>
+          <input
+            type="file"
+            accept={accept}
+            onChange={(e) => onUpload(e.target.files?.[0] || null)}
+          />
+          {uploading && <p className="text-xs text-muted">Uploading...</p>}
+        </div>
+
+        <div className="admin-option-box space-y-2">
+          <p className="text-xs font-semibold uppercase tracking-wider text-ink">
+            Option 2 — Paste online link
+          </p>
+          <input
+            type="url"
+            value={url}
+            onChange={(e) => setUrl(e.target.value)}
+            placeholder="https://example.com/image.jpg"
+          />
+          <p className="text-[11px] text-muted">
+            Full https:// link, or a local path like /brand/...
+          </p>
+        </div>
+      </div>
+
+      {url ? (
+        <p className="truncate text-xs text-muted">
+          Current: <span className="text-ink">{url}</span>
+        </p>
+      ) : null}
+      {error && <p className="text-sm text-red-700">{error}</p>}
     </div>
   );
 }

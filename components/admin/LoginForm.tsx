@@ -32,31 +32,25 @@ export function LoginForm() {
   }
 
   return (
-    <form onSubmit={onSubmit} className="space-y-4">
+    <form onSubmit={onSubmit} className="admin-scope space-y-5">
       <div>
-        <label className="mb-1 block text-xs font-semibold uppercase tracking-wider text-muted">
-          Email
-        </label>
+        <label className="admin-label">Email</label>
         <input
           name="email"
           type="email"
           required
-          className="w-full border border-line px-4 py-3 text-sm outline-none focus:border-teal"
           placeholder="admin@refineandrare.com"
         />
       </div>
       <div>
-        <label className="mb-1 block text-xs font-semibold uppercase tracking-wider text-muted">
-          Password
-        </label>
-        <input
-          name="password"
-          type="password"
-          required
-          className="w-full border border-line px-4 py-3 text-sm outline-none focus:border-teal"
-        />
+        <label className="admin-label">Password</label>
+        <input name="password" type="password" required />
       </div>
-      {error && <p className="text-sm text-red-700">{error}</p>}
+      {error && (
+        <p className="rounded-xl bg-red-50 px-3 py-2 text-sm text-red-700">
+          {error}
+        </p>
+      )}
       <button type="submit" disabled={loading} className="btn-primary w-full">
         {loading ? "Signing in..." : "Sign in"}
       </button>

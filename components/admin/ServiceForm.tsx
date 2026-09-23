@@ -13,32 +13,28 @@ type Initial = {
 
 export function ServiceForm({ initial }: { initial?: Initial }) {
   return (
-    <form action={saveService} className="max-w-3xl space-y-4 border border-line bg-white p-6">
+    <form action={saveService} className="admin-panel w-full space-y-5">
       {initial?.id && <input type="hidden" name="id" value={initial.id} />}
-      <Field name="title" label="Title" defaultValue={initial?.title} required />
-      <Field name="slug" label="URL slug" defaultValue={initial?.slug} required />
+      <div className="grid gap-5 md:grid-cols-2">
+        <Field name="title" label="Title" defaultValue={initial?.title} required />
+        <Field name="slug" label="URL slug" defaultValue={initial?.slug} required />
+      </div>
       <div>
-        <label className="mb-1 block text-xs font-semibold uppercase tracking-wider text-muted">
-          Short description
-        </label>
+        <label className="admin-label">Short description</label>
         <textarea
           name="shortDesc"
           required
           rows={2}
           defaultValue={initial?.shortDesc}
-          className="w-full border border-line px-3 py-2 text-sm"
         />
       </div>
       <div>
-        <label className="mb-1 block text-xs font-semibold uppercase tracking-wider text-muted">
-          Full description
-        </label>
+        <label className="admin-label">Full description</label>
         <textarea
           name="longDesc"
           required
           rows={6}
           defaultValue={initial?.longDesc}
-          className="w-full border border-line px-3 py-2 text-sm"
         />
       </div>
       <SingleUploadField
@@ -46,15 +42,17 @@ export function ServiceForm({ initial }: { initial?: Initial }) {
         label="Service image"
         initial={initial?.imageUrl || ""}
       />
-      <Field
-        name="sortOrder"
-        label="Sort order"
-        type="number"
-        defaultValue={String(initial?.sortOrder ?? 0)}
-      />
-      <button type="submit" className="btn-primary">
-        Save service
-      </button>
+      <div className="grid gap-5 md:grid-cols-2 md:items-end">
+        <Field
+          name="sortOrder"
+          label="Sort order"
+          type="number"
+          defaultValue={String(initial?.sortOrder ?? 0)}
+        />
+        <button type="submit" className="btn-primary md:justify-self-start">
+          Save service
+        </button>
+      </div>
     </form>
   );
 }
@@ -74,15 +72,12 @@ function Field({
 }) {
   return (
     <div>
-      <label className="mb-1 block text-xs font-semibold uppercase tracking-wider text-muted">
-        {label}
-      </label>
+      <label className="admin-label">{label}</label>
       <input
         name={name}
         type={type}
         required={required}
         defaultValue={defaultValue}
-        className="w-full border border-line px-3 py-2 text-sm"
       />
     </div>
   );
