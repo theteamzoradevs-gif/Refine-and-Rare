@@ -9,35 +9,43 @@ export const dynamic = "force-dynamic";
 export default async function AdminServicesPage() {
   if (!isDatabaseEnabled()) return null;
 
-  const services = await prisma.service.findMany({ orderBy: { sortOrder: "asc" } });
+  const services = await prisma.service.findMany({
+    orderBy: { sortOrder: "asc" },
+  });
 
   return (
-    <AdminShell title="Services">
+    <AdminShell
+      title="Services"
+      description="Offerings that appear on the homepage and services pages."
+    >
       <div className="mb-6 flex justify-end">
         <Link href="/admin/services/new" className="btn-primary">
           Add service
         </Link>
       </div>
-      <div className="space-y-3">
+      <div className="grid gap-3">
         {services.map((service) => (
           <div
             key={service.id}
-            className="flex flex-col gap-3 border border-line bg-white p-4 md:flex-row md:items-center md:justify-between"
+            className="admin-card flex flex-col gap-4 md:flex-row md:items-center md:justify-between"
           >
-            <div>
-              <p className="font-medium">{service.title}</p>
-              <p className="text-xs text-muted">/{service.slug}</p>
+            <div className="min-w-0">
+              <p className="font-display text-xl text-ink">{service.title}</p>
+              <p className="mt-1 text-xs text-muted">/{service.slug}</p>
+              <p className="mt-2 line-clamp-2 text-sm text-muted">
+                {service.shortDesc}
+              </p>
             </div>
-            <div className="flex gap-3">
+            <div className="flex shrink-0 items-center gap-1">
               <Link
                 href={`/admin/services/${service.id}`}
-                className="text-sm text-teal hover:underline"
+                className="admin-link"
               >
                 Edit
               </Link>
               <form action={deleteService}>
                 <input type="hidden" name="id" value={service.id} />
-                <button type="submit" className="text-sm text-red-700 hover:underline">
+                <button type="submit" className="admin-danger">
                   Delete
                 </button>
               </form>

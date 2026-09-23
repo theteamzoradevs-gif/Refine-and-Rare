@@ -5,6 +5,8 @@ import { redirect } from "next/navigation";
 import { EnquiryStatus, MediaType } from "@prisma/client";
 import { requireAdmin } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { slugify } from "@/lib/projectSlug";
+import { serializeBlogBody } from "@/lib/staticContent";
 
 async function assertAdmin() {
   const admin = await requireAdmin();
@@ -46,6 +48,8 @@ export async function saveProject(formData: FormData) {
   await assertAdmin();
   const id = String(formData.get("id") || "");
   const title = String(formData.get("title") || "");
+  const slug =
+    slugify(String(formData.get("slug") || "")) || slugify(title);
   const description = String(formData.get("description") || "");
   const categoryId = String(formData.get("categoryId") || "");
   const featured = formData.get("featured") === "on";
@@ -57,42 +61,39 @@ export async function saveProject(formData: FormData) {
     alt: string;
   }[];
 
+  const mediaCreate = {
+    create: media.map((m, i) => ({
+      url: m.url,
+      type: m.type as MediaType,
+      alt: m.alt || "",
+      sortOrder: i,
+    })),
+  };
+
   if (id) {
     await prisma.projectMedia.deleteMany({ where: { projectId: id } });
     await prisma.project.update({
       where: { id },
       data: {
         title,
+        slug,
         description,
         categoryId,
         featured,
         sortOrder,
-        media: {
-          create: media.map((m, i) => ({
-            url: m.url,
-            type: m.type as MediaType,
-            alt: m.alt || "",
-            sortOrder: i,
-          })),
-        },
+        media: mediaCreate,
       },
     });
   } else {
     await prisma.project.create({
       data: {
         title,
+        slug,
         description,
         categoryId,
         featured,
         sortOrder,
-        media: {
-          create: media.map((m, i) => ({
-            url: m.url,
-            type: m.type as MediaType,
-            alt: m.alt || "",
-            sortOrder: i,
-          })),
-        },
+        media: mediaCreate,
       },
     });
   }
@@ -150,6 +151,52 @@ export async function updateEnquiryStatus(formData: FormData) {
   redirect("/admin/enquiries");
 }
 
+export async function saveBlog(formData: FormData) {
+  await assertAdmin();
+  const id = String(formData.get("id") || "");
+  const title = String(formData.get("title") || "");
+  const slug =
+    slugify(String(formData.get("slug") || "")) || slugify(title);
+  const publishedAtRaw = String(formData.get("publishedAt") || "");
+  const publishedAt = publishedAtRaw
+    ? new Date(publishedAtRaw)
+    : new Date();
+
+  const data = {
+    title,
+    slug,
+    excerpt: String(formData.get("excerpt") || ""),
+    body: serializeBlogBody(String(formData.get("body") || "")),
+    imageUrl: String(formData.get("imageUrl") || ""),
+    category: String(formData.get("category") || ""),
+    published: formData.get("published") === "on",
+    publishedAt: Number.isNaN(publishedAt.getTime())
+      ? new Date()
+      : publishedAt,
+    sortOrder: Number(formData.get("sortOrder") || 0),
+  };
+
+  if (id) {
+    await prisma.blogPost.update({ where: { id }, data });
+  } else {
+    await prisma.blogPost.create({ data });
+  }
+
+  revalidatePath("/blogs");
+  revalidatePath(`/blogs/${slug}`);
+  revalidatePath("/admin/blogs");
+  redirect("/admin/blogs");
+}
+
+export async function deleteBlog(formData: FormData) {
+  await assertAdmin();
+  const id = String(formData.get("id") || "");
+  await prisma.blogPost.delete({ where: { id } });
+  revalidatePath("/blogs");
+  revalidatePath("/admin/blogs");
+  redirect("/admin/blogs");
+}
+
 export async function saveSettings(formData: FormData) {
   await assertAdmin();
   const hours = {
@@ -162,21 +209,24 @@ export async function saveSettings(formData: FormData) {
     sunday: String(formData.get("sunday") || ""),
   };
 
-  await prisma.siteSettings.update({
+  const data = {
+    businessName: String(formData.get("businessName") || ""),
+    tagline: String(formData.get("tagline") || ""),
+    description: String(formData.get("description") || ""),
+    email: String(formData.get("email") || ""),
+    phone: String(formData.get("phone") || ""),
+    whatsapp: String(formData.get("whatsapp") || ""),
+    instagram: String(formData.get("instagram") || ""),
+    city: String(formData.get("city") || ""),
+    address: String(formData.get("address") || ""),
+    whatsappMessage: String(formData.get("whatsappMessage") || ""),
+    hoursJson: JSON.stringify(hours),
+  };
+
+  await prisma.siteSettings.upsert({
     where: { id: "main" },
-    data: {
-      businessName: String(formData.get("businessName") || ""),
-      tagline: String(formData.get("tagline") || ""),
-      description: String(formData.get("description") || ""),
-      email: String(formData.get("email") || ""),
-      phone: String(formData.get("phone") || ""),
-      whatsapp: String(formData.get("whatsapp") || ""),
-      instagram: String(formData.get("instagram") || ""),
-      city: String(formData.get("city") || ""),
-      address: String(formData.get("address") || ""),
-      whatsappMessage: String(formData.get("whatsappMessage") || ""),
-      hoursJson: JSON.stringify(hours),
-    },
+    update: data,
+    create: { id: "main", ...data },
   });
 
   revalidatePath("/");

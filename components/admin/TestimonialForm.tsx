@@ -14,33 +14,15 @@ export function TestimonialForm({
   };
 }) {
   return (
-    <form
-      action={saveTestimonial}
-      className="max-w-2xl space-y-4 border border-line bg-white p-6"
-    >
+    <form action={saveTestimonial} className="admin-panel w-full space-y-5">
       {initial?.id && <input type="hidden" name="id" value={initial.id} />}
       <div>
-        <label className="mb-1 block text-xs font-semibold uppercase tracking-wider text-muted">
-          Client name
-        </label>
-        <input
-          name="name"
-          required
-          defaultValue={initial?.name}
-          className="w-full border border-line px-3 py-2 text-sm"
-        />
+        <label className="admin-label">Client name</label>
+        <input name="name" required defaultValue={initial?.name} />
       </div>
       <div>
-        <label className="mb-1 block text-xs font-semibold uppercase tracking-wider text-muted">
-          Review
-        </label>
-        <textarea
-          name="quote"
-          required
-          rows={5}
-          defaultValue={initial?.quote}
-          className="w-full border border-line px-3 py-2 text-sm"
-        />
+        <label className="admin-label">Review</label>
+        <textarea name="quote" required rows={5} defaultValue={initial?.quote} />
       </div>
       <SingleUploadField
         name="photoUrl"
@@ -48,17 +30,14 @@ export function TestimonialForm({
         initial={initial?.photoUrl || ""}
       />
       <div>
-        <label className="mb-1 block text-xs font-semibold uppercase tracking-wider text-muted">
-          Sort order
-        </label>
+        <label className="admin-label">Sort order</label>
         <input
           name="sortOrder"
           type="number"
           defaultValue={initial?.sortOrder ?? 0}
-          className="w-full border border-line px-3 py-2 text-sm"
         />
       </div>
-      <label className="flex items-center gap-2 text-sm">
+      <label className="flex items-center gap-2.5 text-sm text-ink">
         <input
           type="checkbox"
           name="published"

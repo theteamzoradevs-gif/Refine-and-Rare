@@ -1,4 +1,5 @@
 import type {
+  BlogPost,
   MediaType,
   Project,
   ProjectMedia,
@@ -163,6 +164,7 @@ function media(
 export const staticProjects: StaticProject[] = [
   {
     id: "static-project-1",
+    slug: "contemporary-living-room",
     title: "Contemporary Living Room",
     description:
       "Warm wood cabinetry, layered lighting, and a calm neutral palette for everyday luxury living.",
@@ -183,6 +185,7 @@ export const staticProjects: StaticProject[] = [
   },
   {
     id: "static-project-2",
+    slug: "refined-modular-kitchen",
     title: "Refined Modular Kitchen",
     description:
       "A premium modular kitchen focused on workflow, storage, and soft modern finishes.",
@@ -209,6 +212,7 @@ export const staticProjects: StaticProject[] = [
   },
   {
     id: "static-project-3",
+    slug: "quiet-luxury-bedroom",
     title: "Quiet Luxury Bedroom",
     description:
       "Soft textures, recessed lighting, and tailored joinery for a restful private suite.",
@@ -229,6 +233,7 @@ export const staticProjects: StaticProject[] = [
   },
   {
     id: "static-project-4",
+    slug: "full-home-remodel",
     title: "Full Home Remodel",
     description:
       "Turnkey remodeling with cohesive finishes across living spaces.",
@@ -255,6 +260,7 @@ export const staticProjects: StaticProject[] = [
   },
   {
     id: "static-project-5",
+    slug: "ceiling-lighting-detail",
     title: "Ceiling & Lighting Detail",
     description:
       "Creative POP ceiling design with integrated lighting for depth and atmosphere.",
@@ -275,6 +281,7 @@ export const staticProjects: StaticProject[] = [
   },
   {
     id: "static-project-6",
+    slug: "bespoke-wardrobe-suite",
     title: "Bespoke Wardrobe Suite",
     description:
       "Custom storage with clean lines, soft lighting, and finishes tailored to the room.",
@@ -386,10 +393,97 @@ export const staticTestimonials: Testimonial[] = [
   },
 ];
 
+export const staticBlogPosts: BlogPost[] = [
+  {
+    id: "static-blog-1",
+    slug: "timeless-living-room-ideas",
+    title: "Timeless Living Room Ideas for Bengaluru Homes",
+    excerpt:
+      "How layered lighting, calm materials, and smart storage create living rooms that feel refined for years.",
+    body: JSON.stringify([
+      "A timeless living room is less about following trends and more about creating balance — proportion, light, and materials that age gracefully.",
+      "In Bengaluru apartments and villas alike, we favour warm neutrals, thoughtful joinery, and lighting that shifts from day to evening without feeling staged.",
+      "Start with how you gather: seating depth, TV sightlines, and storage for everyday clutter. Then refine finishes so the room feels personal, not showroom-perfect.",
+    ]),
+    imageUrl: "/brand/services/LuxuryLivingSpaces.png",
+    category: "Living Spaces",
+    published: true,
+    publishedAt: new Date("2026-02-12T00:00:00.000Z"),
+    sortOrder: 1,
+    createdAt: now,
+    updatedAt: now,
+  },
+  {
+    id: "static-blog-2",
+    slug: "modular-kitchen-planning-guide",
+    title: "A Practical Guide to Planning Your Modular Kitchen",
+    excerpt:
+      "Workflow, storage zones, and finishes that make a kitchen both beautiful and effortless to use every day.",
+    body: JSON.stringify([
+      "Great kitchens begin with how you cook — not just how a catalogue looks. We map prep, cook, and clean zones before choosing finishes.",
+      "Soft-close hardware, durable surfaces, and tall storage keep the room calm. Lighting under cabinets and over the island does as much as the countertops.",
+      "Whether you prefer a quiet matte look or a richer wood tone, the goal is the same: a kitchen that supports real life and still feels premium.",
+    ]),
+    imageUrl: "/brand/services/modular-kitchen.jpg",
+    category: "Kitchens",
+    published: true,
+    publishedAt: new Date("2026-01-28T00:00:00.000Z"),
+    sortOrder: 2,
+    createdAt: now,
+    updatedAt: now,
+  },
+  {
+    id: "static-blog-3",
+    slug: "renovation-without-chaos",
+    title: "Renovation Without Chaos: What to Expect",
+    excerpt:
+      "A clear look at sequencing, site coordination, and the decisions that keep a remodel on track.",
+    body: JSON.stringify([
+      "Renovation feels overwhelming when decisions arrive out of order. We reverse that — design first, then materials, then a sequenced site plan.",
+      "Quality checks at each stage protect finishes and timelines. You always know what is happening next.",
+      "The result is a home that feels newly considered, without the stress of a fragmented build.",
+    ]),
+    imageUrl: "/brand/services/renovation.jpg",
+    category: "Renovation",
+    published: true,
+    publishedAt: new Date("2025-12-10T00:00:00.000Z"),
+    sortOrder: 3,
+    createdAt: now,
+    updatedAt: now,
+  },
+];
+
+export function parseBlogBody(body: string): string[] {
+  try {
+    const parsed = JSON.parse(body) as unknown;
+    if (Array.isArray(parsed)) {
+      return parsed.map(String).filter(Boolean);
+    }
+  } catch {
+    /* plain text fallback */
+  }
+  return body
+    .split(/\n\s*\n/)
+    .map((p) => p.trim())
+    .filter(Boolean);
+}
+
+export function serializeBlogBody(raw: string): string {
+  const paragraphs = raw
+    .split(/\n\s*\n/)
+    .map((p) => p.trim())
+    .filter(Boolean);
+  return JSON.stringify(paragraphs.length ? paragraphs : [raw.trim()].filter(Boolean));
+}
+
 export function getStaticServiceById(id: string) {
   return staticServices.find((s) => s.id === id) ?? null;
 }
 
 export function getStaticServiceBySlug(slug: string) {
   return staticServices.find((s) => s.slug === slug) ?? null;
+}
+
+export function getStaticBlogBySlug(slug: string) {
+  return staticBlogPosts.find((p) => p.slug === slug) ?? null;
 }

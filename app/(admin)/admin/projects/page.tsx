@@ -15,41 +15,55 @@ export default async function AdminProjectsPage() {
   });
 
   return (
-    <AdminShell title="Projects">
+    <AdminShell
+      title="Projects"
+      description="Curate gallery work shown across the homepage and projects page."
+    >
       <div className="mb-6 flex justify-end">
         <Link href="/admin/projects/new" className="btn-primary">
           Add project
         </Link>
       </div>
-      <div className="overflow-x-auto border border-line bg-white">
+      <div className="admin-table-wrap overflow-x-auto">
         <table className="min-w-full text-left text-sm">
-          <thead className="border-b border-line bg-cream/60 text-xs uppercase tracking-wider text-muted">
+          <thead className="border-b border-line/80 bg-cream/70 text-[11px] uppercase tracking-[0.14em] text-muted">
             <tr>
-              <th className="px-4 py-3">Title</th>
-              <th className="px-4 py-3">Category</th>
-              <th className="px-4 py-3">Media</th>
-              <th className="px-4 py-3">Featured</th>
-              <th className="px-4 py-3">Actions</th>
+              <th className="px-5 py-3.5">Title</th>
+              <th className="px-5 py-3.5">Category</th>
+              <th className="px-5 py-3.5">Media</th>
+              <th className="px-5 py-3.5">Featured</th>
+              <th className="px-5 py-3.5">Actions</th>
             </tr>
           </thead>
           <tbody>
             {projects.map((project) => (
-              <tr key={project.id} className="border-b border-line/70">
-                <td className="px-4 py-3 font-medium">{project.title}</td>
-                <td className="px-4 py-3">{project.category.title}</td>
-                <td className="px-4 py-3">{project.media.length}</td>
-                <td className="px-4 py-3">{project.featured ? "Yes" : "No"}</td>
-                <td className="px-4 py-3">
-                  <div className="flex items-center gap-3">
+              <tr
+                key={project.id}
+                className="border-b border-line/50 last:border-0 transition hover:bg-cream/40"
+              >
+                <td className="px-5 py-4 font-medium text-ink">
+                  {project.title}
+                </td>
+                <td className="px-5 py-4 text-muted">{project.category.title}</td>
+                <td className="px-5 py-4 text-muted">{project.media.length}</td>
+                <td className="px-5 py-4">
+                  {project.featured ? (
+                    <span className="admin-badge-gold">Featured</span>
+                  ) : (
+                    <span className="text-xs text-muted">—</span>
+                  )}
+                </td>
+                <td className="px-5 py-4">
+                  <div className="flex items-center gap-1">
                     <Link
                       href={`/admin/projects/${project.id}`}
-                      className="text-teal hover:underline"
+                      className="admin-link"
                     >
                       Edit
                     </Link>
                     <form action={deleteProject}>
                       <input type="hidden" name="id" value={project.id} />
-                      <button type="submit" className="text-red-700 hover:underline">
+                      <button type="submit" className="admin-danger">
                         Delete
                       </button>
                     </form>
@@ -59,6 +73,9 @@ export default async function AdminProjectsPage() {
             ))}
           </tbody>
         </table>
+        {!projects.length && (
+          <p className="px-5 py-8 text-sm text-muted">No projects yet.</p>
+        )}
       </div>
     </AdminShell>
   );

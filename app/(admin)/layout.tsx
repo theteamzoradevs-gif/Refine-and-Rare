@@ -9,25 +9,31 @@ export default function AdminRootLayout({
 }) {
   if (!isDatabaseEnabled()) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-cream px-6">
-        <div className="max-w-md text-center">
-          <p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted">
+      <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-cream px-6">
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(197,178,138,0.25),transparent_40%),radial-gradient(circle_at_80%_80%,rgba(27,58,47,0.08),transparent_40%)]" />
+        <div className="admin-panel relative max-w-md text-center">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-gold-dark">
             Admin
           </p>
           <h1 className="mt-3 font-display text-3xl text-ink">
-            Database is temporarily disabled
+            Connect your database
           </h1>
-          <p className="mt-4 text-sm text-muted">
-            Prisma and admin tooling are still in the project. Set{" "}
-            <code className="text-ink">DATABASE_URL</code> in your env (and leave{" "}
-            <code className="text-ink">DATABASE_ENABLED</code> unset or{" "}
-            <code className="text-ink">true</code>), then run{" "}
-            <code className="text-ink">npm run db:setup</code> to turn them back on.
+          <p className="mt-4 text-sm leading-relaxed text-muted">
+            Add your Supabase{" "}
+            <code className="rounded-md bg-cream-2 px-1.5 py-0.5 text-ink">
+              DATABASE_URL
+            </code>{" "}
+            in{" "}
+            <code className="rounded-md bg-cream-2 px-1.5 py-0.5 text-ink">
+              .env
+            </code>
+            , then run{" "}
+            <code className="rounded-md bg-cream-2 px-1.5 py-0.5 text-ink">
+              npm run db:setup
+            </code>{" "}
+            to enable the admin CMS.
           </p>
-          <a
-            href="/"
-            className="mt-8 inline-block border border-ink px-5 py-2.5 text-sm font-medium text-ink transition hover:bg-ink hover:text-white"
-          >
+          <a href="/" className="btn-outline mt-8 inline-flex">
             Back to site
           </a>
         </div>

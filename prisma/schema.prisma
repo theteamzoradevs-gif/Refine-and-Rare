@@ -41,6 +41,7 @@ model Service {
 
 model Project {
   id          String         @id @default(cuid())
+  slug        String         @unique
   title       String
   description String
   featured    Boolean        @default(false)
@@ -71,6 +72,21 @@ model Testimonial {
   sortOrder Int      @default(0)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model BlogPost {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  title       String
+  excerpt     String
+  body        String
+  imageUrl    String
+  category    String
+  published   Boolean  @default(true)
+  publishedAt DateTime @default(now())
+  sortOrder   Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
 
 model Enquiry {

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { BLOG_POSTS } from "@/lib/constants";
+import { getPublishedBlogs } from "@/lib/data";
 import { Reveal } from "@/components/ui/Reveal";
 
 export const metadata: Metadata = {
@@ -10,7 +10,9 @@ export const metadata: Metadata = {
     "Ideas, guides, and studio notes from Refine & Rare on interiors, kitchens, and renovations in Bengaluru.",
 };
 
-export default function BlogsPage() {
+export default async function BlogsPage() {
+  const posts = await getPublishedBlogs();
+
   return (
     <>
       <section className="relative overflow-hidden bg-ink pb-14 pt-32 text-cream">
@@ -32,7 +34,7 @@ export default function BlogsPage() {
 
       <section className="section-grain bg-cream py-12 md:py-16">
         <div className="container-site grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {BLOG_POSTS.map((post, i) => (
+          {posts.map((post, i) => (
             <Reveal key={post.slug} delay={i * 70} variant="scale">
               <article className="premium-card group flex h-full flex-col overflow-hidden">
                 <Link href={`/blogs/${post.slug}`} className="block">
