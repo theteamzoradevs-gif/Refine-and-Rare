@@ -124,7 +124,7 @@ export default async function BlogDetailPage({ params }: Props) {
         </div>
       </section>
 
-      <FaqSection title="Questions about our studio" />
+      <FaqSection title="Questions about our work" />
       <CtaBanner />
     </>
   );
