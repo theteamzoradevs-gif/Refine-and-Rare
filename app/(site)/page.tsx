@@ -8,6 +8,7 @@ import { ProcessTimeline } from "@/components/home/ProcessTimeline";
 import { MaterialsFinishes } from "@/components/home/MaterialsFinishes";
 import { BengaluruHomes } from "@/components/home/BengaluruHomes";
 import { TestimonialHighlight } from "@/components/home/TestimonialHighlight";
+import { FaqSection } from "@/components/home/FaqSection";
 import { CtaBanner } from "@/components/home/CtaBanner";
 import { EnergyMarquee } from "@/components/home/EnergyMarquee";
 import {
@@ -38,6 +39,7 @@ export default async function HomePage() {
       <MaterialsFinishes />
       <BengaluruHomes />
       <TestimonialHighlight testimonials={testimonials} />
+      <FaqSection />
       <CtaBanner />
     </>
   );

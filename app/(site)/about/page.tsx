@@ -33,63 +33,64 @@ export default async function AboutPage() {
         </div>
       </section>
 
-      {/* Vision & Mission */}
+      {/* Vision */}
       <section className="section-grain relative overflow-hidden bg-cream py-14 md:py-20">
-        <div className="pointer-events-none absolute inset-0 opacity-50 [background:radial-gradient(circle_at_10%_20%,rgba(197,178,138,0.12),transparent_35%),radial-gradient(circle_at_90%_80%,rgba(27,58,47,0.1),transparent_40%)]" />
-        <div className="container-site relative">
-          <Reveal>
+        <div className="pointer-events-none absolute inset-0 opacity-50 [background:radial-gradient(circle_at_10%_20%,rgba(197,178,138,0.12),transparent_35%),radial-gradient(circle_at_90%_80%,rgba(27,58,47,0.08),transparent_40%)]" />
+        <div className="container-site relative grid items-start gap-8 lg:grid-cols-12 lg:gap-14">
+          <Reveal className="lg:col-span-4">
             <p className="section-label">What We Stand For</p>
-            <h2 className="mt-3 max-w-2xl font-display text-3xl leading-tight text-ink md:text-5xl">
-              Vision &amp; Mission
+            <h2 className="mt-3 font-display text-3xl text-ink md:text-5xl">
+              Vision
             </h2>
           </Reveal>
+          <Reveal delay={80} className="lg:col-span-8">
+            <div className="border-l-2 border-gold pl-6 md:pl-8">
+              <h3 className="font-display text-2xl text-ink md:text-3xl">
+                Homes that feel rare — and remain refined for years.
+              </h3>
+              <p className="mt-5 max-w-2xl text-sm leading-relaxed text-muted md:text-base">
+                To become Bengaluru&apos;s most trusted interior studio for
+                thoughtful, timeless residential design — where beauty,
+                function, and craftsmanship come together in every room we
+                create.
+              </p>
+            </div>
+          </Reveal>
+        </div>
+      </section>
 
-          <div className="mt-10 grid gap-5 lg:grid-cols-2 lg:gap-6">
-            <Reveal variant="left">
-              <article className="relative flex h-full flex-col overflow-hidden rounded-2xl border border-line bg-white p-7 md:p-9">
-                <span className="absolute left-0 top-0 h-full w-1 bg-gold" />
-                <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-gold">
-                  Vision
-                </p>
-                <h3 className="mt-4 font-display text-2xl text-ink md:text-3xl">
-                  Homes that feel rare — and remain refined for years.
-                </h3>
-                <p className="mt-5 flex-1 text-sm leading-relaxed text-muted md:text-base">
-                  To become Bengaluru&apos;s most trusted interior studio for
-                  thoughtful, timeless residential design — where beauty,
-                  function, and craftsmanship come together in every room we
-                  create.
-                </p>
-              </article>
-            </Reveal>
-
-            <Reveal variant="right" delay={80}>
-              <article className="relative flex h-full flex-col overflow-hidden rounded-2xl border border-line bg-ink p-7 text-cream md:p-9">
-                <span className="absolute left-0 top-0 h-full w-1 bg-teal" />
-                <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-gold">
-                  Mission
-                </p>
-                <h3 className="mt-4 font-display text-2xl md:text-3xl">
-                  Design with intention. Deliver with integrity.
-                </h3>
-                <p className="mt-5 flex-1 text-sm leading-relaxed text-cream/70 md:text-base">
-                  We listen deeply, plan precisely, and execute end-to-end —
-                  from concept and materials to site coordination — so every
-                  homeowner experiences a calm, clear journey from first
-                  conversation to final reveal.
-                </p>
-              </article>
-            </Reveal>
-          </div>
+      {/* Mission */}
+      <section className="section-grain relative overflow-hidden bg-cream py-14 md:py-20">
+        <div className="pointer-events-none absolute inset-0 opacity-50 [background:radial-gradient(circle_at_85%_25%,rgba(197,178,138,0.1),transparent_40%),radial-gradient(circle_at_15%_80%,rgba(27,58,47,0.08),transparent_45%)]" />
+        <div className="container-site relative grid items-start gap-8 lg:grid-cols-12 lg:gap-14">
+          <Reveal className="lg:col-span-4">
+            <p className="section-label">How We Work</p>
+            <h2 className="mt-3 font-display text-3xl text-ink md:text-5xl">
+              Mission
+            </h2>
+          </Reveal>
+          <Reveal delay={80} className="lg:col-span-8">
+            <div className="border-l-2 border-gold pl-6 md:pl-8">
+              <h3 className="font-display text-2xl text-ink md:text-3xl">
+                Design with intention. Deliver with integrity.
+              </h3>
+              <p className="mt-5 max-w-2xl text-sm leading-relaxed text-muted md:text-base">
+                We listen deeply, plan precisely, and execute end-to-end —
+                from concept and materials to site coordination — so every
+                homeowner experiences a calm, clear journey from first
+                conversation to final reveal.
+              </p>
+            </div>
+          </Reveal>
         </div>
       </section>
 
       {/* Founder's Note */}
-      <section className="relative overflow-hidden bg-ink py-14 text-cream md:py-20">
-        <div className="pointer-events-none absolute inset-0 opacity-35 [background:radial-gradient(circle_at_20%_30%,rgba(197,178,138,0.14),transparent_40%),radial-gradient(circle_at_85%_70%,rgba(27,58,47,0.18),transparent_45%)]" />
+      <section className="section-grain relative overflow-hidden bg-cream py-14 md:py-20">
+        <div className="pointer-events-none absolute inset-0 opacity-45 [background:radial-gradient(circle_at_20%_30%,rgba(197,178,138,0.12),transparent_40%),radial-gradient(circle_at_85%_70%,rgba(27,58,47,0.08),transparent_45%)]" />
         <div className="container-site relative grid items-center gap-10 lg:grid-cols-12 lg:gap-14">
           <Reveal variant="left" className="lg:col-span-5">
-            <div className="relative aspect-[4/5] overflow-hidden rounded-2xl border border-white/10">
+            <div className="relative aspect-[4/5] overflow-hidden rounded-2xl border border-line">
               <Image
                 src="/brand/hero/cover.jpg"
                 alt="Refine & Rare founder’s studio work"
@@ -109,11 +110,11 @@ export default async function AboutPage() {
 
           <Reveal variant="right" delay={100} className="lg:col-span-7">
             <p className="section-label">Founder&apos;s Note</p>
-            <h2 className="mt-3 max-w-xl font-display text-3xl leading-tight md:text-5xl">
+            <h2 className="mt-3 max-w-xl font-display text-3xl text-ink md:text-5xl">
               A personal word from the{" "}
               <span className="gold-shimmer">studio.</span>
             </h2>
-            <div className="mt-8 space-y-5 text-sm leading-relaxed text-cream/75 md:text-base">
+            <div className="mt-8 space-y-5 text-sm leading-relaxed text-muted md:text-base">
               <p>
                 When I started Refine &amp; Rare, it was with a simple belief —
                 a home should feel like you. Not a trend, not a template, but a
@@ -131,11 +132,11 @@ export default async function AboutPage() {
                 to shape it with you.
               </p>
             </div>
-            <div className="mt-8 border-t border-white/10 pt-6">
-              <p className="font-display text-xl italic text-cream">
+            <div className="mt-8 border-t border-line pt-6">
+              <p className="font-display text-xl italic text-ink">
                 — Raja Sharma
               </p>
-              <p className="mt-1 text-xs uppercase tracking-[0.16em] text-cream/45">
+              <p className="mt-1 text-xs uppercase tracking-[0.16em] text-muted">
                 Founder &amp; Creative Lead
               </p>
             </div>
@@ -145,7 +146,7 @@ export default async function AboutPage() {
               </ButtonLink>
               <ButtonLink
                 href="/projects"
-                variant="secondary"
+                variant="outline"
                 className="btn-shine"
               >
                 View Our Work

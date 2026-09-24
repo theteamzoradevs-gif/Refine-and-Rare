@@ -2,10 +2,13 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getServiceBySlug } from "@/lib/data";
+import { getPublishedTestimonials, getServiceBySlug } from "@/lib/data";
 import { staticServices } from "@/lib/staticContent";
 import { ButtonLink } from "@/components/ui/ButtonLink";
 import { Reveal } from "@/components/ui/Reveal";
+import { TestimonialHighlight } from "@/components/home/TestimonialHighlight";
+import { FaqSection } from "@/components/home/FaqSection";
+import { CtaBanner } from "@/components/home/CtaBanner";
 
 type Props = { params: { slug: string } };
 
@@ -33,7 +36,10 @@ const expectations = [
 ];
 
 export default async function ServiceDetailPage({ params }: Props) {
-  const service = await getServiceBySlug(params.slug);
+  const [service, testimonials] = await Promise.all([
+    getServiceBySlug(params.slug),
+    getPublishedTestimonials(),
+  ]);
   if (!service) notFound();
 
   return (
@@ -103,15 +109,17 @@ export default async function ServiceDetailPage({ params }: Props) {
               ))}
             </ul>
           </Reveal>
+        </div>
 
-          <Reveal delay={220}>
-            <div className="relative mt-12 overflow-hidden rounded-2xl border border-white/10 bg-ink p-7 text-cream sm:p-8 md:p-10">
+        <div className="container-site relative mt-12">
+          <Reveal delay={80}>
+            <div className="relative w-full overflow-hidden rounded-2xl border border-white/10 bg-ink p-7 text-cream sm:p-8 md:p-12">
               <div className="pointer-events-none absolute inset-0 opacity-40 [background:radial-gradient(circle_at_90%_10%,rgba(197,178,138,0.22),transparent_40%)]" />
-              <div className="relative mx-auto flex max-w-2xl flex-col items-center text-center">
+              <div className="relative mx-auto flex max-w-3xl flex-col items-center text-center">
                 <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-gold">
                   Next step
                 </p>
-                <h2 className="mt-3 font-display text-2xl leading-tight md:text-3xl">
+                <h2 className="mt-3 font-display text-2xl leading-tight md:text-4xl">
                   Interested in {service.title.toLowerCase()}?
                 </h2>
                 <p className="mt-3 text-sm leading-relaxed text-cream/70 md:text-base">
@@ -139,6 +147,10 @@ export default async function ServiceDetailPage({ params }: Props) {
           </Reveal>
         </div>
       </section>
+
+      <TestimonialHighlight testimonials={testimonials} variant="static" />
+      <FaqSection title="Questions about this service" />
+      <CtaBanner />
     </>
   );
 }

@@ -50,7 +50,7 @@ function VoiceCard({
   return (
     <article
       className={cn(
-        "premium-card group w-[min(300px,85vw)] shrink-0 rounded-2xl p-5 sm:p-6 md:w-[340px] md:p-7",
+        "premium-card group relative flex h-full flex-col rounded-2xl p-5 sm:p-6 md:p-7",
         className
       )}
     >
@@ -61,7 +61,7 @@ function VoiceCard({
           {ROLES[name] || "Client · Bengaluru"}
         </p>
       </div>
-      <p className="mt-5 text-sm leading-relaxed text-muted">“{quote}”</p>
+      <p className="mt-5 flex-1 text-sm leading-relaxed text-muted">“{quote}”</p>
       <div className="mt-6">
         <Stars />
       </div>
@@ -90,6 +90,7 @@ function SlidingRow({
             key={`${item.name}-${i}`}
             name={item.name}
             quote={item.quote}
+            className="w-[min(300px,85vw)] shrink-0 md:w-[340px]"
           />
         ))}
       </div>
@@ -99,16 +100,18 @@ function SlidingRow({
 
 export function TestimonialHighlight({
   testimonials,
+  variant = "marquee",
 }: {
   testimonials: Testimonial[];
+  variant?: "marquee" | "static";
 }) {
   if (!testimonials.length) return null;
 
   const mid = Math.ceil(testimonials.length / 2);
   const rowOne = testimonials.slice(0, mid);
   const rowTwo = testimonials.slice(mid);
-  // Keep second row full enough for a smooth marquee
   const bottomRow = rowTwo.length >= 2 ? rowTwo : [...testimonials].reverse();
+  const staticItems = testimonials.slice(0, 3);
 
   return (
     <section className="relative overflow-hidden bg-cream py-12 md:py-16">
@@ -126,20 +129,34 @@ export function TestimonialHighlight({
         </Reveal>
       </div>
 
-      <div className="relative mt-8 space-y-5">
-        <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-10 bg-gradient-to-r from-cream to-transparent md:w-20" />
-        <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-10 bg-gradient-to-l from-cream to-transparent md:w-20" />
+      {variant === "static" ? (
+        <div className="container-site relative mt-10">
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {staticItems.map((item, i) => (
+              <Reveal key={item.id || item.name} delay={i * 60} variant="scale">
+                <VoiceCard name={item.name} quote={item.quote} />
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      ) : (
+        <div className="relative mt-8 space-y-5">
+          <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-10 bg-gradient-to-r from-cream to-transparent md:w-20" />
+          <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-10 bg-gradient-to-l from-cream to-transparent md:w-20" />
 
-        <SlidingRow items={rowOne} />
-        <SlidingRow items={bottomRow} reverse />
-      </div>
+          <SlidingRow items={rowOne} />
+          <SlidingRow items={bottomRow} reverse />
+        </div>
+      )}
 
       <div className="container-site relative mt-8 flex flex-col items-center gap-5">
-        <div className="flex items-center gap-2" aria-hidden>
-          <span className="h-1.5 w-8 rounded-full bg-gold" />
-          <span className="h-1.5 w-5 rounded-full bg-line" />
-          <span className="h-1.5 w-5 rounded-full bg-line" />
-        </div>
+        {variant === "marquee" ? (
+          <div className="flex items-center gap-2" aria-hidden>
+            <span className="h-1.5 w-8 rounded-full bg-gold" />
+            <span className="h-1.5 w-5 rounded-full bg-line" />
+            <span className="h-1.5 w-5 rounded-full bg-line" />
+          </div>
+        ) : null}
         <ButtonLink href="/testimonials" variant="outline" className="btn-shine">
           Read more stories
         </ButtonLink>

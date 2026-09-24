@@ -63,6 +63,39 @@ export const DIFFERENCE_POINTS = [
   },
 ] as const;
 
+export const FAQS = [
+  {
+    question: "How does the design process start?",
+    answer:
+      "We begin with a consultation to understand your lifestyle, space, and budget. From there we share a clear concept direction and next steps — with no pressure.",
+  },
+  {
+    question: "Do you handle end-to-end execution?",
+    answer:
+      "Yes. From concept and material selection to site coordination and final handover, we manage the full journey so you have one clear point of contact.",
+  },
+  {
+    question: "How long does a typical project take?",
+    answer:
+      "Timelines depend on scope — a modular kitchen differs from a full-home remodel. After consultation we share a realistic schedule tailored to your project.",
+  },
+  {
+    question: "Can you work within my budget?",
+    answer:
+      "Absolutely. We plan materials, finishes, and priorities around your budget so the result feels refined without unnecessary spend.",
+  },
+  {
+    question: "Do you work only in Bengaluru?",
+    answer:
+      "Our primary focus is residential interiors across Bengaluru. Reach out with your location and project details and we’ll confirm how we can help.",
+  },
+  {
+    question: "What makes Refine & Rare different?",
+    answer:
+      "Bespoke design, premium materials, and careful detailing — spaces that feel personal, functional, and timeless rather than trend-led templates.",
+  },
+] as const;
+
 export const PROCESS_STEPS = [
   {
     step: "01",
