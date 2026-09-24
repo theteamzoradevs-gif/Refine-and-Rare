@@ -1,11 +1,14 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getProjectBySlug } from "@/lib/data";
 import { staticProjects } from "@/lib/staticContent";
 import { ButtonLink } from "@/components/ui/ButtonLink";
+import { MediaCarousel } from "@/components/ui/MediaCarousel";
 import { Reveal } from "@/components/ui/Reveal";
+import { ProcessTimeline } from "@/components/home/ProcessTimeline";
+import { FaqSection } from "@/components/home/FaqSection";
+import { CtaBanner } from "@/components/home/CtaBanner";
 
 type Props = { params: { slug: string } };
 
@@ -35,11 +38,6 @@ const highlights = [
 export default async function ProjectDetailPage({ params }: Props) {
   const project = await getProjectBySlug(params.slug);
   if (!project) notFound();
-
-  const cover =
-    project.media.find((m) => m.type === "IMAGE") || project.media[0];
-  // Exclude cover so it isn't repeated when video is first / image is second
-  const gallery = project.media.filter((m) => m.id !== cover?.id);
 
   return (
     <>
@@ -79,63 +77,10 @@ export default async function ProjectDetailPage({ params }: Props) {
             </p>
           </Reveal>
 
-          {cover ? (
+          {project.media.length > 0 ? (
             <Reveal delay={100} variant="scale">
-              <div className="group relative mt-10 aspect-[16/10] overflow-hidden rounded-2xl border border-line shadow-[0_24px_60px_-36px_rgba(28,36,33,0.45)] md:mt-12 md:aspect-[21/10]">
-                {cover.type === "VIDEO" ? (
-                  <video
-                    src={cover.url}
-                    className="absolute inset-0 h-full w-full object-cover"
-                    autoPlay
-                    muted
-                    loop
-                    playsInline
-                    aria-label={cover.alt || project.title}
-                  />
-                ) : (
-                  <Image
-                    src={cover.url}
-                    alt={cover.alt || project.title}
-                    fill
-                    priority
-                    className="object-cover transition duration-1000 ease-premium group-hover:scale-105"
-                    sizes="(max-width:768px) 100vw, 896px"
-                  />
-                )}
-                <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink/25 via-transparent to-transparent" />
-              </div>
-            </Reveal>
-          ) : null}
-
-          {gallery.length > 0 ? (
-            <Reveal delay={140}>
-              <div className="mt-6 grid gap-4 sm:grid-cols-2">
-                {gallery.map((item) => (
-                  <div
-                    key={item.id || item.url}
-                    className="relative aspect-[5/4] overflow-hidden rounded-2xl border border-line"
-                  >
-                    {item.type === "VIDEO" ? (
-                      <video
-                        src={item.url}
-                        className="absolute inset-0 h-full w-full object-cover"
-                        muted
-                        loop
-                        playsInline
-                        controls
-                        aria-label={item.alt || project.title}
-                      />
-                    ) : (
-                      <Image
-                        src={item.url}
-                        alt={item.alt || project.title}
-                        fill
-                        className="object-cover"
-                        sizes="(max-width:768px) 100vw, 448px"
-                      />
-                    )}
-                  </div>
-                ))}
+              <div className="mt-10 md:mt-12">
+                <MediaCarousel items={project.media} title={project.title} />
               </div>
             </Reveal>
           ) : null}
@@ -157,15 +102,17 @@ export default async function ProjectDetailPage({ params }: Props) {
               ))}
             </ul>
           </Reveal>
+        </div>
 
-          <Reveal delay={220}>
-            <div className="relative mt-12 overflow-hidden rounded-2xl border border-white/10 bg-ink p-7 text-cream sm:p-8 md:p-10">
+        <div className="container-site relative mt-12">
+          <Reveal delay={80}>
+            <div className="relative w-full overflow-hidden rounded-2xl border border-white/10 bg-ink p-7 text-cream sm:p-8 md:p-12">
               <div className="pointer-events-none absolute inset-0 opacity-40 [background:radial-gradient(circle_at_90%_10%,rgba(197,178,138,0.22),transparent_40%)]" />
-              <div className="relative mx-auto flex max-w-2xl flex-col items-center text-center">
+              <div className="relative mx-auto flex max-w-3xl flex-col items-center text-center">
                 <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-gold">
                   Next step
                 </p>
-                <h2 className="mt-3 font-display text-2xl leading-tight md:text-3xl">
+                <h2 className="mt-3 font-display text-2xl leading-tight md:text-4xl">
                   Want a look like this?
                 </h2>
                 <p className="mt-3 text-sm leading-relaxed text-cream/70 md:text-base">
@@ -178,7 +125,7 @@ export default async function ProjectDetailPage({ params }: Props) {
                     variant="gold"
                     className="btn-shine w-full justify-center px-6 py-3.5 sm:w-auto sm:min-w-[11rem]"
                   >
-                    Get Similar Look
+                    Get a Quote
                   </ButtonLink>
                   <ButtonLink
                     href="/projects"
@@ -193,6 +140,10 @@ export default async function ProjectDetailPage({ params }: Props) {
           </Reveal>
         </div>
       </section>
+
+      <ProcessTimeline />
+      <FaqSection title="Questions about this project" />
+      <CtaBanner />
     </>
   );
 }

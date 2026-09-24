@@ -6,6 +6,8 @@ import { getBlogBySlug } from "@/lib/data";
 import { staticBlogPosts } from "@/lib/staticContent";
 import { Reveal } from "@/components/ui/Reveal";
 import { ButtonLink } from "@/components/ui/ButtonLink";
+import { FaqSection } from "@/components/home/FaqSection";
+import { CtaBanner } from "@/components/home/CtaBanner";
 
 type Props = { params: { slug: string } };
 
@@ -62,16 +64,8 @@ export default async function BlogDetailPage({ params }: Props) {
         <div className="pointer-events-none absolute inset-0 opacity-50 [background:radial-gradient(circle_at_10%_15%,rgba(197,178,138,0.14),transparent_35%),radial-gradient(circle_at_90%_80%,rgba(27,58,47,0.08),transparent_40%)]" />
 
         <div className="container-site relative max-w-3xl">
-          <Reveal>
-            <div className="space-y-5 text-base leading-relaxed text-muted md:text-lg">
-              {post.body.map((para) => (
-                <p key={para}>{para}</p>
-              ))}
-            </div>
-          </Reveal>
-
-          <Reveal delay={100} variant="scale">
-            <div className="group relative mt-10 aspect-[16/10] overflow-hidden rounded-2xl border border-line shadow-[0_24px_60px_-36px_rgba(28,36,33,0.45)] md:mt-12">
+          <Reveal delay={40} variant="scale">
+            <div className="group relative aspect-[16/10] overflow-hidden rounded-2xl border border-line shadow-[0_24px_60px_-36px_rgba(28,36,33,0.45)]">
               <Image
                 src={post.imageUrl}
                 alt={post.title}
@@ -84,14 +78,24 @@ export default async function BlogDetailPage({ params }: Props) {
             </div>
           </Reveal>
 
-          <Reveal delay={220}>
-            <div className="relative mt-12 overflow-hidden rounded-2xl border border-white/10 bg-ink p-7 text-cream sm:p-8 md:p-10">
+          <Reveal delay={100}>
+            <div className="mt-10 space-y-5 text-base leading-relaxed text-muted md:mt-12 md:text-lg">
+              {post.body.map((para) => (
+                <p key={para}>{para}</p>
+              ))}
+            </div>
+          </Reveal>
+        </div>
+
+        <div className="container-site relative mt-12">
+          <Reveal delay={80}>
+            <div className="relative w-full overflow-hidden rounded-2xl border border-white/10 bg-ink p-7 text-cream sm:p-8 md:p-12">
               <div className="pointer-events-none absolute inset-0 opacity-40 [background:radial-gradient(circle_at_90%_10%,rgba(197,178,138,0.22),transparent_40%)]" />
-              <div className="relative mx-auto flex max-w-2xl flex-col items-center text-center">
+              <div className="relative mx-auto flex max-w-3xl flex-col items-center text-center">
                 <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-gold">
                   Next step
                 </p>
-                <h2 className="mt-3 font-display text-2xl leading-tight md:text-3xl">
+                <h2 className="mt-3 font-display text-2xl leading-tight md:text-4xl">
                   Inspired by this note?
                 </h2>
                 <p className="mt-3 text-sm leading-relaxed text-cream/70 md:text-base">
@@ -119,6 +123,9 @@ export default async function BlogDetailPage({ params }: Props) {
           </Reveal>
         </div>
       </section>
+
+      <FaqSection title="Questions about our studio" />
+      <CtaBanner />
     </>
   );
 }

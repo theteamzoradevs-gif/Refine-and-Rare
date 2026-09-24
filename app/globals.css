@@ -28,6 +28,18 @@ body {
   overflow-x: clip;
 }
 
+/* Playfair descenders (y, p, g, q) need room — tight line-height clips them */
+.font-display {
+  line-height: 1.25;
+  padding-bottom: 0.06em;
+}
+
+.font-display.leading-none,
+.font-display.leading-tight,
+.font-display.leading-\[1\.15\] {
+  line-height: 1.22;
+}
+
 ::selection {
   background: rgba(27, 58, 47, 0.22);
 }
@@ -83,7 +95,8 @@ body {
   }
 
   .heading-display {
-    @apply font-display text-3xl leading-tight text-ink md:text-5xl;
+    @apply font-display text-3xl text-ink md:text-5xl;
+    line-height: 1.22;
   }
 
   .prose-muted {

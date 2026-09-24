@@ -3,12 +3,56 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import { NAV_LINKS } from "@/lib/constants";
+import { NAV_LINKS, telUrl } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 
 type NavService = { slug: string; title: string };
 
-export function Header({ services = [] }: { services?: NavService[] }) {
+function PhoneIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.8"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+      aria-hidden
+    >
+      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.12.9.33 1.78.62 2.62a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.46-1.46a2 2 0 0 1 2.11-.45c.84.29 1.72.5 2.62.62A2 2 0 0 1 22 16.92z" />
+    </svg>
+  );
+}
+
+function InstagramIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.8"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+      aria-hidden
+    >
+      <rect x="2" y="2" width="20" height="20" rx="5" />
+      <circle cx="12" cy="12" r="4" />
+      <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" />
+    </svg>
+  );
+}
+
+export function Header({
+  services = [],
+  phone,
+  instagram,
+}: {
+  services?: NavService[];
+  phone: string;
+  instagram: string;
+}) {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
@@ -40,6 +84,13 @@ export function Header({ services = [] }: { services?: NavService[] }) {
     scrolled ? "text-ink/80" : "text-white/90"
   );
 
+  const iconBtnClass = cn(
+    "inline-flex h-10 w-10 items-center justify-center rounded-full border transition",
+    scrolled
+      ? "border-ink/15 text-ink hover:border-teal hover:text-teal"
+      : "border-white/35 text-white hover:border-gold hover:text-gold"
+  );
+
   return (
     <header
       className={cn(
@@ -62,10 +113,10 @@ export function Header({ services = [] }: { services?: NavService[] }) {
             className="h-9 w-9 shrink-0 object-contain sm:h-11 sm:w-11"
             priority
           />
-          <div className="min-w-0 leading-tight">
+          <div className="min-w-0">
             <div
               className={cn(
-                "truncate font-display text-base tracking-wide sm:text-lg",
+                "font-display text-base tracking-wide sm:text-lg",
                 scrolled ? "text-ink" : "text-white"
               )}
             >
@@ -146,13 +197,29 @@ export function Header({ services = [] }: { services?: NavService[] }) {
           })}
         </nav>
 
-        <div className="flex items-center gap-2 sm:gap-3">
-          <Link
-            href="/contact"
-            className="hidden items-center rounded-xl bg-gold px-4 py-2.5 text-xs font-semibold uppercase tracking-[0.14em] text-ink transition hover:bg-gold-dark hover:text-white lg:inline-flex"
+        <div className="flex items-center gap-2 sm:gap-2.5">
+          <a
+            href={telUrl(phone)}
+            className={cn(
+              "inline-flex items-center gap-2 rounded-full border px-3 py-2 text-xs font-semibold uppercase tracking-[0.12em] transition sm:px-3.5",
+              scrolled
+                ? "border-ink/15 bg-white/80 text-ink hover:border-teal hover:text-teal"
+                : "border-white/35 bg-white/10 text-white hover:border-gold hover:text-gold"
+            )}
+            aria-label="Call now"
           >
-            Enquire Now
-          </Link>
+            <PhoneIcon className="h-4 w-4 shrink-0" />
+            <span className="hidden sm:inline">Call Now</span>
+          </a>
+          <a
+            href={instagram}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={iconBtnClass}
+            aria-label="Instagram"
+          >
+            <InstagramIcon className="h-4 w-4" />
+          </a>
           <button
             type="button"
             aria-label="Toggle menu"
@@ -223,13 +290,26 @@ export function Header({ services = [] }: { services?: NavService[] }) {
                   </Link>
                 );
               })}
-              <Link
-                href="/contact"
-                className="btn-primary mt-3 text-center"
-                onClick={() => setOpen(false)}
-              >
-                Enquire Now
-              </Link>
+              <div className="mt-4 flex flex-col gap-2">
+                <a
+                  href={telUrl(phone)}
+                  className="inline-flex items-center justify-center gap-2 rounded-xl bg-teal px-4 py-3 text-xs font-semibold uppercase tracking-[0.14em] text-white"
+                  onClick={() => setOpen(false)}
+                >
+                  <PhoneIcon className="h-4 w-4" />
+                  Call Now
+                </a>
+                <a
+                  href={instagram}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center gap-2 rounded-xl border border-ink/20 px-4 py-3 text-xs font-semibold uppercase tracking-[0.14em] text-ink"
+                  onClick={() => setOpen(false)}
+                >
+                  <InstagramIcon className="h-4 w-4" />
+                  Instagram
+                </a>
+              </div>
             </nav>
           </div>
         </div>

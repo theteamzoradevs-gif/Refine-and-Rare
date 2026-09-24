@@ -42,7 +42,7 @@ export function TextReveal({
         {words.map((word, i) => (
           <span
             key={`${word}-${i}`}
-            className="inline-block overflow-hidden align-bottom"
+            className="inline-block overflow-hidden align-bottom py-[0.18em] -my-[0.12em]"
           >
             <span
               className={cn(
