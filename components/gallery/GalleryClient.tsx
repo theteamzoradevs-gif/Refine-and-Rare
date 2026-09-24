@@ -2,8 +2,9 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
+import { slugify } from "@/lib/projectSlug";
 import { Reveal } from "@/components/ui/Reveal";
 import { ButtonLink } from "@/components/ui/ButtonLink";
 
@@ -16,6 +17,7 @@ type Media = {
 
 type Project = {
   id: string;
+  slug?: string;
   title: string;
   description: string;
   media: Media[];
@@ -44,21 +46,11 @@ export function GalleryClient({
 
   return (
     <>
-      <div className="mb-8 flex flex-wrap gap-2">
-        <FilterChip
-          active={filter === "all"}
-          onClick={() => setFilter("all")}
-          label="All"
-        />
-        {categories.map((c) => (
-          <FilterChip
-            key={c.slug}
-            active={filter === c.slug}
-            onClick={() => setFilter(c.slug)}
-            label={c.title}
-          />
-        ))}
-      </div>
+      <ProjectFilterBar
+        filter={filter}
+        onFilterChange={setFilter}
+        categories={categories}
+      />
 
       <div className="mt-8 grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
         {filtered.map((project, i) => {
@@ -112,13 +104,13 @@ export function GalleryClient({
                     {project.description}
                   </p>
                   <div className="mt-5 flex w-full flex-col gap-2 sm:w-auto sm:flex-row sm:flex-wrap sm:items-center sm:justify-center">
-                    <button
-                      type="button"
-                      onClick={() => setActive({ project, mediaIndex: 0 })}
-                      className="btn-outline w-full justify-center sm:w-auto"
+                    <ButtonLink
+                      href={`/projects/${project.slug || slugify(project.title) || project.id}`}
+                      variant="outline"
+                      className="w-full justify-center sm:w-auto"
                     >
                       View
-                    </button>
+                    </ButtonLink>
                     <ButtonLink
                       href={`/contact?service=${project.category.slug}`}
                       variant="primary"
@@ -154,6 +146,102 @@ export function GalleryClient({
   );
 }
 
+function ProjectFilterBar({
+  filter,
+  onFilterChange,
+  categories,
+}: {
+  filter: string;
+  onFilterChange: (value: string) => void;
+  categories: { slug: string; title: string }[];
+}) {
+  const scrollerRef = useRef<HTMLDivElement>(null);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(false);
+
+  function updateScrollState() {
+    const el = scrollerRef.current;
+    if (!el) return;
+    const max = el.scrollWidth - el.clientWidth;
+    setCanScrollLeft(el.scrollLeft > 4);
+    setCanScrollRight(el.scrollLeft < max - 4);
+  }
+
+  useEffect(() => {
+    updateScrollState();
+    const el = scrollerRef.current;
+    if (!el) return;
+    el.addEventListener("scroll", updateScrollState, { passive: true });
+    window.addEventListener("resize", updateScrollState);
+    return () => {
+      el.removeEventListener("scroll", updateScrollState);
+      window.removeEventListener("resize", updateScrollState);
+    };
+  }, [categories]);
+
+  function scrollByDir(dir: 1 | -1) {
+    const el = scrollerRef.current;
+    if (!el) return;
+    el.scrollBy({ left: dir * Math.min(280, el.clientWidth * 0.7), behavior: "smooth" });
+  }
+
+  return (
+    <div className="relative mb-8">
+      {canScrollLeft && (
+        <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-10 bg-gradient-to-r from-cream to-transparent" />
+      )}
+      {canScrollRight && (
+        <div className="pointer-events-none absolute inset-y-0 right-12 z-10 w-10 bg-gradient-to-l from-cream to-transparent sm:right-14" />
+      )}
+
+      <div
+        ref={scrollerRef}
+        className="flex gap-2.5 overflow-x-auto scroll-smooth pr-14 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+      >
+        <FilterChip
+          active={filter === "all"}
+          onClick={() => onFilterChange("all")}
+          label="All"
+        />
+        {categories.map((c) => (
+          <FilterChip
+            key={c.slug}
+            active={filter === c.slug}
+            onClick={() => onFilterChange(c.slug)}
+            label={c.title}
+          />
+        ))}
+      </div>
+
+      {canScrollRight && (
+        <button
+          type="button"
+          aria-label="Scroll filters right"
+          onClick={() => scrollByDir(1)}
+          className="absolute right-0 top-1/2 z-20 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-line bg-white text-ink shadow-[0_8px_24px_-12px_rgba(28,36,33,0.45)] transition hover:border-teal hover:text-teal"
+        >
+          <svg viewBox="0 0 20 20" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden>
+            <path d="M7 4l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </button>
+      )}
+
+      {canScrollLeft && (
+        <button
+          type="button"
+          aria-label="Scroll filters left"
+          onClick={() => scrollByDir(-1)}
+          className="absolute left-0 top-1/2 z-20 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-line bg-white text-ink shadow-[0_8px_24px_-12px_rgba(28,36,33,0.45)] transition hover:border-teal hover:text-teal"
+        >
+          <svg viewBox="0 0 20 20" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden>
+            <path d="M13 4l-6 6 6 6" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </button>
+      )}
+    </div>
+  );
+}
+
 function FilterChip({
   label,
   active,
@@ -168,10 +256,10 @@ function FilterChip({
       type="button"
       onClick={onClick}
       className={cn(
-        "rounded-xl px-4 py-2 text-xs font-semibold uppercase tracking-[0.12em] transition",
+        "shrink-0 whitespace-nowrap rounded-full px-4 py-2.5 text-sm font-medium transition",
         active
-          ? "bg-teal text-white"
-          : "border border-line bg-white text-muted hover:border-teal hover:text-teal"
+          ? "bg-teal text-white shadow-sm"
+          : "border border-line bg-white text-ink/80 hover:border-teal/40 hover:text-teal"
       )}
     >
       {label}

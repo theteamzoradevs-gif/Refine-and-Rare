@@ -4,8 +4,15 @@ import { useState, useTransition, type FormEvent } from "react";
 import { submitChatEnquiry } from "@/app/actions/enquiry";
 import { cn } from "@/lib/utils";
 
-const fieldClass =
-  "w-full border-0 border-b border-white/25 bg-transparent px-0 py-2 text-sm text-white placeholder:text-white/40 outline-none transition focus:border-gold";
+const fieldClass = cn(
+  "w-full border-0 border-b border-white/25 bg-transparent px-0 py-2 text-sm text-white caret-white outline-none transition",
+  "placeholder:text-white/40 focus:border-gold",
+  "[&:-webkit-autofill]:[-webkit-text-fill-color:white]",
+  "[&:-webkit-autofill]:[transition:background-color_99999s_ease-in-out_0s]"
+);
+
+const labelClass =
+  "mb-0.5 block text-[9px] font-semibold uppercase tracking-[0.16em] text-white";
 
 export function HeroEnquireForm({ className }: { className?: string }) {
   const [pending, startTransition] = useTransition();
@@ -75,11 +82,9 @@ export function HeroEnquireForm({ className }: { className?: string }) {
           Enter your details.
         </p>
 
-        <div className="mt-5 space-y-3.5">
-          <label className="block">
-            <span className="mb-0.5 block text-[9px] font-semibold uppercase tracking-[0.16em] text-white/45">
-              Name
-            </span>
+        <div className="mt-5 space-y-3.5 text-white">
+          <label className="block text-white">
+            <span className={labelClass}>Name</span>
             <input
               name="name"
               required
@@ -89,9 +94,7 @@ export function HeroEnquireForm({ className }: { className?: string }) {
             />
           </label>
           <label className="block">
-            <span className="mb-0.5 block text-[9px] font-semibold uppercase tracking-[0.16em] text-white/45">
-              Phone
-            </span>
+            <span className={labelClass}>Phone</span>
             <input
               name="phone"
               type="tel"
@@ -103,9 +106,7 @@ export function HeroEnquireForm({ className }: { className?: string }) {
           </label>
         </div>
 
-        {error && (
-          <p className="mt-3 text-xs text-red-300">{error}</p>
-        )}
+        {error && <p className="mt-3 text-xs text-red-300">{error}</p>}
 
         <button
           type="submit"
@@ -117,8 +118,6 @@ export function HeroEnquireForm({ className }: { className?: string }) {
           </span>
           <span className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/35 to-transparent transition duration-700 group-hover:translate-x-full" />
         </button>
-
-      
       </div>
     </form>
   );

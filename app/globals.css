@@ -295,6 +295,38 @@ body {
   .admin-option-box {
     @apply rounded-2xl border border-line/70 bg-gradient-to-br from-cream/80 to-white p-4;
   }
+
+  .admin-hint {
+    @apply mt-1.5 text-xs leading-relaxed text-muted;
+  }
+
+  .admin-toggle {
+    @apply flex cursor-pointer items-start gap-3 rounded-2xl border border-line/70 bg-gradient-to-br from-cream/70 to-white p-4 transition hover:border-gold/45;
+  }
+
+  .admin-toggle-track {
+    @apply relative mt-0.5 h-6 w-11 shrink-0 rounded-full bg-line/80 transition;
+  }
+
+  .admin-toggle-thumb {
+    @apply absolute left-0.5 top-0.5 h-5 w-5 rounded-full bg-white shadow transition;
+  }
+
+  .admin-toggle:has(input:checked) .admin-toggle-track {
+    @apply bg-teal;
+  }
+
+  .admin-toggle:has(input:checked) .admin-toggle-thumb {
+    transform: translateX(1.25rem);
+  }
+
+  .admin-media-drop {
+    @apply flex min-h-[8.5rem] cursor-pointer flex-col items-center justify-center gap-2 rounded-2xl border border-dashed border-line bg-cream/40 px-4 py-6 text-center transition hover:border-teal/45 hover:bg-cream/70;
+  }
+
+  .admin-media-thumb {
+    @apply relative h-16 w-16 shrink-0 overflow-hidden rounded-xl border border-line/70 bg-cream;
+  }
 }
 
 @keyframes shimmerText {

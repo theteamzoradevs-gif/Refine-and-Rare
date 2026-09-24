@@ -17,7 +17,10 @@ export default async function EditServicePage({
   if (!service) notFound();
 
   return (
-    <AdminShell title="Edit service">
+    <AdminShell
+      title="Edit service"
+      description="Update copy, image, and listing order."
+    >
       <ServiceForm initial={service} />
     </AdminShell>
   );

@@ -5,7 +5,10 @@ export const dynamic = "force-dynamic";
 
 export default function NewBlogPage() {
   return (
-    <AdminShell title="Add blog post">
+    <AdminShell
+      title="Add blog post"
+      description="Write and publish a new article for the site."
+    >
       <BlogForm />
     </AdminShell>
   );

@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { Reveal } from "@/components/ui/Reveal";
 import { ButtonLink } from "@/components/ui/ButtonLink";
 
@@ -12,12 +11,14 @@ export function AboutStudio({ description }: { description: string }) {
       <div className="container-site relative grid items-center gap-8 lg:grid-cols-12 lg:gap-10">
         <Reveal variant="left" className="lg:col-span-5">
           <div className="group relative aspect-[4/5] overflow-hidden border border-line">
-            <Image
-              src="/brand/hero/cover.jpg"
-              alt="Refine & Rare interior studio work"
-              fill
-              className="object-cover transition duration-1000 ease-premium group-hover:scale-105"
-              sizes="(max-width:1024px) 100vw, 40vw"
+            <video
+              src="/brand/video/room3.mp4"
+              className="absolute inset-0 h-full w-full object-cover transition duration-1000 ease-premium group-hover:scale-105"
+              autoPlay
+              muted
+              loop
+              playsInline
+              aria-label="Refine & Rare interior studio work"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-ink/35 to-transparent opacity-0 transition duration-700 group-hover:opacity-100" />
           </div>

@@ -19,7 +19,7 @@ export function Hero({ tagline, description }: Props) {
   }, []);
 
   return (
-    <section className="relative min-h-[80svh] overflow-hidden bg-ink">
+    <section className="relative min-h-[90svh] overflow-hidden bg-ink">
       <Image
         src="/brand/hero/cover.jpg"
         alt="Luxury interior by Refine & Rare"
@@ -39,7 +39,7 @@ export function Hero({ tagline, description }: Props) {
         </div>
       </div>
 
-      <div className="relative container-site flex min-h-[80svh] items-center pb-12 pt-24 sm:pb-16 sm:pt-28 md:pt-32">
+      <div className="relative container-site flex min-h-[90svh] items-center pb-12 pt-24 sm:pb-16 sm:pt-28 md:pt-32">
         <div className="grid w-full items-center gap-8 lg:grid-cols-[1.15fr_0.85fr] lg:gap-12 xl:gap-16">
           <div>
             <p

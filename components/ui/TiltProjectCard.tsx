@@ -3,10 +3,12 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useRef } from "react";
+import { slugify } from "@/lib/projectSlug";
 
 type Media = { url: string; type: "IMAGE" | "VIDEO"; alt: string };
 type Project = {
   id: string;
+  slug?: string;
   title: string;
   description: string;
   media: Media[];
@@ -44,7 +46,7 @@ export function TiltProjectCard({
   return (
     <Link
       ref={ref}
-      href="/projects"
+      href={`/projects/${project.slug || slugify(project.title) || project.id}`}
       onMouseMove={onMove}
       onMouseLeave={onLeave}
       className={`group relative block overflow-hidden transition-transform duration-200 ease-out will-change-transform ${

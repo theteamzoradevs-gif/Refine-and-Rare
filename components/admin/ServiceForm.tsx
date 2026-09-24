@@ -1,3 +1,11 @@
+import {
+  AdminForm,
+  Field,
+  FormActions,
+  FormGrid,
+  FormSection,
+  TextArea,
+} from "@/components/admin/FormUI";
 import { SingleUploadField } from "@/components/admin/MediaUploader";
 import { saveService } from "@/app/actions/admin";
 
@@ -12,73 +20,75 @@ type Initial = {
 };
 
 export function ServiceForm({ initial }: { initial?: Initial }) {
+  const isEdit = Boolean(initial?.id);
+
   return (
-    <form action={saveService} className="admin-panel w-full space-y-5">
-      {initial?.id && <input type="hidden" name="id" value={initial.id} />}
-      <div className="grid gap-5 md:grid-cols-2">
-        <Field name="title" label="Title" defaultValue={initial?.title} required />
-        <Field name="slug" label="URL slug" defaultValue={initial?.slug} required />
-      </div>
-      <div>
-        <label className="admin-label">Short description</label>
-        <textarea
+    <AdminForm action={saveService}>
+      {initial?.id ? <input type="hidden" name="id" value={initial.id} /> : null}
+
+      <FormSection
+        title="Basics"
+        description="How this service appears in navigation and listings."
+      >
+        <FormGrid>
+          <Field
+            name="title"
+            label="Title"
+            required
+            defaultValue={initial?.title}
+            placeholder="Modular Kitchens"
+          />
+          <Field
+            name="slug"
+            label="URL slug"
+            required
+            defaultValue={initial?.slug}
+            placeholder="modular-kitchens"
+            hint="Lowercase words separated by hyphens."
+          />
+        </FormGrid>
+        <TextArea
           name="shortDesc"
+          label="Short description"
           required
           rows={2}
           defaultValue={initial?.shortDesc}
+          placeholder="One or two lines for cards and previews…"
         />
-      </div>
-      <div>
-        <label className="admin-label">Full description</label>
-        <textarea
+        <TextArea
           name="longDesc"
+          label="Full description"
           required
           rows={6}
           defaultValue={initial?.longDesc}
+          placeholder="Detailed copy for the service detail page…"
         />
-      </div>
-      <SingleUploadField
-        name="imageUrl"
-        label="Service image"
-        initial={initial?.imageUrl || ""}
-      />
-      <div className="grid gap-5 md:grid-cols-2 md:items-end">
+      </FormSection>
+
+      <FormSection
+        title="Visual & order"
+        description="Cover image and listing position."
+      >
+        <SingleUploadField
+          name="imageUrl"
+          label="Service image"
+          hint="Shown on the services grid and detail hero."
+          initial={initial?.imageUrl || ""}
+        />
         <Field
           name="sortOrder"
           label="Sort order"
           type="number"
-          defaultValue={String(initial?.sortOrder ?? 0)}
+          defaultValue={initial?.sortOrder ?? 0}
+          hint="Lower numbers appear first."
+          className="max-w-xs"
         />
-        <button type="submit" className="btn-primary md:justify-self-start">
-          Save service
-        </button>
-      </div>
-    </form>
-  );
-}
+      </FormSection>
 
-function Field({
-  name,
-  label,
-  required,
-  type = "text",
-  defaultValue,
-}: {
-  name: string;
-  label: string;
-  required?: boolean;
-  type?: string;
-  defaultValue?: string;
-}) {
-  return (
-    <div>
-      <label className="admin-label">{label}</label>
-      <input
-        name={name}
-        type={type}
-        required={required}
-        defaultValue={defaultValue}
+      <FormActions
+        submitLabel={isEdit ? "Update service" : "Save service"}
+        cancelHref="/admin/services"
       />
-    </div>
+    </AdminForm>
   );
 }
