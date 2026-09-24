@@ -49,62 +49,90 @@ function toBlogView(post: {
   };
 }
 
-export const getSettings = cache(async () => {
-  if (!isDatabaseEnabled()) return staticSettings;
-
-  const settings = await prisma.siteSettings.findUnique({ where: { id: "main" } });
-  if (!settings) {
-    throw new Error("Site settings missing. Run npm run db:seed");
+async function withDbFallback<T>(
+  query: () => Promise<T>,
+  fallback: () => T | Promise<T>
+): Promise<T> {
+  if (!isDatabaseEnabled()) return fallback();
+  try {
+    return await query();
+  } catch (error) {
+    console.warn("Database query failed — using static content.", error);
+    return fallback();
   }
-  return settings;
+}
+
+export const getSettings = cache(async () => {
+  return withDbFallback(async () => {
+    const settings = await prisma.siteSettings.findUnique({
+      where: { id: "main" },
+    });
+    return settings ?? staticSettings;
+  }, () => staticSettings);
 });
 
 export const getServices = cache(async () => {
-  if (!isDatabaseEnabled()) return staticServices;
-  return prisma.service.findMany({ orderBy: { sortOrder: "asc" } });
+  return withDbFallback(
+    () => prisma.service.findMany({ orderBy: { sortOrder: "asc" } }),
+    () => staticServices
+  );
 });
 
 export const getServiceBySlug = cache(async (slug: string) => {
-  if (!isDatabaseEnabled()) return getStaticServiceBySlug(slug);
-  return prisma.service.findUnique({ where: { slug } });
+  return withDbFallback(
+    () => prisma.service.findUnique({ where: { slug } }),
+    () => getStaticServiceBySlug(slug)
+  );
 });
 
 export const getFeaturedProjects = cache(async (take = 4) => {
-  if (!isDatabaseEnabled()) {
-    return staticProjects
-      .filter((p) => p.featured)
-      .sort((a, b) => a.sortOrder - b.sortOrder)
-      .slice(0, take);
-  }
-  return prisma.project.findMany({
-    where: { featured: true },
-    include: { media: { orderBy: { sortOrder: "asc" } }, category: true },
-    orderBy: { sortOrder: "asc" },
-    take,
-  });
+  return withDbFallback(
+    () =>
+      prisma.project.findMany({
+        where: {
+          featured: true,
+          slug: { not: "bespoke-wardrobe-suite" },
+        },
+        include: { media: { orderBy: { sortOrder: "asc" } }, category: true },
+        orderBy: { sortOrder: "asc" },
+        take,
+      }),
+    () =>
+      staticProjects
+        .filter((p) => p.featured)
+        .sort((a, b) => a.sortOrder - b.sortOrder)
+        .slice(0, take)
+  );
 });
 
 export const getProjects = cache(async (categorySlug?: string) => {
-  if (!isDatabaseEnabled()) {
-    if (!categorySlug) return staticProjects;
-    return staticProjects.filter((p) => p.category.slug === categorySlug);
-  }
-  return prisma.project.findMany({
-    where: categorySlug
-      ? { category: { slug: categorySlug } }
-      : undefined,
-    include: { media: { orderBy: { sortOrder: "asc" } }, category: true },
-    orderBy: { sortOrder: "asc" },
-  });
+  return withDbFallback(
+    () =>
+      prisma.project.findMany({
+        where: categorySlug
+          ? { category: { slug: categorySlug } }
+          : undefined,
+        include: { media: { orderBy: { sortOrder: "asc" } }, category: true },
+        orderBy: { sortOrder: "asc" },
+      }),
+    () => {
+      if (!categorySlug) return staticProjects;
+      return staticProjects.filter((p) => p.category.slug === categorySlug);
+    }
+  );
 });
 
 export const getProjectBySlug = cache(async (slug: string) => {
   if (isDatabaseEnabled()) {
-    const bySlug = await prisma.project.findUnique({
-      where: { slug },
-      include: { media: { orderBy: { sortOrder: "asc" } }, category: true },
-    });
-    if (bySlug) return bySlug;
+    try {
+      const bySlug = await prisma.project.findUnique({
+        where: { slug },
+        include: { media: { orderBy: { sortOrder: "asc" } }, category: true },
+      });
+      if (bySlug) return bySlug;
+    } catch (error) {
+      console.warn("Database query failed — using static content.", error);
+    }
   }
 
   const projects = await getProjects();
@@ -114,37 +142,43 @@ export const getProjectBySlug = cache(async (slug: string) => {
 });
 
 export const getPublishedTestimonials = cache(async () => {
-  if (!isDatabaseEnabled()) {
-    return staticTestimonials.filter((t) => t.published);
-  }
-  return prisma.testimonial.findMany({
-    where: { published: true },
-    orderBy: { sortOrder: "asc" },
-  });
+  return withDbFallback(
+    () =>
+      prisma.testimonial.findMany({
+        where: { published: true },
+        orderBy: { sortOrder: "asc" },
+      }),
+    () => staticTestimonials.filter((t) => t.published)
+  );
 });
 
 export const getPublishedBlogs = cache(async () => {
-  if (!isDatabaseEnabled()) {
-    return staticBlogPosts
-      .filter((p) => p.published)
-      .sort((a, b) => a.sortOrder - b.sortOrder)
-      .map(toBlogView);
-  }
-
-  const posts = await prisma.blogPost.findMany({
-    where: { published: true },
-    orderBy: [{ sortOrder: "asc" }, { publishedAt: "desc" }],
-  });
-  return posts.map(toBlogView);
+  return withDbFallback(
+    async () => {
+      const posts = await prisma.blogPost.findMany({
+        where: { published: true },
+        orderBy: [{ sortOrder: "asc" }, { publishedAt: "desc" }],
+      });
+      return posts.map(toBlogView);
+    },
+    () =>
+      staticBlogPosts
+        .filter((p) => p.published)
+        .sort((a, b) => a.sortOrder - b.sortOrder)
+        .map(toBlogView)
+  );
 });
 
 export const getBlogBySlug = cache(async (slug: string) => {
-  if (!isDatabaseEnabled()) {
-    const post = getStaticBlogBySlug(slug);
-    return post && post.published ? toBlogView(post) : null;
-  }
-
-  const post = await prisma.blogPost.findUnique({ where: { slug } });
-  if (!post || !post.published) return null;
-  return toBlogView(post);
+  return withDbFallback(
+    async () => {
+      const post = await prisma.blogPost.findUnique({ where: { slug } });
+      if (!post || !post.published) return null;
+      return toBlogView(post);
+    },
+    () => {
+      const post = getStaticBlogBySlug(slug);
+      return post && post.published ? toBlogView(post) : null;
+    }
+  );
 });

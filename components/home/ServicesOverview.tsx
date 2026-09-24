@@ -14,6 +14,8 @@ type Service = {
 };
 
 export function ServicesOverview({ services }: { services: Service[] }) {
+  const preview = services.slice(0, 6);
+
   return (
     <section className="section-grain relative overflow-hidden bg-cream py-12 md:py-16">
       <div className="container-site relative">
@@ -29,8 +31,8 @@ export function ServicesOverview({ services }: { services: Service[] }) {
           </p>
         </Reveal>
 
-        <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-          {services.map((service, i) => {
+        <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {preview.map((service, i) => {
             const index = String(i + 1).padStart(2, "0");
             return (
               <Reveal key={service.slug} delay={i * 70} variant="scale">
@@ -69,9 +71,9 @@ export function ServicesOverview({ services }: { services: Service[] }) {
         </div>
 
         <Reveal delay={200}>
-          <div className="mt-8">
+          <div className="mt-8 flex justify-center">
             <ButtonLink href="/services" variant="outline" className="btn-shine">
-              View All Services →
+              View More Services
             </ButtonLink>
           </div>
         </Reveal>

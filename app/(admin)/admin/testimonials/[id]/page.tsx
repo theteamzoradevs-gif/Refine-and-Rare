@@ -19,7 +19,10 @@ export default async function EditTestimonialPage({
   if (!testimonial) notFound();
 
   return (
-    <AdminShell title="Edit testimonial">
+    <AdminShell
+      title="Edit testimonial"
+      description="Update the review, photo, and visibility."
+    >
       <TestimonialForm initial={testimonial} />
     </AdminShell>
   );

@@ -285,7 +285,7 @@ export const staticProjects: StaticProject[] = [
     title: "Bespoke Wardrobe Suite",
     description:
       "Custom storage with clean lines, soft lighting, and finishes tailored to the room.",
-    featured: true,
+    featured: false,
     sortOrder: 6,
     categoryId: bySlug["bespoke-wardrobes"].id,
     category: bySlug["bespoke-wardrobes"],

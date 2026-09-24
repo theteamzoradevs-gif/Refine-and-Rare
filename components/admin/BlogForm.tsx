@@ -1,3 +1,12 @@
+import {
+  AdminForm,
+  Field,
+  FormActions,
+  FormGrid,
+  FormSection,
+  TextArea,
+  ToggleField,
+} from "@/components/admin/FormUI";
 import { SingleUploadField } from "@/components/admin/MediaUploader";
 import { saveBlog } from "@/app/actions/admin";
 import { parseBlogBody } from "@/lib/staticContent";
@@ -18,79 +27,100 @@ export function BlogForm({
     sortOrder: number;
   };
 }) {
+  const isEdit = Boolean(initial?.id);
   const bodyText = initial ? parseBlogBody(initial.body).join("\n\n") : "";
   const publishedAtValue = initial
     ? initial.publishedAt.toISOString().slice(0, 10)
     : new Date().toISOString().slice(0, 10);
 
   return (
-    <form action={saveBlog} className="admin-panel w-full space-y-5">
-      {initial?.id && <input type="hidden" name="id" value={initial.id} />}
-      <div>
-        <label className="admin-label">Title</label>
-        <input name="title" required defaultValue={initial?.title} />
-      </div>
-      <div className="grid gap-5 md:grid-cols-2">
-        <div>
-          <label className="admin-label">Slug</label>
-          <input
+    <AdminForm action={saveBlog}>
+      {initial?.id ? <input type="hidden" name="id" value={initial.id} /> : null}
+
+      <FormSection
+        title="Article"
+        description="Headline, URL, and category for this post."
+      >
+        <Field
+          name="title"
+          label="Title"
+          required
+          defaultValue={initial?.title}
+          placeholder="Timeless living room ideas"
+        />
+        <FormGrid>
+          <Field
             name="slug"
+            label="URL slug"
             required
             defaultValue={initial?.slug}
             placeholder="timeless-living-room-ideas"
+            hint="Lowercase words separated by hyphens."
           />
-        </div>
-        <div>
-          <label className="admin-label">Category</label>
-          <input name="category" required defaultValue={initial?.category} />
-        </div>
-      </div>
-      <div>
-        <label className="admin-label">Excerpt</label>
-        <textarea name="excerpt" required rows={3} defaultValue={initial?.excerpt} />
-      </div>
-      <div>
-        <label className="admin-label">Body</label>
-        <p className="mb-1.5 text-xs text-muted">
-          Separate paragraphs with a blank line.
-        </p>
-        <textarea name="body" required rows={10} defaultValue={bodyText} />
-      </div>
-      <SingleUploadField
-        name="imageUrl"
-        label="Cover image"
-        initial={initial?.imageUrl || ""}
-      />
-      <div className="grid gap-5 md:grid-cols-2">
-        <div>
-          <label className="admin-label">Publish date</label>
-          <input
+          <Field
+            name="category"
+            label="Category"
+            required
+            defaultValue={initial?.category}
+            placeholder="Living spaces"
+          />
+        </FormGrid>
+        <TextArea
+          name="excerpt"
+          label="Excerpt"
+          required
+          rows={3}
+          defaultValue={initial?.excerpt}
+          placeholder="Short teaser shown on the blog listing…"
+        />
+        <TextArea
+          name="body"
+          label="Body"
+          required
+          rows={10}
+          defaultValue={bodyText}
+          hint="Separate paragraphs with a blank line."
+          placeholder="Write the full article…"
+        />
+      </FormSection>
+
+      <FormSection
+        title="Cover & publishing"
+        description="Image, date, and visibility on the site."
+      >
+        <SingleUploadField
+          name="imageUrl"
+          label="Cover image"
+          hint="Landscape images look best on the blog cards."
+          initial={initial?.imageUrl || ""}
+        />
+        <FormGrid>
+          <Field
             name="publishedAt"
+            label="Publish date"
             type="date"
             required
             defaultValue={publishedAtValue}
           />
-        </div>
-        <div>
-          <label className="admin-label">Sort order</label>
-          <input
+          <Field
             name="sortOrder"
+            label="Sort order"
             type="number"
             defaultValue={initial?.sortOrder ?? 0}
           />
-        </div>
-      </div>
-      <label className="flex items-center gap-2.5 text-sm text-ink">
-        <input
-          type="checkbox"
+        </FormGrid>
+        <ToggleField
           name="published"
+          label="Published on website"
+          description="Uncheck to keep this post as a draft."
           defaultChecked={initial?.published ?? true}
         />
-        Published on website
-      </label>
-      <button type="submit" className="btn-primary">
-        Save blog post
-      </button>
-    </form>
+      </FormSection>
+
+      <FormActions
+        submitLabel={isEdit ? "Update blog post" : "Save blog post"}
+        cancelHref="/admin/blogs"
+      />
+    </AdminForm>
   );
 }

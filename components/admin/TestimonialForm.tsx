@@ -1,3 +1,11 @@
+import {
+  AdminForm,
+  Field,
+  FormActions,
+  FormSection,
+  TextArea,
+  ToggleField,
+} from "@/components/admin/FormUI";
 import { SingleUploadField } from "@/components/admin/MediaUploader";
 import { saveTestimonial } from "@/app/actions/admin";
 
@@ -13,41 +21,62 @@ export function TestimonialForm({
     sortOrder: number;
   };
 }) {
+  const isEdit = Boolean(initial?.id);
+
   return (
-    <form action={saveTestimonial} className="admin-panel w-full space-y-5">
-      {initial?.id && <input type="hidden" name="id" value={initial.id} />}
-      <div>
-        <label className="admin-label">Client name</label>
-        <input name="name" required defaultValue={initial?.name} />
-      </div>
-      <div>
-        <label className="admin-label">Review</label>
-        <textarea name="quote" required rows={5} defaultValue={initial?.quote} />
-      </div>
-      <SingleUploadField
-        name="photoUrl"
-        label="Photo (optional)"
-        initial={initial?.photoUrl || ""}
-      />
-      <div>
-        <label className="admin-label">Sort order</label>
-        <input
+    <AdminForm action={saveTestimonial}>
+      {initial?.id ? <input type="hidden" name="id" value={initial.id} /> : null}
+
+      <FormSection
+        title="Review"
+        description="Client name and their words as shown on the site."
+      >
+        <Field
+          name="name"
+          label="Client name"
+          required
+          defaultValue={initial?.name}
+          placeholder="Priya Sharma"
+        />
+        <TextArea
+          name="quote"
+          label="Review"
+          required
+          rows={5}
+          defaultValue={initial?.quote}
+          placeholder="What they loved about the project…"
+        />
+      </FormSection>
+
+      <FormSection
+        title="Photo & visibility"
+        description="Optional portrait and listing controls."
+      >
+        <SingleUploadField
+          name="photoUrl"
+          label="Photo (optional)"
+          hint="Square or portrait photos work best."
+          initial={initial?.photoUrl || ""}
+        />
+        <Field
           name="sortOrder"
+          label="Sort order"
           type="number"
           defaultValue={initial?.sortOrder ?? 0}
+          className="max-w-xs"
         />
-      </div>
-      <label className="flex items-center gap-2.5 text-sm text-ink">
-        <input
-          type="checkbox"
+        <ToggleField
           name="published"
+          label="Published on website"
+          description="Uncheck to hide this review from the site."
           defaultChecked={initial?.published ?? true}
         />
-        Published on website
-      </label>
-      <button type="submit" className="btn-primary">
-        Save testimonial
-      </button>
-    </form>
+      </FormSection>
+
+      <FormActions
+        submitLabel={isEdit ? "Update testimonial" : "Save testimonial"}
+        cancelHref="/admin/testimonials"
+      />
+    </AdminForm>
   );
 }

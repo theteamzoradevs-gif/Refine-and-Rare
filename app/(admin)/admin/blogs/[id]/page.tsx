@@ -19,7 +19,10 @@ export default async function EditBlogPage({
   if (!post) notFound();
 
   return (
-    <AdminShell title="Edit blog post">
+    <AdminShell
+      title="Edit blog post"
+      description="Update content, cover, and publish settings."
+    >
       <BlogForm initial={post} />
     </AdminShell>
   );
