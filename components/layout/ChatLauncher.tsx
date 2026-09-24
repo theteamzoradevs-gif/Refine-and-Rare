@@ -106,10 +106,7 @@ export function ChatLauncher({
     if (typeof window === "undefined") return;
     if (sessionStorage.getItem("rr_chat_closed") === "1") {
       setDismissed(true);
-      return;
     }
-    const t = window.setTimeout(() => setOpen(true), 2200);
-    return () => window.clearTimeout(t);
   }, []);
 
   useEffect(() => {

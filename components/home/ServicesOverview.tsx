@@ -36,7 +36,10 @@ export function ServicesOverview({ services }: { services: Service[] }) {
             const index = String(i + 1).padStart(2, "0");
             return (
               <Reveal key={service.slug} delay={i * 70} variant="scale">
-                <article className="premium-card group flex h-full flex-col">
+                <Link
+                  href={`/services/${service.slug}`}
+                  className="premium-card group flex h-full flex-col"
+                >
                   <div className="relative aspect-[4/3] overflow-hidden">
                     <Image
                       src={service.imageUrl}
@@ -57,14 +60,11 @@ export function ServicesOverview({ services }: { services: Service[] }) {
                     <p className="mt-2 flex-1 text-sm leading-relaxed text-muted">
                       {service.shortDesc}
                     </p>
-                    <Link
-                      href={`/services/${service.slug}`}
-                      className="mt-4 text-xs font-semibold uppercase tracking-[0.14em] text-teal transition group-hover:text-gold"
-                    >
+                    <span className="mt-4 text-xs font-semibold uppercase tracking-[0.14em] text-teal transition group-hover:text-gold">
                       Explore →
-                    </Link>
+                    </span>
                   </div>
-                </article>
+                </Link>
               </Reveal>
             );
           })}

@@ -1,10 +1,14 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getPublishedTestimonials, getServiceBySlug } from "@/lib/data";
+import {
+  getProjects,
+  getPublishedTestimonials,
+  getServiceBySlug,
+} from "@/lib/data";
 import { staticServices } from "@/lib/staticContent";
 import { ButtonLink } from "@/components/ui/ButtonLink";
+import { MediaCarousel } from "@/components/ui/MediaCarousel";
 import { Reveal } from "@/components/ui/Reveal";
 import { TestimonialHighlight } from "@/components/home/TestimonialHighlight";
 import { FaqSection } from "@/components/home/FaqSection";
@@ -36,11 +40,31 @@ const expectations = [
 ];
 
 export default async function ServiceDetailPage({ params }: Props) {
-  const [service, testimonials] = await Promise.all([
+  const [service, testimonials, relatedProjects] = await Promise.all([
     getServiceBySlug(params.slug),
     getPublishedTestimonials(),
+    getProjects(params.slug),
   ]);
   if (!service) notFound();
+
+  const gallery = [
+    {
+      id: `service-${service.id}`,
+      url: service.imageUrl,
+      type: "IMAGE" as const,
+      alt: service.title,
+    },
+    ...relatedProjects.flatMap((project) =>
+      project.media.map((m) => ({
+        id: m.id,
+        url: m.url,
+        type: m.type as "IMAGE" | "VIDEO",
+        alt: m.alt || project.title,
+      }))
+    ),
+  ].filter(
+    (item, index, arr) => arr.findIndex((x) => x.url === item.url) === index
+  );
 
   return (
     <>
@@ -79,16 +103,8 @@ export default async function ServiceDetailPage({ params }: Props) {
           </Reveal>
 
           <Reveal delay={100} variant="scale">
-            <div className="group relative mt-10 aspect-[16/10] overflow-hidden rounded-2xl border border-line shadow-[0_24px_60px_-36px_rgba(28,36,33,0.45)] md:mt-12 md:aspect-[21/10]">
-              <Image
-                src={service.imageUrl}
-                alt={service.title}
-                fill
-                priority
-                className="object-cover transition duration-1000 ease-premium group-hover:scale-105"
-                sizes="(max-width:768px) 100vw, 896px"
-              />
-              <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink/25 via-transparent to-transparent" />
+            <div className="mt-10 md:mt-12">
+              <MediaCarousel items={gallery} title={service.title} />
             </div>
           </Reveal>
 
