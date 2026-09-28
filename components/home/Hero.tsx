@@ -40,16 +40,16 @@ export function Hero({ tagline, description }: Props) {
       </div>
 
       <div className="relative container-site flex min-h-[100svh] items-center justify-center py-24">
-        <div className="mx-auto max-w-2xl text-center [text-shadow:0_2px_18px_rgba(0,0,0,0.65)]">
+          <div className="mx-auto max-w-full text-center [text-shadow:0_2px_18px_rgba(0,0,0,0.65)]">
             <p
-              className={`mb-2 text-[10px] font-semibold uppercase tracking-[0.24em] text-gold transition duration-700 ${
+            className={`mb-2 text-[10px] font-semibold uppercase tracking-[0.24em] text-white transition duration-700 ${
                 ready ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"
               }`}
             >
               Refine &amp; Rare · Luxury Interior Design
             </p>
             <h1
-              className={`max-w-xl font-display text-3xl leading-[1.1] text-white transition duration-1000 delay-100 sm:text-4xl md:text-5xl ${
+              className={`whitespace-nowrap font-display text-[clamp(1.55rem,5.8vw,3rem)] leading-[1.1] text-white transition duration-1000 delay-100 ${
                 ready ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"
               }`}
             >
