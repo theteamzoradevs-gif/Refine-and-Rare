@@ -42,7 +42,7 @@ export function Hero({ tagline, description }: Props) {
       <div className="relative container-site flex min-h-[100svh] items-center justify-center py-24">
           <div className="mx-auto max-w-full text-center [text-shadow:0_2px_18px_rgba(0,0,0,0.65)]">
             <p
-            className={`mb-2 text-[10px] font-semibold uppercase tracking-[0.24em] text-white transition duration-700 ${
+              className={`mb-2 text-[10px] font-semibold uppercase tracking-[0.24em] text-[#FBE8CE] transition duration-700 ${
                 ready ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"
               }`}
             >
@@ -55,7 +55,7 @@ export function Hero({ tagline, description }: Props) {
             >
               Where Design{" "}
               <em className="font-display not-italic">
-                <span className="gold-shimmer">Meets Distinction.</span>
+                <span className="text-[#FBE8CE]">Meets Distinction.</span>
               </em>
             </h1>
             <p
