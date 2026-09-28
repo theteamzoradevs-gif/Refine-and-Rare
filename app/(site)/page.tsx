@@ -3,7 +3,6 @@ import { AboutStudio } from "@/components/home/AboutStudio";
 import { ServicesOverview } from "@/components/home/ServicesOverview";
 import { FeaturedProjects } from "@/components/home/FeaturedProjects";
 import { ValuePillars } from "@/components/home/ValuePillars";
-import { WhyRefineRare } from "@/components/home/WhyRefineRare";
 import { ProcessTimeline } from "@/components/home/ProcessTimeline";
 import { MaterialsFinishes } from "@/components/home/MaterialsFinishes";
 import { BengaluruHomes } from "@/components/home/BengaluruHomes";
@@ -32,7 +31,6 @@ export default async function HomePage() {
       <ServicesOverview services={services} />
       <FeaturedProjects projects={projects} />
       <ValuePillars />
-      <WhyRefineRare />
       <ProcessTimeline />
       <MaterialsFinishes />
       <BengaluruHomes />
