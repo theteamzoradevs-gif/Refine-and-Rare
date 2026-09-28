@@ -1,9 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Image from "next/image";
 import { ButtonLink } from "@/components/ui/ButtonLink";
-import { HeroEnquireForm } from "@/components/home/HeroEnquireForm";
 
 type Props = {
   tagline: string;
@@ -19,17 +17,19 @@ export function Hero({ tagline, description }: Props) {
   }, []);
 
   return (
-    <section className="relative min-h-[90svh] overflow-hidden bg-ink">
-      <Image
-        src="/brand/hero/cover.jpg"
-        alt="Luxury interior by Refine & Rare"
-        fill
-        priority
-        className="object-cover object-[68%_center] sm:object-center animate-ken-burns"
-        sizes="100vw"
-      />
-      <div className="absolute inset-0 hidden bg-hero-overlay md:block" />
-      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(28,36,33,0.55)_0%,rgba(28,36,33,0.45)_45%,rgba(28,36,33,0.55)_100%)] md:hidden" />
+    <section className="relative min-h-[100svh] overflow-hidden bg-ink">
+      <video
+        autoPlay
+        muted
+        loop
+        playsInline
+        poster="/brand/hero/cover.jpg"
+        aria-label="Luxury interior by Refine & Rare"
+        className="absolute inset-0 h-full w-full object-cover"
+      >
+        <source src="/brand/hero/herovideo.mp4" type="video/mp4" />
+      </video>
+      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(28,36,33,0.48)_0%,rgba(28,36,33,0.44)_42%,rgba(28,36,33,0.78)_100%)]" />
       <div className="pointer-events-none absolute inset-0 opacity-40 [background:radial-gradient(circle_at_20%_20%,rgba(197,178,138,0.22),transparent_35%),radial-gradient(circle_at_80%_70%,rgba(27,58,47,0.28),transparent_40%)]" />
 
       <div className="absolute bottom-6 left-1/2 hidden -translate-x-1/2 lg:block">
@@ -39,25 +39,17 @@ export function Hero({ tagline, description }: Props) {
         </div>
       </div>
 
-      <div className="relative container-site flex min-h-[90svh] items-center pb-12 pt-24 sm:pb-16 sm:pt-28 md:pt-32">
-        <div className="grid w-full items-center gap-8 lg:grid-cols-[1.15fr_0.85fr] lg:gap-12 xl:gap-16">
-          <div>
+      <div className="relative container-site flex min-h-[100svh] items-center justify-center py-24">
+        <div className="mx-auto max-w-2xl text-center [text-shadow:0_2px_18px_rgba(0,0,0,0.65)]">
             <p
-              className={`mb-2 font-display text-2xl tracking-wide text-white transition duration-700 sm:mb-3 sm:text-3xl md:hidden ${
+              className={`mb-2 text-[10px] font-semibold uppercase tracking-[0.24em] text-gold transition duration-700 ${
                 ready ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"
               }`}
             >
-              Refine &amp; Rare
-            </p>
-            <p
-              className={`mb-3 hidden text-[10px] font-semibold uppercase tracking-[0.24em] text-gold transition duration-700 sm:mb-4 sm:text-xs md:block ${
-                ready ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"
-              }`}
-            >
-              Luxury Interior Design
+              Refine &amp; Rare · Luxury Interior Design
             </p>
             <h1
-              className={`max-w-3xl font-display text-[1.85rem] leading-[1.15] text-white transition duration-1000 delay-100 sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl ${
+              className={`max-w-xl font-display text-3xl leading-[1.1] text-white transition duration-1000 delay-100 sm:text-4xl md:text-5xl ${
                 ready ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"
               }`}
             >
@@ -67,46 +59,32 @@ export function Hero({ tagline, description }: Props) {
               </em>
             </h1>
             <p
-              className={`mt-3 max-w-md text-sm leading-relaxed text-cream-2/90 transition duration-1000 delay-200 sm:mt-2 sm:max-w-xl sm:font-display sm:text-lg sm:italic md:text-2xl ${
+              className={`mt-3 max-w-lg text-sm leading-relaxed text-white/80 transition duration-1000 delay-200 sm:text-base ${
                 ready ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"
               }`}
             >
               {tagline}
             </p>
             <p
-              className={`mt-4 hidden max-w-xl text-base leading-relaxed text-white/80 transition duration-1000 delay-300 lg:block lg:text-lg ${
+              className={`mt-3 max-w-lg text-xs leading-relaxed text-white/80 transition duration-1000 delay-300 sm:text-sm ${
                 ready ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"
               }`}
             >
               {description.slice(0, 180).trim()}…
             </p>
             <div
-              className={`mt-6 flex w-full flex-col gap-2.5 transition duration-1000 delay-500 sm:mt-8 sm:w-auto sm:flex-row sm:flex-wrap sm:gap-3 ${
+              className={`mt-5 flex w-full justify-center gap-3 transition duration-1000 delay-500 sm:w-auto ${
                 ready ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"
               }`}
             >
               <ButtonLink
                 href="/projects"
                 variant="secondary"
-                className="btn-shine w-full justify-center px-5 py-3.5 text-[11px] sm:w-auto sm:text-sm"
+                className="btn-shine justify-center px-4 py-2.5 text-[10px] sm:text-xs"
               >
                 View Our Work
               </ButtonLink>
-              <ButtonLink
-                href="/contact"
-                variant="gold"
-                className="btn-shine w-full justify-center px-5 py-3.5 text-[11px] sm:w-auto sm:text-sm lg:hidden"
-              >
-                Get a Free Consultation
-              </ButtonLink>
             </div>
-          </div>
-
-          <HeroEnquireForm
-            className={`justify-self-center transition duration-1000 delay-300 lg:justify-self-end ${
-              ready ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"
-            }`}
-          />
         </div>
       </div>
     </section>

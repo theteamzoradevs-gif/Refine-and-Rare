@@ -10,7 +10,6 @@ import { BengaluruHomes } from "@/components/home/BengaluruHomes";
 import { TestimonialHighlight } from "@/components/home/TestimonialHighlight";
 import { FaqSection } from "@/components/home/FaqSection";
 import { CtaBanner } from "@/components/home/CtaBanner";
-import { EnergyMarquee } from "@/components/home/EnergyMarquee";
 import {
   getFeaturedProjects,
   getPublishedTestimonials,
@@ -29,7 +28,6 @@ export default async function HomePage() {
   return (
     <>
       <Hero tagline={settings.tagline} description={settings.description} />
-      <EnergyMarquee />
       <AboutStudio description={settings.description} />
       <ServicesOverview services={services} />
       <FeaturedProjects projects={projects} />
