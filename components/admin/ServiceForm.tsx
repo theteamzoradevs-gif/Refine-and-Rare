@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from "react";
 import {
   AdminForm,
   Field,
@@ -8,6 +11,8 @@ import {
 } from "@/components/admin/FormUI";
 import { SingleUploadField } from "@/components/admin/MediaUploader";
 import { saveService } from "@/app/actions/admin";
+import { slugify } from "@/lib/projectSlug";
+import { DEFAULT_HIGHLIGHTS, parseHighlights } from "@/lib/highlights";
 
 type Initial = {
   id?: string;
@@ -17,10 +22,13 @@ type Initial = {
   longDesc?: string;
   imageUrl?: string;
   sortOrder?: number;
+  highlightsJson?: string | null;
 };
 
 export function ServiceForm({ initial }: { initial?: Initial }) {
   const isEdit = Boolean(initial?.id);
+  const [slug, setSlug] = useState(initial?.slug || "");
+  const highlights = parseHighlights(initial?.highlightsJson);
 
   return (
     <AdminForm action={saveService}>
@@ -37,12 +45,16 @@ export function ServiceForm({ initial }: { initial?: Initial }) {
             required
             defaultValue={initial?.title}
             placeholder="Modular Kitchens"
+            onChange={(event) => {
+              if (!isEdit) setSlug(slugify(event.target.value));
+            }}
           />
           <Field
             name="slug"
             label="URL slug"
             required
-            defaultValue={initial?.slug}
+            value={slug}
+            onChange={(event) => setSlug(slugify(event.target.value))}
             placeholder="modular-kitchens"
             hint="Lowercase words separated by hyphens."
           />
@@ -63,6 +75,25 @@ export function ServiceForm({ initial }: { initial?: Initial }) {
           defaultValue={initial?.longDesc}
           placeholder="Detailed copy for the service detail page…"
         />
+      </FormSection>
+
+      <FormSection
+        title="What clients can expect"
+        description="Four highlight cards shown on this service page."
+      >
+        <div className="grid gap-5 md:grid-cols-2">
+          {DEFAULT_HIGHLIGHTS.map((fallback, index) => (
+            <TextArea
+              key={fallback}
+              name={`highlight${index + 1}`}
+              label={`Highlight ${index + 1}`}
+              required
+              rows={3}
+              defaultValue={highlights[index] || fallback}
+              placeholder={fallback}
+            />
+          ))}
+        </div>
       </FormSection>
 
       <FormSection

@@ -9,6 +9,7 @@ import { Reveal } from "@/components/ui/Reveal";
 import { ProcessTimeline } from "@/components/home/ProcessTimeline";
 import { FaqSection } from "@/components/home/FaqSection";
 import { CtaBanner } from "@/components/home/CtaBanner";
+import { parseHighlights } from "@/lib/highlights";
 
 type Props = { params: { slug: string } };
 
@@ -28,16 +29,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-const highlights = [
-  "Thoughtful space planning tailored to how you live",
-  "Material and finish choices that age gracefully",
-  "Layered lighting for atmosphere and everyday comfort",
-  "Execution details checked at every stage",
-];
-
 export default async function ProjectDetailPage({ params }: Props) {
   const project = await getProjectBySlug(params.slug);
   if (!project) notFound();
+  const highlights = parseHighlights(project.highlightsJson);
 
   return (
     <>
@@ -71,9 +66,7 @@ export default async function ProjectDetailPage({ params }: Props) {
               Project story
             </p>
             <p className="mt-4 text-base leading-relaxed text-muted md:text-lg">
-              {project.description} Designed as part of our{" "}
-              {project.category.title.toLowerCase()} work — calm proportions,
-              refined finishes, and details that feel intentional every day.
+              {project.description}
             </p>
           </Reveal>
 

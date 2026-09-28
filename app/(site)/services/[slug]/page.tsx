@@ -13,6 +13,7 @@ import { Reveal } from "@/components/ui/Reveal";
 import { TestimonialHighlight } from "@/components/home/TestimonialHighlight";
 import { FaqSection } from "@/components/home/FaqSection";
 import { CtaBanner } from "@/components/home/CtaBanner";
+import { parseHighlights } from "@/lib/highlights";
 
 type Props = { params: { slug: string } };
 
@@ -32,13 +33,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-const expectations = [
-  "Personalized consultation and space assessment",
-  "Material and finish guidance aligned to your lifestyle",
-  "Coordinated execution with quality checks at each stage",
-  "Clear communication from design through handover",
-];
-
 export default async function ServiceDetailPage({ params }: Props) {
   const [service, testimonials, relatedProjects] = await Promise.all([
     getServiceBySlug(params.slug),
@@ -46,6 +40,7 @@ export default async function ServiceDetailPage({ params }: Props) {
     getProjects(params.slug),
   ]);
   if (!service) notFound();
+  const expectations = parseHighlights(service.highlightsJson);
 
   const gallery = [
     {

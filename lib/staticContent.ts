@@ -38,7 +38,11 @@ export const staticSettings: SiteSettings = {
   updatedAt: now,
 };
 
-export const staticServices: Service[] = [
+type StaticService = Omit<Service, "highlightsJson"> & {
+  highlightsJson?: string;
+};
+
+export const staticServices: StaticService[] = [
   {
     id: "static-service-full-home-interiors",
     slug: "full-home-interiors",
@@ -142,9 +146,10 @@ export const staticServices: Service[] = [
 
 const bySlug = Object.fromEntries(staticServices.map((s) => [s.slug, s]));
 
-type StaticProject = Project & {
+type StaticProject = Omit<Project, "highlightsJson"> & {
+  highlightsJson?: string;
   media: ProjectMedia[];
-  category: Service;
+  category: StaticService;
 };
 
 function media(

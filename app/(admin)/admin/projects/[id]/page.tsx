@@ -37,6 +37,7 @@ export default async function EditProjectPage({
           categoryId: project.categoryId,
           sortOrder: project.sortOrder,
           featured: project.featured,
+          highlightsJson: project.highlightsJson,
           media: project.media.map((m) => ({
             url: m.url,
             type: m.type,

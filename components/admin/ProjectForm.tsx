@@ -1,3 +1,5 @@
+"use client";
+import { useState } from "react";
 import {
   AdminForm,
   Field,
@@ -10,6 +12,7 @@ import {
 } from "@/components/admin/FormUI";
 import { MediaUploader } from "@/components/admin/MediaUploader";
 import { saveProject } from "@/app/actions/admin";
+import { DEFAULT_HIGHLIGHTS, parseHighlights } from "@/lib/highlights";
 
 type ServiceOption = { id: string; title: string };
 
@@ -22,7 +25,17 @@ type Initial = {
   sortOrder?: number;
   featured?: boolean;
   media?: { url: string; type: "IMAGE" | "VIDEO"; alt: string }[];
+  highlightsJson?: string | null;
 };
+
+function generateSlug(value: string) {
+  return value
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9\s-]/g, "")
+    .replace(/\s+/g, "-")
+    .replace(/-+/g, "-");
+}
 
 export function ProjectForm({
   services,
@@ -32,6 +45,8 @@ export function ProjectForm({
   initial?: Initial;
 }) {
   const isEdit = Boolean(initial?.id);
+  const [slug, setSlug] = useState(initial?.slug || "");
+  const highlights = parseHighlights(initial?.highlightsJson);
 
   return (
     <AdminForm action={saveProject}>
@@ -48,12 +63,18 @@ export function ProjectForm({
             required
             defaultValue={initial?.title}
             placeholder="Contemporary Living Room"
+             onChange={(e) => {
+    if (!isEdit) {
+      setSlug(generateSlug(e.target.value));
+    }
+  }}
           />
           <Field
             name="slug"
             label="URL slug"
             required
-            defaultValue={initial?.slug}
+            value={slug}
+            onChange={(e) => setSlug(generateSlug(e.target.value))}
             placeholder="contemporary-living-room"
             hint="Lowercase words separated by hyphens."
           />
@@ -66,6 +87,25 @@ export function ProjectForm({
           defaultValue={initial?.description}
           placeholder="Short story of the space, finishes, and mood…"
         />
+      </FormSection>
+
+      <FormSection
+        title="Project highlights"
+        description="Four highlight cards shown on this project page."
+      >
+        <div className="grid gap-5 md:grid-cols-2">
+          {DEFAULT_HIGHLIGHTS.map((fallback, index) => (
+            <TextArea
+              key={fallback}
+              name={`highlight${index + 1}`}
+              label={`Highlight ${index + 1}`}
+              required
+              rows={3}
+              defaultValue={highlights[index] || fallback}
+              placeholder={fallback}
+            />
+          ))}
+        </div>
       </FormSection>
 
       <FormSection
