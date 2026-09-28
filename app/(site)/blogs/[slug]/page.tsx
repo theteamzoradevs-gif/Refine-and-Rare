@@ -8,6 +8,7 @@ import { Reveal } from "@/components/ui/Reveal";
 import { ButtonLink } from "@/components/ui/ButtonLink";
 import { FaqSection } from "@/components/home/FaqSection";
 import { CtaBanner } from "@/components/home/CtaBanner";
+import { sanitizeBlogHtml } from "@/lib/blogHtml";
 
 type Props = { params: { slug: string } };
 
@@ -80,8 +81,11 @@ export default async function BlogDetailPage({ params }: Props) {
 
           <Reveal delay={100}>
             <div className="mt-10 space-y-5 text-base leading-relaxed text-muted md:mt-12 md:text-lg">
-              {post.body.map((para) => (
-                <p key={para}>{para}</p>
+              {post.body.map((para, index) => (
+                <div
+                  key={`${index}-${para.slice(0, 20)}`}
+                  dangerouslySetInnerHTML={{ __html: sanitizeBlogHtml(para) }}
+                />
               ))}
             </div>
           </Reveal>

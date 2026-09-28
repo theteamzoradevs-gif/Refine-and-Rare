@@ -13,6 +13,26 @@ function normalizeUrl(raw: string) {
   return raw.trim();
 }
 
+async function uploadFile(file: File) {
+  const body = new FormData();
+  body.append("file", file);
+  const res = await fetch("/api/upload", { method: "POST", body });
+  const contentType = res.headers.get("content-type") || "";
+  const data = contentType.includes("application/json")
+    ? await res.json()
+    : null;
+
+  if (!res.ok) {
+    throw new Error(data?.error || "The image upload failed. Please try again.");
+  }
+
+  if (!data?.url || typeof data.url !== "string") {
+    throw new Error("The upload completed without a usable image path.");
+  }
+
+  return data as { url: string; type: "IMAGE" | "VIDEO" };
+}
+
 export function MediaUploader({
   name = "mediaJson",
   initial = [],
@@ -35,11 +55,7 @@ export function MediaUploader({
     try {
       const next = [...items];
       for (const file of Array.from(files)) {
-        const body = new FormData();
-        body.append("file", file);
-        const res = await fetch("/api/upload", { method: "POST", body });
-        const data = await res.json();
-        if (!res.ok) throw new Error(data.error || "Upload failed");
+        const data = await uploadFile(file);
         next.push({
           url: data.url,
           type: data.type,
@@ -141,7 +157,8 @@ export function MediaUploader({
             </p>
           </div>
           <input
-            type="url"
+            type="text"
+            inputMode="url"
             value={linkUrl}
             onChange={(e) => setLinkUrl(e.target.value)}
             placeholder="https://example.com/photo.jpg"
@@ -278,11 +295,7 @@ export function SingleUploadField({
     setUploading(true);
     setError(null);
     try {
-      const body = new FormData();
-      body.append("file", file);
-      const res = await fetch("/api/upload", { method: "POST", body });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || "Upload failed");
+      const data = await uploadFile(file);
       setUrl(data.url);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Upload failed");
@@ -342,7 +355,8 @@ export function SingleUploadField({
               Or paste link
             </p>
             <input
-              type="url"
+              type="text"
+              inputMode="url"
               value={url}
               onChange={(e) => setUrl(e.target.value)}
               placeholder="https://… or /brand/…"

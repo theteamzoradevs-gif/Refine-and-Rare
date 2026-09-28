@@ -16,7 +16,7 @@ export default async function AdminBlogsPage() {
   return (
     <AdminShell
       title="Blogs"
-      description="Studio notes and guides published on the website."
+      description="Notes and guides published on the website."
     >
       <div className="mb-6 flex justify-end">
         <Link href="/admin/blogs/new" className="btn-primary">
