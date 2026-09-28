@@ -18,6 +18,10 @@ function adminMessage(path: string, status: "success" | "error", message: string
   return `${path}?status=${status}&message=${encodeURIComponent(message)}`;
 }
 
+function isChecked(value: FormDataEntryValue | null) {
+  return value === "on" || value === "true" || value === "1";
+}
+
 export async function saveService(formData: FormData) {
   await assertAdmin();
   const id = String(formData.get("id") || "");
@@ -66,8 +70,26 @@ export async function saveProject(formData: FormData) {
     slugify(String(formData.get("slug") || "")) || slugify(title);
   const description = String(formData.get("description") || "");
   const categoryId = String(formData.get("categoryId") || "");
-  const featured = formData.get("featured") === "on";
+  const featured = isChecked(formData.get("featured"));
   const sortOrder = Number(formData.get("sortOrder") || 0);
+  if (featured) {
+    const featuredCount = await prisma.project.count({
+      where: {
+        featured: true,
+        ...(id ? { id: { not: id } } : {}),
+      },
+    });
+
+    if (featuredCount >= 5) {
+      redirect(
+        adminMessage(
+          errorPath,
+          "error",
+          "You can have a maximum of 5 featured projects."
+        )
+      );
+    }
+  }
   const mediaJson = String(formData.get("mediaJson") || "[]");
   const highlightsJson = JSON.stringify([1, 2, 3, 4].map((index) => String(formData.get(`highlight${index}`) || "")));
   if (!title || !description || !categoryId) {

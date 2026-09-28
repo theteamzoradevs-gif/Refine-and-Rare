@@ -8,19 +8,50 @@ export function AdminToast() {
   const [toast, setToast] = useState<Toast | null>(null);
 
   useEffect(() => {
-    const url = new URL(window.location.href);
-    const status = url.searchParams.get("status");
-    const message = url.searchParams.get("message");
-    if (!status || !message) return;
+    function readUrlToast() {
+      const url = new URL(window.location.href);
+      const status = url.searchParams.get("status");
+      const message = url.searchParams.get("message");
+      if (!status || !message) return;
 
-    setToast({
-      message,
-      tone: status === "error" ? "error" : "success",
-    });
+      setToast({
+        message,
+        tone: status === "error" ? "error" : "success",
+      });
 
-    url.searchParams.delete("status");
-    url.searchParams.delete("message");
-    window.history.replaceState({}, "", `${url.pathname}${url.search}${url.hash}`);
+      url.searchParams.delete("status");
+      url.searchParams.delete("message");
+      window.history.replaceState(
+        {},
+        "",
+        `${url.pathname}${url.search}${url.hash}`
+      );
+    }
+
+    const originalPushState = window.history.pushState;
+    const originalReplaceState = window.history.replaceState;
+    const notifyUrlChange = () =>
+      window.dispatchEvent(new Event("admin-url-change"));
+
+    window.history.pushState = function (...args) {
+      originalPushState.apply(window.history, args);
+      notifyUrlChange();
+    };
+    window.history.replaceState = function (...args) {
+      originalReplaceState.apply(window.history, args);
+      notifyUrlChange();
+    };
+
+    window.addEventListener("popstate", readUrlToast);
+    window.addEventListener("admin-url-change", readUrlToast);
+    readUrlToast();
+
+    return () => {
+      window.history.pushState = originalPushState;
+      window.history.replaceState = originalReplaceState;
+      window.removeEventListener("popstate", readUrlToast);
+      window.removeEventListener("admin-url-change", readUrlToast);
+    };
   }, []);
 
   useEffect(() => {

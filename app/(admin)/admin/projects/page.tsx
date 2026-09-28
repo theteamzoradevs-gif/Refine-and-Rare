@@ -17,7 +17,7 @@ export default async function AdminProjectsPage() {
   return (
     <AdminShell
       title="Projects"
-      description="Curate gallery work shown across the homepage and projects page."
+      description="Work shown across the homepage and projects page."
     >
       <div className="mb-6 flex justify-end">
         <Link href="/admin/projects/new" className="btn-primary">
