@@ -52,6 +52,7 @@ export function ChatLauncher({
 }: Props) {
   const [open, setOpen] = useState(false);
   const [dismissed, setDismissed] = useState(false);
+  const [promptClosed, setPromptClosed] = useState(false);
   const [typing, setTyping] = useState(false);
   const [mode, setMode] = useState<Mode>("chat");
   const [msgs, setMsgs] = useState<ChatMsg[]>([]);
@@ -353,12 +354,31 @@ export function ChatLauncher({
         </div>
       )}
 
-      {!open && (
+      {!open && !promptClosed && (
         <button
           type="button"
           onClick={reopen}
-          className="hidden max-w-[15.5rem] animate-float-in rounded-2xl rounded-br-md border border-line/80 bg-white/95 px-3.5 py-2.5 text-left text-xs leading-snug text-ink shadow-lg sm:block"
+          className="relative hidden max-w-[15.5rem] animate-float-in rounded-2xl rounded-br-md border border-line/80 bg-white/95 px-3.5 py-2.5 pl-8 text-left text-xs leading-snug text-ink shadow-lg sm:block"
         >
+          <span
+            role="button"
+            tabIndex={0}
+            aria-label="Close chat suggestion"
+            onClick={(event) => {
+              event.stopPropagation();
+              setPromptClosed(true);
+            }}
+            onKeyDown={(event) => {
+              if (event.key === "Enter" || event.key === " ") {
+                event.preventDefault();
+                event.stopPropagation();
+                setPromptClosed(true);
+              }
+            }}
+            className="absolute left-2 top-2 flex h-5 w-5 items-center justify-center rounded-full text-base leading-none text-muted transition hover:bg-cream hover:text-ink"
+          >
+            ×
+          </span>
           <span className="font-medium text-teal">Ask Refine & Rare</span>
           <span className="mt-0.5 block text-muted">
             Services, projects, hours — type freely.

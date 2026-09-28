@@ -9,7 +9,7 @@ export function AboutStudio({ description }: { description: string }) {
       <div className="pointer-events-none absolute inset-0 opacity-60 [background:radial-gradient(circle_at_80%_15%,rgba(27,58,47,0.1),transparent_35%),radial-gradient(circle_at_10%_80%,rgba(197,178,138,0.12),transparent_40%)]" />
 
       <div className="container-site relative grid items-center gap-8 lg:grid-cols-12 lg:gap-10">
-        <Reveal variant="left" className="lg:col-span-5">
+        <Reveal variant="left" className="order-2 lg:order-1 lg:col-span-5">
           <div className="group relative aspect-[4/5] overflow-hidden border border-line">
             <video
               src="/brand/video/room3.mp4"
@@ -24,7 +24,7 @@ export function AboutStudio({ description }: { description: string }) {
           </div>
         </Reveal>
 
-        <Reveal variant="blur" delay={120} className="lg:col-span-7">
+        <Reveal variant="blur" delay={120} className="order-1 lg:order-2 lg:col-span-7">
           <p className="section-label">About the Studio</p>
           <h2 className="mt-3 max-w-xl font-display text-3xl leading-tight md:text-5xl">
             <span className="text-ink">Crafting </span>
