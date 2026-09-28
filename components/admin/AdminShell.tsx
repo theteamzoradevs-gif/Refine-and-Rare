@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 import { destroySession, requireAdmin } from "@/lib/auth";
 import { AdminSidebar } from "@/components/admin/AdminSidebar";
+import { AdminToast } from "@/components/admin/AdminToast";
 
 async function logoutAction() {
   "use server";
@@ -22,6 +23,7 @@ export async function AdminShell({
 
   return (
     <div className="admin-scope min-h-screen md:grid md:grid-cols-[260px_1fr]">
+      <AdminToast />
       <AdminSidebar email={admin.email} logoutAction={logoutAction} />
       <div className="relative min-w-0">
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_12%_0%,rgba(197,178,138,0.16),transparent_42%),radial-gradient(circle_at_90%_10%,rgba(27,58,47,0.08),transparent_35%),linear-gradient(180deg,#F5F0E6_0%,#EDE6D8_100%)]" />
