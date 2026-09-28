@@ -50,7 +50,7 @@ function VoiceCard({
   return (
     <article
       className={cn(
-        "premium-card group relative flex h-full flex-col rounded-2xl p-5 sm:p-6 md:p-7",
+        "premium-card group relative flex h-[250px] flex-col rounded-2xl p-5 sm:h-[265px] sm:p-6 md:h-[280px] md:p-7",
         className
       )}
     >
@@ -61,7 +61,9 @@ function VoiceCard({
           {ROLES[name] || "Client · Bengaluru"}
         </p>
       </div>
-      <p className="mt-5 flex-1 text-sm leading-relaxed text-muted">“{quote}”</p>
+      <p className="mt-5 line-clamp-6 flex-1 overflow-hidden text-sm leading-relaxed text-muted">
+        “{quote}”
+      </p>
       <div className="mt-6">
         <Stars />
       </div>
@@ -78,12 +80,16 @@ function SlidingRow({
 }) {
   const loop = [...items, ...items];
   return (
-    <div className="group overflow-hidden">
+    <div className="group relative overflow-hidden">
       <div
         className={cn(
-          "flex w-max gap-5 py-2 group-hover:[animation-play-state:paused]",
+          "flex w-max gap-5 py-2 motion-safe:group-hover:[animation-play-state:paused]",
           reverse ? "animate-marquee-reverse" : "animate-marquee"
         )}
+        style={{
+          animationDuration: reverse ? "36s" : "28s",
+          marginLeft: reverse ? "-7rem" : "0",
+        }}
       >
         {loop.map((item, i) => (
           <VoiceCard
@@ -140,7 +146,7 @@ export function TestimonialHighlight({
           </div>
         </div>
       ) : (
-        <div className="relative mt-8 space-y-5">
+        <div className="relative mt-8 space-y-6">
           <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-10 bg-gradient-to-r from-cream to-transparent md:w-20" />
           <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-10 bg-gradient-to-l from-cream to-transparent md:w-20" />
 
