@@ -48,7 +48,7 @@ export function TestimonialForm({
         />
       </FormSection>
 
-      <FormSection
+      {/* <FormSection
         title="Photo & visibility"
         description="Optional portrait and listing controls."
       >
@@ -71,7 +71,7 @@ export function TestimonialForm({
           description="Uncheck to hide this review from the site."
           defaultChecked={initial?.published ?? true}
         />
-      </FormSection>
+      </FormSection> */}
 
       <FormActions
         submitLabel={isEdit ? "Update testimonial" : "Save testimonial"}

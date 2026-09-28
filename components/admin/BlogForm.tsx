@@ -10,6 +10,7 @@ import {
   TextArea,
   ToggleField,
 } from "@/components/admin/FormUI";
+import { BlogBodyEditor } from "@/components/admin/BlogBodyEditor";
 import { SingleUploadField } from "@/components/admin/MediaUploader";
 import { saveBlog } from "@/app/actions/admin";
 import { parseBlogBody } from "@/lib/staticContent";
@@ -64,7 +65,6 @@ export function BlogForm({
             value={slug}
             onChange={(event) => setSlug(slugify(event.target.value))}
             placeholder="timeless-living-room-ideas"
-            hint="Lowercase words separated by hyphens."
           />
           <Field
             name="category"
@@ -82,15 +82,15 @@ export function BlogForm({
           defaultValue={initial?.excerpt}
           placeholder="Short teaser shown on the blog listing…"
         />
-        <TextArea
-          name="body"
-          label="Body"
-          required
-          rows={10}
-          defaultValue={bodyText}
-          hint="Separate paragraphs with a blank line."
-          placeholder="Write the full article…"
-        />
+        <div>
+          <label className="admin-label" htmlFor="body-editor">
+            Body<span className="ml-1 text-gold-dark">*</span>
+          </label>
+          <p className="admin-hint mb-2 mt-0">
+            Format text with the toolbar, then save the article.
+          </p>
+          <BlogBodyEditor initialValue={bodyText} />
+        </div>
       </FormSection>
 
       <FormSection

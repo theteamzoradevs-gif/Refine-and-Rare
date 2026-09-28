@@ -56,7 +56,6 @@ export function ServiceForm({ initial }: { initial?: Initial }) {
             value={slug}
             onChange={(event) => setSlug(slugify(event.target.value))}
             placeholder="modular-kitchens"
-            hint="Lowercase words separated by hyphens."
           />
         </FormGrid>
         <TextArea

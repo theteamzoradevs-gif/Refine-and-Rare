@@ -117,9 +117,7 @@ export function AdminSidebar({
 
       <div className="relative px-5 py-7">
         <p className="font-display text-2xl tracking-tight">Refine & Rare</p>
-        <p className="mt-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-gold/90">
-          Studio CMS
-        </p>
+      
         <p className="mt-4 truncate rounded-full bg-white/5 px-3 py-1.5 text-[11px] text-cream/55">
           {email}
         </p>

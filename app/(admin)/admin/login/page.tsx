@@ -32,9 +32,7 @@ export default async function AdminLoginPage() {
                 <p className="font-display text-2xl tracking-tight">
                   Refine &amp; Rare
                 </p>
-                <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-gold/90">
-                  Studio CMS
-                </p>
+              
               </div>
             </div>
           </div>
@@ -85,9 +83,7 @@ export default async function AdminLoginPage() {
               />
               <div>
                 <p className="font-display text-xl text-ink">Refine &amp; Rare</p>
-                <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-gold-dark">
-                  Studio CMS
-                </p>
+               
               </div>
             </div>
 

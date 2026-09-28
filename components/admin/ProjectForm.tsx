@@ -76,7 +76,6 @@ export function ProjectForm({
             value={slug}
             onChange={(e) => setSlug(generateSlug(e.target.value))}
             placeholder="contemporary-living-room"
-            hint="Lowercase words separated by hyphens."
           />
         </FormGrid>
         <TextArea
