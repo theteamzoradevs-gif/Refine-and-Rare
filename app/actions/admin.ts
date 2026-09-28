@@ -28,6 +28,7 @@ export async function saveService(formData: FormData) {
     longDesc: String(formData.get("longDesc") || ""),
     imageUrl: String(formData.get("imageUrl") || ""),
     sortOrder: Number(formData.get("sortOrder") || 0),
+    highlightsJson: JSON.stringify([1, 2, 3, 4].map((index) => String(formData.get(`highlight${index}`) || ""))),
   };
 
   try {
@@ -68,6 +69,7 @@ export async function saveProject(formData: FormData) {
   const featured = formData.get("featured") === "on";
   const sortOrder = Number(formData.get("sortOrder") || 0);
   const mediaJson = String(formData.get("mediaJson") || "[]");
+  const highlightsJson = JSON.stringify([1, 2, 3, 4].map((index) => String(formData.get(`highlight${index}`) || "")));
   if (!title || !description || !categoryId) {
     redirect(`${errorPath}?status=error&message=${encodeURIComponent("Please complete all required project fields.")}`);
   }
@@ -93,11 +95,11 @@ export async function saveProject(formData: FormData) {
       await prisma.projectMedia.deleteMany({ where: { projectId: id } });
       await prisma.project.update({
         where: { id },
-        data: { title, slug, description, categoryId, featured, sortOrder, media: mediaCreate },
+        data: { title, slug, description, categoryId, featured, sortOrder, highlightsJson, media: mediaCreate },
       });
     } else {
       await prisma.project.create({
-        data: { title, slug, description, categoryId, featured, sortOrder, media: mediaCreate },
+        data: { title, slug, description, categoryId, featured, sortOrder, highlightsJson, media: mediaCreate },
       });
     }
   } catch {

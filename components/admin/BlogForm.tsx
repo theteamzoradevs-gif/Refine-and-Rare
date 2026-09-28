@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from "react";
 import {
   AdminForm,
   Field,
@@ -10,6 +13,7 @@ import {
 import { SingleUploadField } from "@/components/admin/MediaUploader";
 import { saveBlog } from "@/app/actions/admin";
 import { parseBlogBody } from "@/lib/staticContent";
+import { slugify } from "@/lib/projectSlug";
 
 export function BlogForm({
   initial,
@@ -28,6 +32,7 @@ export function BlogForm({
   };
 }) {
   const isEdit = Boolean(initial?.id);
+  const [slug, setSlug] = useState(initial?.slug || "");
   const bodyText = initial ? parseBlogBody(initial.body).join("\n\n") : "";
   const publishedAtValue = initial
     ? initial.publishedAt.toISOString().slice(0, 10)
@@ -47,13 +52,17 @@ export function BlogForm({
           required
           defaultValue={initial?.title}
           placeholder="Timeless living room ideas"
+          onChange={(event) => {
+            if (!isEdit) setSlug(slugify(event.target.value));
+          }}
         />
         <FormGrid>
           <Field
             name="slug"
             label="URL slug"
             required
-            defaultValue={initial?.slug}
+            value={slug}
+            onChange={(event) => setSlug(slugify(event.target.value))}
             placeholder="timeless-living-room-ideas"
             hint="Lowercase words separated by hyphens."
           />

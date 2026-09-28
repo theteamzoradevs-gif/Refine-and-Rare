@@ -1,6 +1,6 @@
 "use client";
 
-import type { ReactNode } from "react";
+import type { ChangeEventHandler, ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
 export function AdminForm({
@@ -91,8 +91,10 @@ export function Field({
   required,
   type = "text",
   defaultValue,
+  value,
   placeholder,
   className,
+  onChange,
 }: {
   name: string;
   label: string;
@@ -100,8 +102,10 @@ export function Field({
   required?: boolean;
   type?: string;
   defaultValue?: string | number;
+  value?: string | number;
   placeholder?: string;
   className?: string;
+  onChange?: ChangeEventHandler<HTMLInputElement>;
 }) {
   return (
     <div className={className}>
@@ -114,8 +118,10 @@ export function Field({
         name={name}
         type={type}
         required={required}
-        defaultValue={defaultValue}
+        defaultValue={value === undefined ? defaultValue : undefined}
+        value={value}
         placeholder={placeholder}
+        onChange={onChange}
         className="w-full"
       />
       {hint ? <p className="admin-hint">{hint}</p> : null}
@@ -130,6 +136,7 @@ export function TextArea({
   required,
   rows = 4,
   defaultValue,
+  value,
   placeholder,
 }: {
   name: string;
@@ -138,6 +145,7 @@ export function TextArea({
   required?: boolean;
   rows?: number;
   defaultValue?: string;
+  value?: string;
   placeholder?: string;
 }) {
   return (
@@ -152,7 +160,8 @@ export function TextArea({
         name={name}
         required={required}
         rows={rows}
-        defaultValue={defaultValue}
+        defaultValue={value === undefined ? defaultValue : undefined}
+        value={value}
         placeholder={placeholder}
         className="w-full resize-y"
       />
@@ -166,6 +175,7 @@ export function SelectField({
   hint,
   required,
   defaultValue,
+  value,
   children,
 }: {
   name: string;
@@ -173,6 +183,7 @@ export function SelectField({
   hint?: string;
   required?: boolean;
   defaultValue?: string;
+  value?: string;
   children: ReactNode;
 }) {
   return (
@@ -185,7 +196,8 @@ export function SelectField({
         id={name}
         name={name}
         required={required}
-        defaultValue={defaultValue}
+        defaultValue={value === undefined ? defaultValue : undefined}
+        value={value}
         className="w-full"
       >
         {children}

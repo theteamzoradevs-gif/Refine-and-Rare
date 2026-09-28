@@ -1,19 +1,16 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 type Toast = { message: string; tone: "success" | "error" };
 
 export function AdminToast() {
-  const searchParams = useSearchParams();
-  const pathname = usePathname();
-  const router = useRouter();
   const [toast, setToast] = useState<Toast | null>(null);
 
   useEffect(() => {
-    const status = searchParams.get("status");
-    const message = searchParams.get("message");
+    const url = new URL(window.location.href);
+    const status = url.searchParams.get("status");
+    const message = url.searchParams.get("message");
     if (!status || !message) return;
 
     setToast({
@@ -21,9 +18,10 @@ export function AdminToast() {
       tone: status === "error" ? "error" : "success",
     });
 
-    const cleanUrl = pathname;
-    router.replace(cleanUrl, { scroll: false });
-  }, [pathname, router, searchParams]);
+    url.searchParams.delete("status");
+    url.searchParams.delete("message");
+    window.history.replaceState({}, "", `${url.pathname}${url.search}${url.hash}`);
+  }, []);
 
   useEffect(() => {
     function showToast(event: Event) {
