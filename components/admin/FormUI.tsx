@@ -1,3 +1,5 @@
+"use client";
+
 import type { ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
@@ -13,6 +15,19 @@ export function AdminForm({
   return (
     <form
       action={action}
+      onInvalid={(event) => {
+        event.preventDefault();
+        const field = event.target as HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement;
+        window.dispatchEvent(
+          new CustomEvent("admin-toast", {
+            detail: {
+              message: `${field.getAttribute("aria-label") || field.name || "This field"} is required.`,
+              tone: "error",
+            },
+          })
+        );
+        field.focus();
+      }}
       className={cn("mx-auto flex w-full max-w-5xl flex-col gap-5", className)}
     >
       {children}

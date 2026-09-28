@@ -14,6 +14,10 @@ async function assertAdmin() {
   return admin;
 }
 
+function adminMessage(path: string, status: "success" | "error", message: string) {
+  return `${path}?status=${status}&message=${encodeURIComponent(message)}`;
+}
+
 export async function saveService(formData: FormData) {
   await assertAdmin();
   const id = String(formData.get("id") || "");
@@ -26,27 +30,36 @@ export async function saveService(formData: FormData) {
     sortOrder: Number(formData.get("sortOrder") || 0),
   };
 
-  if (id) {
-    await prisma.service.update({ where: { id }, data });
-  } else {
-    await prisma.service.create({ data });
+  try {
+    if (id) {
+      await prisma.service.update({ where: { id }, data });
+    } else {
+      await prisma.service.create({ data });
+    }
+  } catch {
+    redirect(adminMessage(id ? `/admin/services/${id}` : "/admin/services/new", "error", "Service could not be saved. Check the details and try again."));
   }
   revalidatePath("/services");
   revalidatePath("/admin/services");
-  redirect("/admin/services");
+  redirect(adminMessage("/admin/services", "success", id ? "Service updated successfully." : "Service added successfully."));
 }
 
 export async function deleteService(formData: FormData) {
   await assertAdmin();
   const id = String(formData.get("id") || "");
-  await prisma.service.delete({ where: { id } });
+  try {
+    await prisma.service.delete({ where: { id } });
+  } catch {
+    redirect(adminMessage("/admin/services", "error", "Service could not be deleted. Please try again."));
+  }
   revalidatePath("/admin/services");
-  redirect("/admin/services");
+  redirect(adminMessage("/admin/services", "success", "Service deleted successfully."));
 }
 
 export async function saveProject(formData: FormData) {
   await assertAdmin();
   const id = String(formData.get("id") || "");
+  const errorPath = id ? `/admin/projects/${id}` : "/admin/projects/new";
   const title = String(formData.get("title") || "");
   const slug =
     slugify(String(formData.get("slug") || "")) || slugify(title);
@@ -55,11 +68,16 @@ export async function saveProject(formData: FormData) {
   const featured = formData.get("featured") === "on";
   const sortOrder = Number(formData.get("sortOrder") || 0);
   const mediaJson = String(formData.get("mediaJson") || "[]");
-  const media = JSON.parse(mediaJson) as {
-    url: string;
-    type: "IMAGE" | "VIDEO";
-    alt: string;
-  }[];
+  if (!title || !description || !categoryId) {
+    redirect(`${errorPath}?status=error&message=${encodeURIComponent("Please complete all required project fields.")}`);
+  }
+
+  let media: { url: string; type: "IMAGE" | "VIDEO"; alt: string }[];
+  try {
+    media = JSON.parse(mediaJson);
+  } catch {
+    redirect(`${errorPath}?status=error&message=${encodeURIComponent("The project media data is invalid. Please try again.")}`);
+  }
 
   const mediaCreate = {
     create: media.map((m, i) => ({
@@ -70,46 +88,38 @@ export async function saveProject(formData: FormData) {
     })),
   };
 
-  if (id) {
-    await prisma.projectMedia.deleteMany({ where: { projectId: id } });
-    await prisma.project.update({
-      where: { id },
-      data: {
-        title,
-        slug,
-        description,
-        categoryId,
-        featured,
-        sortOrder,
-        media: mediaCreate,
-      },
-    });
-  } else {
-    await prisma.project.create({
-      data: {
-        title,
-        slug,
-        description,
-        categoryId,
-        featured,
-        sortOrder,
-        media: mediaCreate,
-      },
-    });
+  try {
+    if (id) {
+      await prisma.projectMedia.deleteMany({ where: { projectId: id } });
+      await prisma.project.update({
+        where: { id },
+        data: { title, slug, description, categoryId, featured, sortOrder, media: mediaCreate },
+      });
+    } else {
+      await prisma.project.create({
+        data: { title, slug, description, categoryId, featured, sortOrder, media: mediaCreate },
+      });
+    }
+  } catch {
+    redirect(`${errorPath}?status=error&message=${encodeURIComponent("Project could not be saved. Check the slug and category, then try again.")}`);
   }
 
   revalidatePath("/projects");
   revalidatePath("/");
   revalidatePath("/admin/projects");
-  redirect("/admin/projects");
+  redirect(`/admin/projects?status=success&message=${encodeURIComponent(id ? "Project updated successfully." : "Project added successfully.")}`);
 }
 
 export async function deleteProject(formData: FormData) {
   await assertAdmin();
   const id = String(formData.get("id") || "");
-  await prisma.project.delete({ where: { id } });
+  try {
+    await prisma.project.delete({ where: { id } });
+  } catch {
+    redirect(`/admin/projects?status=error&message=${encodeURIComponent("Project could not be deleted. Please try again.")}`);
+  }
   revalidatePath("/admin/projects");
-  redirect("/admin/projects");
+  redirect(`/admin/projects?status=success&message=${encodeURIComponent("Project deleted successfully.")}`);
 }
 
 export async function saveTestimonial(formData: FormData) {
@@ -123,32 +133,44 @@ export async function saveTestimonial(formData: FormData) {
     sortOrder: Number(formData.get("sortOrder") || 0),
   };
 
-  if (id) {
-    await prisma.testimonial.update({ where: { id }, data });
-  } else {
-    await prisma.testimonial.create({ data });
+  try {
+    if (id) {
+      await prisma.testimonial.update({ where: { id }, data });
+    } else {
+      await prisma.testimonial.create({ data });
+    }
+  } catch {
+    redirect(adminMessage(id ? `/admin/testimonials/${id}` : "/admin/testimonials/new", "error", "Testimonial could not be saved. Check the details and try again."));
   }
   revalidatePath("/testimonials");
   revalidatePath("/");
   revalidatePath("/admin/testimonials");
-  redirect("/admin/testimonials");
+  redirect(adminMessage("/admin/testimonials", "success", id ? "Testimonial updated successfully." : "Testimonial added successfully."));
 }
 
 export async function deleteTestimonial(formData: FormData) {
   await assertAdmin();
   const id = String(formData.get("id") || "");
-  await prisma.testimonial.delete({ where: { id } });
+  try {
+    await prisma.testimonial.delete({ where: { id } });
+  } catch {
+    redirect(adminMessage("/admin/testimonials", "error", "Testimonial could not be deleted. Please try again."));
+  }
   revalidatePath("/admin/testimonials");
-  redirect("/admin/testimonials");
+  redirect(adminMessage("/admin/testimonials", "success", "Testimonial deleted successfully."));
 }
 
 export async function updateEnquiryStatus(formData: FormData) {
   await assertAdmin();
   const id = String(formData.get("id") || "");
   const status = String(formData.get("status") || "PENDING") as EnquiryStatus;
-  await prisma.enquiry.update({ where: { id }, data: { status } });
+  try {
+    await prisma.enquiry.update({ where: { id }, data: { status } });
+  } catch {
+    redirect(adminMessage("/admin/enquiries", "error", "Enquiry status could not be updated. Please try again."));
+  }
   revalidatePath("/admin/enquiries");
-  redirect("/admin/enquiries");
+  redirect(adminMessage("/admin/enquiries", "success", "Enquiry status updated successfully."));
 }
 
 export async function saveBlog(formData: FormData) {
@@ -176,25 +198,33 @@ export async function saveBlog(formData: FormData) {
     sortOrder: Number(formData.get("sortOrder") || 0),
   };
 
-  if (id) {
-    await prisma.blogPost.update({ where: { id }, data });
-  } else {
-    await prisma.blogPost.create({ data });
+  try {
+    if (id) {
+      await prisma.blogPost.update({ where: { id }, data });
+    } else {
+      await prisma.blogPost.create({ data });
+    }
+  } catch {
+    redirect(adminMessage(id ? `/admin/blogs/${id}` : "/admin/blogs/new", "error", "Blog post could not be saved. Check the slug and details, then try again."));
   }
 
   revalidatePath("/blogs");
   revalidatePath(`/blogs/${slug}`);
   revalidatePath("/admin/blogs");
-  redirect("/admin/blogs");
+  redirect(adminMessage("/admin/blogs", "success", id ? "Blog post updated successfully." : "Blog post added successfully."));
 }
 
 export async function deleteBlog(formData: FormData) {
   await assertAdmin();
   const id = String(formData.get("id") || "");
-  await prisma.blogPost.delete({ where: { id } });
+  try {
+    await prisma.blogPost.delete({ where: { id } });
+  } catch {
+    redirect(adminMessage("/admin/blogs", "error", "Blog post could not be deleted. Please try again."));
+  }
   revalidatePath("/blogs");
   revalidatePath("/admin/blogs");
-  redirect("/admin/blogs");
+  redirect(adminMessage("/admin/blogs", "success", "Blog post deleted successfully."));
 }
 
 export async function saveSettings(formData: FormData) {
@@ -223,14 +253,18 @@ export async function saveSettings(formData: FormData) {
     hoursJson: JSON.stringify(hours),
   };
 
-  await prisma.siteSettings.upsert({
-    where: { id: "main" },
-    update: data,
-    create: { id: "main", ...data },
-  });
+  try {
+    await prisma.siteSettings.upsert({
+      where: { id: "main" },
+      update: data,
+      create: { id: "main", ...data },
+    });
+  } catch {
+    redirect(adminMessage("/admin/settings", "error", "Settings could not be saved. Please check the details and try again."));
+  }
 
   revalidatePath("/");
   revalidatePath("/contact");
   revalidatePath("/admin/settings");
-  redirect("/admin/settings");
+  redirect(adminMessage("/admin/settings", "success", "Settings saved successfully."));
 }
