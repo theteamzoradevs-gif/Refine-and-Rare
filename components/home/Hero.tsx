@@ -29,7 +29,7 @@ export function Hero({ tagline, description }: Props) {
       >
         <source src="/brand/hero/herovideo.mp4" type="video/mp4" />
       </video>
-      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(28,36,33,0.48)_0%,rgba(28,36,33,0.44)_42%,rgba(28,36,33,0.78)_100%)]" />
+      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(28,36,33,0.58)_0%,rgba(28,36,33,0.64)_42%,rgba(28,36,33,0.86)_100%)]" />
       <div className="pointer-events-none absolute inset-0 opacity-40 [background:radial-gradient(circle_at_20%_20%,rgba(197,178,138,0.22),transparent_35%),radial-gradient(circle_at_80%_70%,rgba(27,58,47,0.28),transparent_40%)]" />
 
       <div className="absolute bottom-6 left-1/2 hidden -translate-x-1/2 lg:block">
@@ -55,7 +55,7 @@ export function Hero({ tagline, description }: Props) {
             >
               Where Design{" "}
               <em className="font-display not-italic">
-                <span className="text-[#FBE8CE]">Meets Distinction.</span>
+                <span className="gold-shimmer">Meets Distinction.</span>
               </em>
             </h1>
             <p
