@@ -31,7 +31,7 @@ export const staticSettings: SiteSettings = {
   whatsapp: "919738964736",
   instagram: "https://www.instagram.com/refineandrare",
   city: "Bengaluru",
-  address: "Bengaluru, Karnataka, India",
+  address: "Sompura Village, Sarjapur, Bengaluru, Karnataka",
   hoursJson: JSON.stringify(hours),
   whatsappMessage:
     "Hello Refine & Rare, I'd like to enquire about your interior design services.",
